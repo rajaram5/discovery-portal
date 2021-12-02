@@ -1,0 +1,16 @@
+/* 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+*/
+
+.resultList {
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    top: 20px;
+    margin-bottom: 50px;
+    text-align: left;
+    list-style: none;
+  }

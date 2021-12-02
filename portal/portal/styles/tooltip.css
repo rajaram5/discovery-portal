@@ -1,0 +1,52 @@
+/* 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+*/
+
+.tooltip {
+    position: relative;
+    display: inline;
+  }
+  
+  /* Tooltip text */
+  .tooltip .navTooltiptext {
+    font-size: 14px;
+    visibility: hidden;
+    width: 1000px;
+    background-color: #333;
+    color: white;
+    text-align: left;
+    left: 5px;
+    top: 25px;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .tooltip .loginTooltiptext {
+    left: 85px;
+  }
+
+  .tooltip .interrogationTabTooltiptext {
+    font-size: 14px;
+    visibility: hidden;
+    width: 1000px;
+    color: red;
+    text-align: left;
+    left: 0;
+    top: 220px;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .tooltip:hover .navTooltiptext,
+  .tooltip:hover .interrogationTabTooltiptext {
+    visibility: visible;
+  }
+
+  @media screen and (max-width: 1100px) {
+    .tooltip .navTooltiptext {
+      position: relative;
+      top: 5px;
+    }
+  }

@@ -1,0 +1,51 @@
+/* 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+*/
+
+.searchBar {
+  color: #333;
+  width: 75%;
+  padding: 12px 0px 40px 55px;
+  height: 40px;
+  border: 1px solid #333;
+  border-style: solid;
+  font-size: 20px;
+}
+
+.searchBar:focus {
+  outline: none;
+}
+
+.filterList {
+  left: 55px;
+  top: 50px;
+  position: absolute;
+  color: #333;
+  width: 65%;
+  list-style-type: none;
+  text-align: left;
+}
+
+.filterList li {
+  font-size: 13px;
+  float: left;
+  margin: 0;
+  margin-top: 10px;
+  margin-right: 10px;
+  text-align: center;
+  background-color: #3bb392;
+  padding: 5px;
+}
+
+.filterList li:hover {
+  cursor: default;
+}
+
+.filterListText {
+  color: #333; 
+  font-size: 14px; 
+  position: relative; 
+  top: 15px;
+}

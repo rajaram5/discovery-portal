@@ -1,0 +1,49 @@
+/* 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+*/
+
+.autocomplete {
+    margin-bottom: 15px;
+    position: relative;
+    display: block;
+    text-align: left;
+    width: 100%;
+  }
+  
+  .autocomplete-items {
+    color: #333;
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-top: none;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    overflow: auto;
+    max-height: 350px;
+    width: 80%;
+    font-size: 16px;
+  }
+  
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+  }
+
+  .autocomplete-items div:last-child {
+    border-bottom: none
+  }
+  
+  
+  .autocomplete-items div:hover {
+    color: #333;
+    background-color: #44a0fc;
+  }
+  
+  .autocomplete-active {
+    background-color: #44a0fc !important;
+    color: #ffffff;
+  }

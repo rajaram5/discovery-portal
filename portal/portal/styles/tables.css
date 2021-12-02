@@ -1,0 +1,43 @@
+/* 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+*/
+
+.table {
+  text-align: left;
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table td,
+.table th {
+  font-size: 15px;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table th {
+  padding: 13px;
+  text-align: left;
+  background-color: #a1d0ff;
+  color: #333333;
+}
+
+.table a {
+  color: #a1d0ff;
+}
+
+.resultListRow:hover {
+  background-color: rgb(199, 220, 228) !important;
+  cursor: pointer;
+}

@@ -1,0 +1,46 @@
+/* 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+*/
+
+.spin {
+    display: inline;
+  }
+.spin .spinner {
+    position: absolute;
+}
+
+@keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .spin .spinner::before {
+    content: "";
+    width: 1.8em;
+    height: 1.8em;
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    border-radius: 50%;
+    border: solid 0.5em #44a0fc;
+    border-bottom-color: transparent;
+    animation: 0.8s linear infinite spinner;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+  }
+  
+  .catalogueListSpinner::before {
+    top: 0px !important;
+    left: 20px !important;
+    width: 0.65em !important;
+    height: 0.65em !important;
+    border: solid 0.35em #a1d0ff !important;
+    border-bottom-color: transparent !important;
+  }

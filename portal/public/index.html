@@ -1,0 +1,167 @@
+<!-- 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="author" content="David Reinert - Goethe University Frankfurt" />
+    <meta name="description" content="The EJP-RD Virtual Platform" />
+    <meta name="keywords" content="ejprd, rare disease, virtual platform, fairyfication">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="./media/favicon.png" />
+    <title>EJP-RD Virtual Platform</title>
+    <link rel="stylesheet" type="text/css" href="./styles/index.css" />
+  </head>
+  <body onload="init();">
+    <a href="https://www.ejprarediseases.org/" target="_blank"><img src="./media/ejp-rd-logo.png" alt="EJP-RD Logo" class="ejpLogo background" /></a>
+    <div class="dropdownMenu background">
+        <img src="./media/menu.png" alt="EJP-RD Logo" style="width: 50px;"/>
+        <div class="dropdownMenu-content background">
+            <a href="/rsLPortal" target="_self">Resource Discovery Portal</a>
+            <a href="#" target="" class="disabledLinks">Record Discovery Portal</a>
+            <a href="#" target="" class="disabledLinks">Fairyfication Portal</a>
+            <a href="https://www.ejprarediseases.org/resource-mindmap/" target="_blank">Mindmap</a>
+            <a href="https://www.ejprarediseases.org/ejp-rd-events/" target="_blank">Events</a>
+            <a href="https://www.ejprarediseases.org/our-actions-and-services/funding-opportunities/calls/" target="_blank">Funding</a>
+        </div>
+    </div> 
+    <a id="nwLink" href="/rsLPortal/" target="_self">
+        <div id="nw" class="n">
+            <div class="vertical-align">
+                <span id="nwHeadline">Resources</span>
+                <p id="nwSubline">Use the EJP-RD discovery ecosystem to search connected sources like <span class="white">Patient Registies, Biobanks</span> or <span class="white">Knowledge Bases</span> for rare disease related data</p>
+            </div>
+        </div>
+    </a>
+    <!-- <a id="neLink" href="" target=""  onclick="return false;">
+        <div id="ne" class="ne" style="cursor: default;">
+            <div class="vertical-align">
+                <span id="neHeadline">Records</span>
+                <p id="neSubline">Search for <span class="white">Patient Samples</span> related to specified rare diseases</p>
+            </div>
+        </div>
+    </a> -->
+    <a id="swLink" href="" target=""  onclick="return false;">
+        <div id="sw" class="sw" style="cursor: default;">
+            <div class="vertical-align">
+                <span id="swHeadline">FAIRification</span>
+                <p id="swSubline">Receive support on how to <span class="white">make your data FAIR</span></p>
+            </div>
+        </div>
+    </a>
+    <a id="seLink" href="https://resourcemap.ejprarediseases.org/" target="_blank">
+        <div id="se" class="se">
+            <div class="vertical-align">
+                <span id="seHeadline">Knowledge</span>
+                <p id="seSubline">Discover more information about rare diseases using the <span class="white">EJP-RD Mindmap</span></p>
+            </div>
+        </div>
+    </a>
+    <div class="middle vertical-align background">
+        <select id="roleSelector" class="roleSelector background" onchange="changeRole(this);">
+            <option value="looking" selected>I am looking for ...</option>
+            <option value="am">I am a ...</option>
+            <option value="want">I want to ...</option>
+        </select>
+    </div>
+    <div class="footer"><a href="https://www.ejprarediseases.org/">&copy; EJP RD</a></div>
+  </body>
+</html>
+
+<script>
+    function changeRole(selector) {
+        let selectedRole = selector.value;
+        switch(selectedRole) {
+            case "looking": {
+                document.getElementById("nwHeadline").innerHTML = "Resources"
+                document.getElementById("nwSubline").innerHTML = `Use the EJP-RD discovery ecosystem to search connected sources like <span class="white">Patient Registies, Biobanks</span> or <span class="white">Knowledge Bases</span> for rare disease related data`
+                document.getElementById("nwLink").setAttribute("href", "rsLPortal.html")
+                document.getElementById("nwLink").setAttribute("target", "_self")
+                document.getElementById("nwLink").setAttribute("onclick", "")
+                document.getElementById("nw").style.cursor = "pointer";
+                document.getElementById("neHeadline").innerHTML = "Records"
+                document.getElementById("neSubline").innerHTML = `Search for <span class="white">Patient Samples</span> related to specified rare diseases`
+                document.getElementById("neLink").setAttribute("href", "")
+                document.getElementById("nwLink").setAttribute("target", "")
+                document.getElementById("neLink").setAttribute("onclick", "return false;")
+                document.getElementById("ne").style.cursor = "default";
+                document.getElementById("swHeadline").innerHTML = "FAIRification"
+                document.getElementById("swSubline").innerHTML = `Receive support on how to <span class="white">make your data FAIR</span>`
+                document.getElementById("swLink").setAttribute("href", "")
+                document.getElementById("nwLink").setAttribute("target", "")
+                document.getElementById("swLink").setAttribute("onclick", "return false;")
+                document.getElementById("sw").style.cursor = "default";
+                document.getElementById("seHeadline").innerHTML = "Knowledge"
+                document.getElementById("seSubline").innerHTML = `Discover more information about rare diseases using the <span class="white">EJP-RD Mindmap</span>`
+                document.getElementById("seLink").setAttribute("href", "https://www.ejprarediseases.org/resource-mindmap/")
+                document.getElementById("seLink").setAttribute("target", "_blank")
+                document.getElementById("seLink").setAttribute("onclick", "")
+                document.getElementById("se").style.cursor = "pointer";
+                break;
+            }
+            case "am": {
+                document.getElementById("nwHeadline").innerHTML = "Researcher"
+                document.getElementById("nwSubline").innerHTML = ``
+                document.getElementById("nwLink").setAttribute("href", "")
+                document.getElementById("nwLink").setAttribute("target", "")
+                document.getElementById("nwLink").setAttribute("onclick", "return false;")
+                document.getElementById("nw").style.cursor = "default";
+                document.getElementById("neHeadline").innerHTML = "Patient"
+                document.getElementById("neSubline").innerHTML = ``
+                document.getElementById("neLink").setAttribute("href", "")
+                document.getElementById("neLink").setAttribute("target", "")
+                document.getElementById("neLink").setAttribute("onclick", "return false;")
+                document.getElementById("ne").style.cursor = "default";
+                document.getElementById("swHeadline").innerHTML = "Partner"
+                document.getElementById("swSubline").innerHTML = ``
+                document.getElementById("swLink").setAttribute("href", "")
+                document.getElementById("swLink").setAttribute("target", "")
+                document.getElementById("swLink").setAttribute("onclick", "return false;")
+                document.getElementById("sw").style.cursor = "default";
+                document.getElementById("seHeadline").innerHTML = "Doctor"
+                document.getElementById("seSubline").innerHTML = ``
+                document.getElementById("seLink").setAttribute("href", "")
+                document.getElementById("seLink").setAttribute("target", "")
+                document.getElementById("seLink").setAttribute("onclick", "return false;")
+                document.getElementById("se").style.cursor = "default";
+                break;
+            }
+            case "want": {
+                document.getElementById("nwHeadline").innerHTML = "Participate"
+                document.getElementById("nwSubline").innerHTML = `Find out about upcoming <span class="white">EJP-RD events</span>`
+                document.getElementById("nwLink").setAttribute("href", "https://www.ejprarediseases.org/ejp-rd-events/")
+                document.getElementById("nwLink").setAttribute("target", "_blank")
+                document.getElementById("nwLink").setAttribute("onclick", "")
+                document.getElementById("nw").style.cursor = "pointer";
+                document.getElementById("neHeadline").innerHTML = "Be Funded"
+                document.getElementById("neSubline").innerHTML = `Find out about <span class="white">EJP-RD funding opportunities</span>`
+                document.getElementById("neLink").setAttribute("href", "https://www.ejprarediseases.org/our-actions-and-services/funding-opportunities/calls/")
+                document.getElementById("neLink").setAttribute("target", "_blank")
+                document.getElementById("neLink").setAttribute("onclick", "")
+                document.getElementById("ne").style.cursor = "pointer";
+                document.getElementById("swHeadline").innerHTML = "Contribute"
+                document.getElementById("swSubline").innerHTML = ``
+                document.getElementById("swLink").setAttribute("href", "")
+                document.getElementById("swLink").setAttribute("onclick", "return false;")
+                document.getElementById("sw").style.cursor = "default";
+                document.getElementById("seHeadline").innerHTML = "Discover"
+                document.getElementById("seSubline").innerHTML = ``
+                document.getElementById("seLink").setAttribute("href", "")
+                document.getElementById("seLink").setAttribute("onclick", "return false;")
+                document.getElementById("se").style.cursor = "default";
+                break;
+            }
+            default: {
+                console.info("Entering default switch of changeRole().");
+            }
+        }
+    }
+
+    function init() {
+        document.getElementById("roleSelector").selectedIndex = 0
+    }
+</script>
