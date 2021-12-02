@@ -106,6 +106,9 @@ dist
 # SSL cert files
 .crt
 .key
+portal/portal/cert/
 
 # script files
-.cmd
+start.cmd
+
+
