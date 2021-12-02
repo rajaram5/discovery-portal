@@ -10,6 +10,7 @@
 const express = require("express")
 var http = require('http');
 const https = require('https');
+const dotenv = require("dotenv").config();
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const path = require("path")
@@ -220,8 +221,8 @@ class Application {
           method: 'post',
           body: new URLSearchParams({
             'grant_type': 'refresh_token',
-            'client_id': 'discovery-portal',
-            'client_secret': '7f2eba04-4d6c-412e-a044-31663c7a01d9',
+            'client_id': process.env.CLIENT_ID,
+            'client_secret': process.env.CLIENT_SECRET,
             'refresh_token': request.body.refresh_token
         }),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
