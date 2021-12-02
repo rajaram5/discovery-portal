@@ -307,8 +307,6 @@ function getGenders() {
 // function that builds the result list DOM for a resource type
 function buildSourceContent(source, responseList, filters) {
   try {
-    console.log(source)
-    console.log(filters)
     // create collapsible
     let sourceCollapsible = document.createElement("BUTTON")
     sourceCollapsible.setAttribute("id", source + "Collapsible")

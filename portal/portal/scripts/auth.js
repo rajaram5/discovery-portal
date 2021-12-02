@@ -39,7 +39,6 @@ function login() {
               currentUser.loggedIn = true
               currentUser.accessToken = data.access_token.token
               currentUser.refreshToken = data.refresh_token.token
-              console.log(data.access_token.token)
               updateStatusText('success', 'Successfully logged in.')
               document.getElementById("loginButtonText").innerHTML = data.id_token.content.name
               document.getElementById("loginTooltiptext").innerHTML = 'Click to log out.'
