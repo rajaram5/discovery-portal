@@ -1,0 +1,49 @@
+/* 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+*/
+
+.statusTextDiv {
+  padding: 8px;
+  min-height: 18px;
+  margin-bottom: 15px;
+  text-align: left;
+  width: 78.5%;
+}
+
+.isa_info,
+.isa_success,
+.isa_warning,
+.isa_error {
+  font-size: 15px;
+}
+
+.isa_info {
+  color: #44a0fc;
+  background-color: #bde5f8;
+}
+
+.isa_success {
+  color: #3bb392;
+  background-color: #dff2bf;
+}
+
+.isa_warning {
+  color: #fecf00;
+  background-color: #feefb3;
+}
+
+.isa_error {
+  color: #e31a46;
+  background-color: #ffd2d2;
+}
+
+.isa_info i,
+.isa_success i,
+.isa_warning i,
+.isa_error i {
+  margin: 10px 22px;
+  font-size: 2em;
+  vertical-align: middle;
+}

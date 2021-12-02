@@ -1,0 +1,95 @@
+/* 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url("../static/media/dust_scratches.png");
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+}
+
+
+.content {
+  margin-top: 200px;
+}
+
+a {
+  color: #44a0fc;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #44a0fc;
+}
+
+.ejpLogo { 
+  top: 15px;
+  left: 15px;
+  width: 450px;
+  position: fixed;
+  z-index: 10;
+}
+
+.backLink {
+  top: 150px;
+  position: fixed;
+  font-size: 40px;
+  left: 30px;
+}
+
+@media screen and (max-width: 1500px) {
+  .backLink {
+    top: 250px;
+    position: fixed;
+    font-size: 40px;
+    left: 30px;
+  }
+
+  .content {
+    margin-top: 320px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .backLink {
+    top: 500px;
+    position: fixed;
+    font-size: 40px;
+    left: 30px;
+  }
+
+  .content {
+    margin-top: 550px;
+  }
+}
+
+.center {
+  text-align: left;
+  margin: 0 auto;
+  width: 1100px;
+}
+
+.progress {
+  height: 4px;
+  margin-top: 8px;
+  width: 0%;
+  background-color: #44a0fc;
+}
+
+.footer {
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+  position: absolute;
+  font-size: 16px;
+  bottom: 0;
+  margin-bottom: 16px;
+  width: 99%;
+}

@@ -104,10 +104,8 @@ dist
 .tern-port
 
 # SSL cert files
-./portal/portal/cert/
+.crt
+.key
 
-# .env file
-./portal/.env
-
-# start script
-start.cmd
+# script files
+.cmd

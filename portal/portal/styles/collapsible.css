@@ -1,0 +1,133 @@
+/* 
+  This code is licensed under MIT license (see LICENSE file for details).
+  (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
+  Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
+*/
+
+.collapsible:after {
+    content: url('../static/media/downArrow_small.png');
+    float: right;
+    font-size: 22px;
+    margin-left: 5px;
+}
+
+/*.advancedSearchCollapsible:after {
+  content: url('../static/media/downArrow_small_white.png');
+  position: absolute;
+  top: 15px;
+  left: 175px;
+  font-size: 20px;
+}*/
+
+.listedSourcesCollapsible:after {
+  content: url('../static/media/downArrow_small_white.png');
+  top: -25px;
+  left: 210px;
+  position: absolute;
+}
+
+.resultCollapsible:after {
+  content: url('../static/media/downArrow_small.png');
+  float: right;
+  font-size: 22px;
+  margin-left: 5px;
+}
+
+.openedCollapsible:after {
+    content: url('../static/media/upArrow_small_white.png');
+}
+
+.openedResultCollapsible:after {
+  content: url('../static/media/upArrow_small.png');
+}
+
+.listedSourcesContent {
+    background-color: #333;
+    top: 135px;
+    right: 310px;
+    width: 0;
+    z-index: 1;
+    position: absolute;
+    max-height: 0;
+    margin-left: 100%;
+    overflow: hidden;
+    transition: max-height 300ms ease-in-out, width 300ms ease-in-out, margin-left 300ms ease-in-out;
+}
+  
+.BiobankDatasetContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+  
+.PatientRegistryDatasetContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.IndividualDatasetContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.OrphanetContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.BBMRI-EricContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.CellosaurusContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.Leicester-ERN-NetworkContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.WikipathwaysContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.hpscRegContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+@media screen and (max-width: 1500px) {
+  .listedSourcesCollapsible:after {
+    top: -25px;
+    left: 215px;
+  }
+
+  .listedSourcesContent {
+    top: 235px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .listedSourcesCollapsible:after {
+    top: 10px;
+    left: -220px;
+  }
+
+  .listedSourcesContent {
+    top: 485px;
+    left: 380px;
+    transition: max-height 400ms ease-in-out, width 300ms ease-in-out;
+  }
+}
