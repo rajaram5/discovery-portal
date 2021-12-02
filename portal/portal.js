@@ -28,7 +28,7 @@ class Application {
     } 
     else {
         console.log("Initializing Keycloak...")
-        this.keycloak = require('./portal/config/keycloak-config.js').initKeycloak(process.env)
+        this.keycloak = require('./portal/config/keycloak-config.js').initKeycloak()
     }
     this.app.use(this.keycloak.middleware({ logout: '/logout' }))
 
