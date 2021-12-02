@@ -40,13 +40,6 @@ class Application {
     this.app.use('/rsLPortal', express.static("./portal"))
     this.app.use('/', express.static("./public"))
 
-    //this.app.use('/scripts', express.static(path.resolve(__dirname, "portal", "scripts")))
-    //this.app.use('/views', express.static(path.resolve(__dirname, "portal", "views")))
-
-    /*this.app.get("/rsLPortal/*", (request, result, next) => {
-      result.sendFile(path.resolve(__dirname, "portal", "index.html"))
-    })*/ 
-
     // add GET route that handles a search request
     this.app.get("/search", async (request, response, next) => {
       try {
@@ -77,8 +70,6 @@ class Application {
           || catalogue.catalogueName === 'Cellosaurus' 
           || catalogue.catalogueName === 'Wikipathways' 
           || catalogue.catalogueName === 'hpscReg') {
-            //query = `${catalogue.catalogueAddress}search?code=http://www.orpha.net/ORDO/Orphanet_${requestedSearch}&resourceType=[${selectedTypes}]&country=[${selectedCountries}]`;
-            //query = this.buildFdpQuery(catalogue.catalogueAddress, requestedSearch, selectedTypes, selectedCountries)
             query = `${catalogue.catalogueAddress}?code=http://www.orpha.net/ORDO/Orphanet_${requestedSearch}`
             const dbResponse = await fetch(query, {
               headers: {
