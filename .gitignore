@@ -102,3 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+# SSL cert files
+./portal/portal/cert/
+
+# .env file
+./portal/.env
+
+# start script
+start.cmd
