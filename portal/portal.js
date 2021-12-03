@@ -10,6 +10,7 @@
 const express = require("express")
 var http = require('http');
 const https = require('https');
+const dotenv = require("dotenv").config();
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const path = require("path")
@@ -38,13 +39,6 @@ class Application {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use('/rsLPortal', express.static("./portal"))
     this.app.use('/', express.static("./public"))
-
-    //this.app.use('/scripts', express.static(path.resolve(__dirname, "portal", "scripts")))
-    //this.app.use('/views', express.static(path.resolve(__dirname, "portal", "views")))
-
-    /*this.app.get("/rsLPortal/*", (request, result, next) => {
-      result.sendFile(path.resolve(__dirname, "portal", "index.html"))
-    })*/ 
 
     // add GET route that handles a search request
     this.app.get("/search", async (request, response, next) => {
@@ -76,8 +70,6 @@ class Application {
           || catalogue.catalogueName === 'Cellosaurus' 
           || catalogue.catalogueName === 'Wikipathways' 
           || catalogue.catalogueName === 'hpscReg') {
-            //query = `${catalogue.catalogueAddress}search?code=http://www.orpha.net/ORDO/Orphanet_${requestedSearch}&resourceType=[${selectedTypes}]&country=[${selectedCountries}]`;
-            //query = this.buildFdpQuery(catalogue.catalogueAddress, requestedSearch, selectedTypes, selectedCountries)
             query = `${catalogue.catalogueAddress}?code=http://www.orpha.net/ORDO/Orphanet_${requestedSearch}`
             const dbResponse = await fetch(query, {
               headers: {
@@ -220,8 +212,8 @@ class Application {
           method: 'post',
           body: new URLSearchParams({
             'grant_type': 'refresh_token',
-            'client_id': 'discovery-portal',
-            'client_secret': '7f2eba04-4d6c-412e-a044-31663c7a01d9',
+            'client_id': process.env.CLIENT_ID,
+            'client_secret': process.env.CLIENT_SECRET,
             'refresh_token': request.body.refresh_token
         }),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
