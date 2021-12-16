@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+  
+body {
+    background-image: url('./media/dust_scratches.png');
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+  }
+
+a {
+    color: #44a0fc;
+    text-decoration: none;
+}
+  
+a:visited {
+    color: #44a0fc;
+}
+
+.center {
+    text-align: left;
+    margin: 0 auto;
+    width: 1100px;
+}
+
+.content {
+margin-top: 250px;
+margin-left: 200px;
+text-align: center;
+}
+
+.backLink {
+    top: 150px;
+    position: fixed;
+    font-size: 40px;
+    left: 30px;
+}

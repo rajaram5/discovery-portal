@@ -1069,30 +1069,10 @@ function submitLogin() {
     }
 }
 
-function toggleImprint(visible) {
-  try {
-    if (visible) {
-      document.getElementById("imprintNavButton").classList.add('menuButtonActive')
-      document.getElementById("imprint").style.display = "block"
-      document.getElementById("discoveryNavButton").classList.remove('menuButtonActive')
-      document.getElementById("discovery").style.display = "none"
-    }
-    else {
-      document.getElementById("imprint").style.display = "none"
-      document.getElementById("imprintNavButton").classList.remove('menuButtonActive')
-      document.getElementById("discovery").style.visdisplayibility = "block"
-      document.getElementById("discoveryNavButton").classList.add('menuButtonActive')
-    }
-  } catch (exception) {
-    console.error("Error in updateDom.js:toggleImprint(): ", exception)
-  }
-}
-
 export { toggleLoadingSpinner, toggleInterrogation, clearInput, updateStatusText, 
     updateCatalogueListDOM, clearPreviousSearch, toggleSearchClearButton, toggleSourceResults, 
     createResultListTableHeader, createResultListTable, updateResultListDOM, selectedCountries, selectedTypes }
 
-window.toggleImprint = toggleImprint
 window.toggleLoginModal = toggleLoginModal
 window.toggleAdvancedSearchTab = toggleAdvancedSearchTab
 window.toggleListedSources = toggleListedSources
