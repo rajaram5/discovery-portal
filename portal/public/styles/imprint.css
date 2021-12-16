@@ -25,9 +25,9 @@ a:visited {
 }
 
 .content {
-margin-top: 250px;
-margin-left: 200px;
-text-align: center;
+    margin-top: 250px;
+    margin-left: 200px;
+    text-align: center;
 }
 
 .backLink {
@@ -35,4 +35,8 @@ text-align: center;
     position: fixed;
     font-size: 40px;
     left: 30px;
+}
+
+.euLogo {
+    width: 110px;
 }
