@@ -24,10 +24,6 @@ document.write('\
           </div> -->\
         </div> -->\
         <div class="tooltip">\
-          <li><a id="imprintNavButton" href="#" onClick="toggleImprint(true);">Imprint</a></li>\
-          <span class="navTooltiptext">Display the Imprint of this website.</span>\
-        </div>\
-        <div class="tooltip">\
           <li onclick="toggleListedSources(this);" class="listedSourcesCollapsible">\
             <a href="#" class="listedSources">Connected Sources</a>\
           </li>\
