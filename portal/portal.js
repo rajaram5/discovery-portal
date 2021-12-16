@@ -186,8 +186,10 @@ class Application {
     // add GET route that handles a ping request
     this.app.post("/login", async (request, response, next) => {
       try {
+	console.log(this.keycloak)
         this.keycloak.grantManager.obtainDirectly(request.body.username, request.body.password)
         .then((grant) => {
+	  console.log(grant)
           if(grant) {
             this.keycloak.storeGrant(grant, request, response);
             response.json(grant)
@@ -307,7 +309,7 @@ class Application {
 
   getCatalogues = async () => {
     try {
-      fetch(`${this.directoryEndpoint}/catalogues`)
+      fetch(`${this.directoryEndpoint}/directory/catalogues/`)
         .then(this.handleFetchErrors)
         .then(async (fetchResponse) => {
           if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
@@ -435,9 +437,9 @@ class Server {
       let httpsServer = https.createServer(options, app.getApp())
 
       // check for proper usage
-      if (commandLineArguments.length != 3) {
+      if (commandLineArguments.length != 2) {
         console.error(
-          "Usage: node portal.js $PORT $DIRECTORY_HOST $DIRECTORY_PORT"
+          "Usage: node portal.js $PORT $DIRECTORY_ADDRESS"
         );
       } else {
         // run the server application
@@ -452,12 +454,12 @@ class Server {
           )
         );
         // get catalogue list
-        fetch(`http://${commandLineArguments[1]}:${commandLineArguments[2]}/`)
+        fetch(`${commandLineArguments[1]}/directory/catalogues/`)
           .then(this.handleFetchErrors)
           .then((fetchResponse) => {
             if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
               // define catalogue directory endpoint address
-              app.directoryEndpoint = `http://${commandLineArguments[1]}:${commandLineArguments[2]}`;
+              app.directoryEndpoint = `${commandLineArguments[1]}`;
 
               // define and retrieve catalogue list
               app.getCatalogues();

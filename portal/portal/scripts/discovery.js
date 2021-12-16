@@ -84,7 +84,7 @@ async function getDirectoryAddress() {
       .then(async (fetchResponse) => {
         if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
           catalogueDirectoryAddress = await fetchResponse.json();
-          getCataloguesEndpoint = catalogueDirectoryAddress + "/catalogues";
+          getCataloguesEndpoint = catalogueDirectoryAddress + "/directory/catalogues";
         } else {
           //toggleCatalogueListLoadingSpinner(false);
           console.error("Error in clientScripts.js:getDirectoryAddress(): Fetch response out of range.");

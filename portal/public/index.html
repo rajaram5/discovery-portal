@@ -16,7 +16,7 @@
     <title>EJP-RD Virtual Platform</title>
     <link rel="stylesheet" type="text/css" href="./styles/index.css" />
   </head>
-  <body onload="init();">
+  <body>
     <a href="https://www.ejprarediseases.org/" target="_blank"><img src="./media/ejp-rd-logo.png" alt="EJP-RD Logo" class="ejpLogo background" /></a>
     <div class="dropdownMenu background">
         <img src="./media/menu.png" alt="EJP-RD Logo" style="width: 50px;"/>
@@ -27,7 +27,7 @@
             <a href="https://www.ejprarediseases.org/resource-mindmap/" target="_blank">Mindmap</a>
             <!-- <a href="https://www.ejprarediseases.org/ejp-rd-events/" target="_blank">Events</a> -->
             <!-- <a href="https://www.ejprarediseases.org/our-actions-and-services/funding-opportunities/calls/" target="_blank">Funding</a> -->
-            <a href="./imprint.html" target="_blank">Imprint</a>
+            <a href="./imprint.html" target="_self">Imprint</a>
         </div>
     </div> 
     <a id="nwLink" href="/rsLPortal/" target="_self">
@@ -74,7 +74,7 @@
   </body>
 </html>
 
-<script>
+<!-- <script>
     function changeRole(selector) {
         let selectedRole = selector.value;
         switch(selectedRole) {
@@ -161,9 +161,9 @@
                 console.info("Entering default switch of changeRole().");
             }
         }
-    }
+    } -->
 
-    function init() {
+    <!-- function init() {
         document.getElementById("roleSelector").selectedIndex = 0
-    }
+    } -->
 </script>
