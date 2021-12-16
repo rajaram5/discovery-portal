@@ -9,7 +9,7 @@ document.write('\
 <a href="https://www.ejprarediseases.org/" target="_blank"><img src="./static/media/ejp-rd-logo.png" alt="EJP-RD-Logo" class="ejpLogo"/></a>\
       <ul>\
         <div class="tooltip">\
-          <li><a id="discoveryNavButton" class="menuButtonActive" href="/rsLPortal" onclick="toggleTab(`discoveryNavButton`, `discoveryTab`, this)">Resource Discovery</a></li>\
+          <li><a id="discoveryNavButton" class="menuButtonActive" href="/rsLPortal">Resource Discovery</a></li>\
           <span class="navTooltiptext">Use this to query connected sources for rare disease information (Biobanks, Patient Registries, Knowledge Bases).</span>\
         </div>\
         <!-- <div class="tooltip" style="opacity: .5">\
@@ -24,7 +24,7 @@ document.write('\
           </div> -->\
         </div> -->\
         <div class="tooltip">\
-          <li><a href="/rsLPortal/imprint">Imprint</a></li>\
+          <li><a id="imprintNavButton" href="#" onClick="toggleImprint(true);">Imprint</a></li>\
           <span class="navTooltiptext">Display the Imprint of this website.</span>\
         </div>\
         <div class="tooltip">\
