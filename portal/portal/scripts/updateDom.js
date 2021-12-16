@@ -245,18 +245,18 @@ try {
     let currentCell = currentRow.insertCell();
     switch(catalogue.catalogueName) {
     case "BBMRI-Eric":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/bbmri.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/bbmri.png")
         break
     case "Orphanet":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/orphanet.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/orphanet.png")
         break
     case "Leicester-ERN-Network":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/ern_logo.jpg")
+        resourceLogo.setAttribute("src", "../discovery/static/media/ern_logo.jpg")
         resourceLogo.setAttribute("id", "ernLogo")
         resourceLogo.style.opacity = '.5'
         if(!currentUser.loggedIn) {
           let lockSymbol = document.createElement("img")
-          lockSymbol.setAttribute("src", "../rsLPortal/static/media/locked_grey.png")
+          lockSymbol.setAttribute("src", "../discovery/static/media/locked_grey.png")
           lockSymbol.setAttribute("id", "lockSymbol")
           lockSymbol.style.verticalAlign = "middle"
           lockSymbol.style.height = "45px"
@@ -265,13 +265,13 @@ try {
         }
         break
     case "Cellosaurus":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/cellosaurus_logo.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/cellosaurus_logo.png")
         break
     case "Wikipathways":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/wikipathways_logo.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/wikipathways_logo.png")
         break
     case "hpscReg":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/hpscreg_logo.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/hpscreg_logo.png")
         break
     default:
         console.info("Entering default switch of clientScripts.js:updateCatalogueListDOM().")
@@ -840,7 +840,7 @@ try {
     entry.style.paddingBottom = "3px"
     entry.style.paddingLeft = "10px"
     let removeIcon = document.createElement("IMG")
-    removeIcon.setAttribute("src", "../rsLPortal/static/media/close-icon.png")
+    removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
     removeIcon.setAttribute("alt", "remove-icon")
     removeIcon.setAttribute("onclick", 'removeCountryFromList("'+selectedCountry+'");')
     removeIcon.style.marginTop = "-2px"
@@ -957,7 +957,7 @@ try {
     entry.style.paddingBottom = "3px"
     entry.style.paddingLeft = "10px"
     let removeIcon = document.createElement("IMG")
-    removeIcon.setAttribute("src", "../rsLPortal/static/media/close-icon.png")
+    removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
     removeIcon.setAttribute("alt", "remove-icon")
     removeIcon.setAttribute("onclick", 'removeTypeFromList("'+selectedType+'");')
     removeIcon.style.marginTop = "-2px"

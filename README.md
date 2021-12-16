@@ -19,4 +19,4 @@ The EJP-RD - Resource Discovery Portal component. It implements a REST API that 
 - Copy your SSL key (serverkey.key) and certificate (servercert.crt) to that folder.
 - `$ node portal.js <DISCOVERY_PORTAL_PORT> <ADDRESS_DIRECTORY_URL> <ADDRESS_DIRECTORY_PORT>` to start the discovery portal service.
 
-The resource discovery portal will be listening on `https://<YOUR_IP_ADDRESS>:<DISCOVERY_PORTAL_PORT>/rsLPortal`.
+The resource discovery portal will be listening on `https://<YOUR_IP_ADDRESS>:<DISCOVERY_PORTAL_PORT>/discovery`.
