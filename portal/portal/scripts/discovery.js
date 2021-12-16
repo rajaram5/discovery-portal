@@ -12,14 +12,14 @@ import { statusTextDiv, statusText, statusTextCloseButton,
   searchButton, mapButton, knowledgeSearchButton, topButton,
   searchFilterCollapsible, listedSourcesCollapsible,
   filterList, catalogueList, resultList, allCountriesCheckbox, 
-  allTypesCheckbox, loginModal } from '/rsLPortal/scripts/components.js'
-import { euCountries } from '/rsLPortal/static/countries.js'
+  allTypesCheckbox, loginModal } from '/discovery/scripts/components.js'
+import { euCountries } from '/discovery/static/countries.js'
 import { toggleLoadingSpinner, clearInput, updateStatusText, 
   updateCatalogueListDOM, clearPreviousSearch, createResultListTable, 
   createResultListTableHeader, updateResultListDOM, selectedCountries, 
-  selectedTypes } from '/rsLPortal/scripts/updateDom.js'
-import { handleFetchErrors, extractRDCode, isNumber } from '/rsLPortal/scripts/utils.js'
-import { currentUser } from '/rsLPortal/scripts/auth.js'
+  selectedTypes } from '/discovery/scripts/updateDom.js'
+import { handleFetchErrors, extractRDCode, isNumber } from '/discovery/scripts/utils.js'
+import { currentUser } from '/discovery/scripts/auth.js'
 
 // define API endpoint addresses
 const portalAddress = window.location.origin
@@ -725,7 +725,7 @@ function discover() {
 // function that loads the rare disease classification from file
 function loadClassification(filename, classification, codeType) {
   try {
-    fetch("./rsLPortal/" + filename)
+    fetch("./discovery/" + filename)
       .then(handleFetchErrors)
       .then(async (fetchResponse) => {
         const data = await fetchResponse.text();

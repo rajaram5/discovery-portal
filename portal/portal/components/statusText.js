@@ -12,7 +12,7 @@ document.write('\
           id="statusTextCloseButton"\
           onclick="updateStatusText(`none`)"\
         >\
-          <img src="../rsLPortal/static/media/close-icon.png" />\
+          <img src="../discovery/static/media/close-icon.png" />\
         </button>\
       </div>\
 ');

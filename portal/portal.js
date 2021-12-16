@@ -37,7 +37,7 @@ class Application {
     this.app.use(morgan("dev"))
     this.app.use(cors())
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use('/rsLPortal', express.static("./portal"))
+    this.app.use('/discovery', express.static("./portal"))
     this.app.use('/', express.static("./public"))
 
     // add GET route that handles a search request
