@@ -27,6 +27,7 @@
     <link rel="stylesheet" type="text/css" href="./styles/resultList.css" />
     <link rel="stylesheet" type="text/css" href="./styles/advancedSearch.css" />
     <link rel="stylesheet" type="text/css" href="./styles/login.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/imprint.css" />
     <script type="module" src="./scripts/discovery.js" defer></script>
     <script type="module" src="./scripts/updateDom.js" defer></script>
     <script type="module" src="./scripts/auth.js" defer></script>
@@ -41,10 +42,17 @@
     <!-- <script type="module" src="/rsLPortal/scripts/index.js" defer></script> -->
     <div id="content" class="content">
       <div class="center">
-        <script src="./components/statusText.js"></script>
-        <script src="./components/textSearch.js"></script>
-        <!-- <script src="./components/mappers.js"></script> -->
-        <script src="./components/resultList.js"></script>
+        <div class="discovery" id="discovery">
+          <script src="./components/statusText.js"></script>
+          <script src="./components/textSearch.js"></script>
+          <script src="./components/resultList.js"></script>
+        </div>
+        <div class="imprint" id="imprint">
+          <script src="./components/imprint.js"></script>
+        </div>
+        <!-- <div class="mapper" id="mapper">
+          <script src="./components/mapper.js"></script>
+        </div> -->
         <button
           onclick="scrollToTop();"
           id="topButton"
@@ -52,7 +60,7 @@
           class="topButton"
           >
           <img src="./static/media/topArrow_white.png" style="position: relative; left: -5px;"/>Top
-        </button>  
+        </button>
       </div>
       <!-- <div class="footer">&copy; EJP RD</div> -->
   </div>
