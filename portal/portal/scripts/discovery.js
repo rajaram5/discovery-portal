@@ -197,18 +197,20 @@ function getSelectedSources(selectedTypes) {
         let mappedTypes = mapTypes(selectedTypes)
         for (let catalogue of catalogues) {
           for(let type of mappedTypes) {
-            if (catalogue.catalogueType.includes(type)
-            ) {
+            if (catalogue.catalogueType.includes(type)) {
               let insertCatalogue = {
                 catalogueName: catalogue.catalogueName,
                 catalogueAddress: catalogue.catalogueAddress,
               };
-              selectedCatalogues.push(insertCatalogue);
+              if(selectedCatalogues.findIndex(x => x.catalogueName == insertCatalogue.catalogueName) === -1) {
+                selectedCatalogues.push(insertCatalogue);
+              }
             }
           }
         }
       }
       if(selectedCatalogues.length > 0) {
+        console.log(selectedCatalogues)
         return selectedCatalogues;
       }
       else {
@@ -356,28 +358,68 @@ function buildSourceContent(source, responseList, filters) {
     }   
     sourceCollapsible.appendChild(numberOfResultsText)
 
-    let matchingFilters = document.createElement("SPAN")
-    matchingFilters.style.fontSize = "14px"
-    matchingFilters.style.position = "relative"
-    matchingFilters.style.top = "6px"
-    matchingFilters.style.left = '40px'
-    matchingFilters.style.color = 'white'
+    let matchingRdCode = document.createElement("SPAN")
+    matchingRdCode.style.fontSize = "14px"
+    matchingRdCode.style.position = "relative"
+    matchingRdCode.style.top = "6px"
+    matchingRdCode.style.left = '60px'
+    matchingRdCode.style.color = 'black'
+    matchingRdCode.textContent = `ORDO:${extractRDCode(filters.disease, 'orpha')}`
+
+    sourceCollapsible.appendChild(matchingRdCode)
 
     switch (source) {
-      case 'BBMRI-Eric': case 'Orphanet': 
-        matchingFilters.textContent = `matching Filters: ${filters.disease} ${filters.types} ${filters.countries}`
+      case 'BBMRI-Eric': case 'Orphanet':
+        let matchingTypes = document.createElement("SPAN")
+        matchingTypes.style.backgroundColor = '#3bb392'
+        matchingTypes.style.fontSize = "14px"
+        matchingTypes.style.position = "relative"
+        matchingTypes.style.top = "6px"
+        matchingTypes.style.left = '80px'
+        matchingTypes.style.color = '#333'
+        matchingTypes.textContent = filters.types
+
+        sourceCollapsible.appendChild(matchingTypes)
+
+        let matchingCountries = document.createElement("SPAN")
+        matchingCountries.style.backgroundColor = '#fecf00'
+        matchingCountries.style.fontSize = "14px"
+        matchingCountries.style.position = "relative"
+        matchingCountries.style.top = "6px"
+        matchingCountries.style.left = '100px'
+        matchingCountries.style.color = '#333'
+        matchingCountries.textContent = filters.countries
+
+        sourceCollapsible.appendChild(matchingCountries)
         break
       case 'Cellosaurus': case 'hpscReg': case 'Wikipathways': 
-        matchingFilters.textContent = `matching Filters: ${filters.disease} ${filters.types}`
+        let matchingType = document.createElement("SPAN")
+        matchingType.style.backgroundColor = '#3bb392'
+        matchingType.style.fontSize = "14px"
+        matchingType.style.position = "relative"
+        matchingType.style.top = "6px"
+        matchingType.style.left = '80px'
+        matchingType.style.color = '#333'
+        matchingType.textContent = filters.types
+
+        sourceCollapsible.appendChild(matchingType)
         break
       case 'Leicester-ERN-Network': 
-        matchingFilters.textContent = `matching Filters: ${filters.disease} ${filters.genders}`
+        let matchingGenders = document.createElement("SPAN")
+        matchingGenders.style.backgroundColor = 'white'
+        matchingGenders.style.fontSize = "14px"
+        matchingGenders.style.position = "relative"
+        matchingGenders.style.top = "6px"
+        matchingGenders.style.left = '40px'
+        matchingGenders.style.color = '#333'
+        matchingGenders.textContent = filters.types
+
+        sourceCollapsible.appendChild(matchingGenders)
         break
       default:
         console.info("Entering default switch of discovery.js:buildSourceContent().");
         break;
     }
-    sourceCollapsible.appendChild(matchingFilters)
 
     resultList.appendChild(sourceCollapsible);
 
@@ -435,6 +477,7 @@ function discover() {
 
       // get selected sources
       const selectedSources = JSON.stringify(getSelectedSources(selectedTypes));
+      console.log(selectedSources)
       if (selectedSources === "null") {
         resultList.textContent = "";
         updateStatusText(
@@ -515,6 +558,7 @@ function discover() {
               //let noResultsFound = [];
               //noResultsFound = sortResultsByType(responseData, numberOfResults);
               let responseList, progress = 0;
+              console.log(responseData)
               for(let source of responseData) {
                 if(source['content']) {
                   buildSourceContent(source.name, source['content'], filters)

@@ -13,7 +13,7 @@ The EJP-RD - Resource Discovery Portal component. It implements a REST API that 
 - `$ cd discovery-portal/portal` to navigate to the discovery portal root path.
 - `$ npm i` to install missing dependencies.
 - Create a file named `.env`.
-- Set the keycloak configuration inside the `.env` file as follows: `SERVER_URL=<KEYCLOAK_SERVER_URL>`, `REALM=<KEYCLOAK_REALM>`, `CLIENT_ID=<KEYCLOAK_CLIENT_ID>`, `CLIENT_SECRET=<KEYCLOAK_CLIENT_SECRET>`. Note that this file needs to exist in order for the authentication to operate correctly.
+- Set the keycloak configuration inside the `.env` file as follows: `AUTH_SERVER_URL=<KEYCLOAK_SERVER_URL>`, `REALM=<KEYCLOAK_REALM>`, `CLIENT_ID=<KEYCLOAK_CLIENT_ID>`, `CLIENT_SECRET=<KEYCLOAK_CLIENT_SECRET>`. Note that this file needs to exist in order for the authentication to operate correctly.
 - `$ cd portal` to to navigate to the resource portal root directory.
 - `$ mkdir cert` to to create a folder for the SSL certificate and key.
 - Copy your SSL key (serverkey.key) and certificate (servercert.crt) to that folder.
