@@ -33,6 +33,26 @@
     cursor: default;
   }
   
+  .disclaimerTextCloseButton {
+    float: right;
+    position: relative;
+    border: none;
+    background-color: transparent;
+    padding: 0px 0px;
+    margin-top: -130px;
+  }
+  
+  .disclaimerTextCloseButton:hover {
+    float: right;
+    background-color: transparent;
+    border: none;
+    border-radius: 2px;
+    color: #333333;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
   .statusTextCloseButton {
     float: right;
     border: none;
