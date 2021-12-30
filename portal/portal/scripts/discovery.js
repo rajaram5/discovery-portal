@@ -84,7 +84,7 @@ async function getDirectoryAddress() {
       .then(async (fetchResponse) => {
         if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
           catalogueDirectoryAddress = await fetchResponse.json();
-          getCataloguesEndpoint = catalogueDirectoryAddress + "/catalogues";
+          getCataloguesEndpoint = catalogueDirectoryAddress + "/directory/catalogues";
         } else {
           //toggleCatalogueListLoadingSpinner(false);
           console.error("Error in clientScripts.js:getDirectoryAddress(): Fetch response out of range.");
@@ -210,7 +210,6 @@ function getSelectedSources(selectedTypes) {
         }
       }
       if(selectedCatalogues.length > 0) {
-        console.log(selectedCatalogues)
         return selectedCatalogues;
       }
       else {
@@ -364,7 +363,7 @@ function buildSourceContent(source, responseList, filters) {
     matchingRdCode.style.top = "6px"
     matchingRdCode.style.left = '60px'
     matchingRdCode.style.color = 'black'
-    matchingRdCode.textContent = `ORDO:${extractRDCode(filters.disease, 'orpha')}`
+    matchingRdCode.textContent = `ORPHA:${extractRDCode(filters.disease, 'orpha')}`
 
     sourceCollapsible.appendChild(matchingRdCode)
 
@@ -477,7 +476,6 @@ function discover() {
 
       // get selected sources
       const selectedSources = JSON.stringify(getSelectedSources(selectedTypes));
-      console.log(selectedSources)
       if (selectedSources === "null") {
         resultList.textContent = "";
         updateStatusText(
@@ -558,7 +556,6 @@ function discover() {
               //let noResultsFound = [];
               //noResultsFound = sortResultsByType(responseData, numberOfResults);
               let responseList, progress = 0;
-              console.log(responseData)
               for(let source of responseData) {
                 if(source['content']) {
                   buildSourceContent(source.name, source['content'], filters)
