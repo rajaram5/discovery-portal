@@ -1069,10 +1069,16 @@ function submitLogin() {
     }
 }
 
+// function that hides the disclaimer text div
+function closeDisclaimerText() {
+  document.getElementById("disclaimerDiv").style.display = "none"
+}
+
 export { toggleLoadingSpinner, toggleInterrogation, clearInput, updateStatusText, 
     updateCatalogueListDOM, clearPreviousSearch, toggleSearchClearButton, toggleSourceResults, 
     createResultListTableHeader, createResultListTable, updateResultListDOM, selectedCountries, selectedTypes }
 
+window.closeDisclaimerText = closeDisclaimerText
 window.toggleLoginModal = toggleLoginModal
 window.toggleAdvancedSearchTab = toggleAdvancedSearchTab
 window.toggleListedSources = toggleListedSources
