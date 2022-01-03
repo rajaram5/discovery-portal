@@ -108,7 +108,7 @@
   transition: max-height 0.25s ease-in-out;
 }
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1300px) {
   .listedSourcesCollapsible:after {
     top: -25px;
     left: 215px;
@@ -119,15 +119,15 @@
   }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 850px) {
   .listedSourcesCollapsible:after {
     top: 10px;
-    left: -220px;
+    left: -280px;
   }
 
   .listedSourcesContent {
-    top: 485px;
-    left: 380px;
+    top: 385px;
+    left: 280px;
     transition: max-height 400ms ease-in-out, width 300ms ease-in-out;
   }
 }
