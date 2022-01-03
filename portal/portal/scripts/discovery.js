@@ -12,14 +12,14 @@ import { statusTextDiv, statusText, statusTextCloseButton,
   searchButton, mapButton, knowledgeSearchButton, topButton,
   searchFilterCollapsible, listedSourcesCollapsible,
   filterList, catalogueList, resultList, allCountriesCheckbox, 
-  allTypesCheckbox, loginModal } from '/rsLPortal/scripts/components.js'
-import { euCountries } from '/rsLPortal/static/countries.js'
+  allTypesCheckbox, loginModal } from '/discovery/scripts/components.js'
+import { euCountries } from '/discovery/static/countries.js'
 import { toggleLoadingSpinner, clearInput, updateStatusText, 
   updateCatalogueListDOM, clearPreviousSearch, createResultListTable, 
   createResultListTableHeader, updateResultListDOM, selectedCountries, 
-  selectedTypes } from '/rsLPortal/scripts/updateDom.js'
-import { handleFetchErrors, extractRDCode, isNumber } from '/rsLPortal/scripts/utils.js'
-import { currentUser } from '/rsLPortal/scripts/auth.js'
+  selectedTypes } from '/discovery/scripts/updateDom.js'
+import { handleFetchErrors, extractRDCode, isNumber } from '/discovery/scripts/utils.js'
+import { currentUser } from '/discovery/scripts/auth.js'
 
 // define API endpoint addresses
 const portalAddress = window.location.origin
@@ -84,7 +84,7 @@ async function getDirectoryAddress() {
       .then(async (fetchResponse) => {
         if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
           catalogueDirectoryAddress = await fetchResponse.json();
-          getCataloguesEndpoint = catalogueDirectoryAddress + "/catalogues";
+          getCataloguesEndpoint = catalogueDirectoryAddress + "/directory/catalogues";
         } else {
           //toggleCatalogueListLoadingSpinner(false);
           console.error("Error in clientScripts.js:getDirectoryAddress(): Fetch response out of range.");
@@ -197,13 +197,14 @@ function getSelectedSources(selectedTypes) {
         let mappedTypes = mapTypes(selectedTypes)
         for (let catalogue of catalogues) {
           for(let type of mappedTypes) {
-            if (catalogue.catalogueType.includes(type)
-            ) {
+            if (catalogue.catalogueType.includes(type)) {
               let insertCatalogue = {
                 catalogueName: catalogue.catalogueName,
                 catalogueAddress: catalogue.catalogueAddress,
               };
-              selectedCatalogues.push(insertCatalogue);
+              if(selectedCatalogues.findIndex(x => x.catalogueName == insertCatalogue.catalogueName) === -1) {
+                selectedCatalogues.push(insertCatalogue);
+              }
             }
           }
         }
@@ -356,28 +357,68 @@ function buildSourceContent(source, responseList, filters) {
     }   
     sourceCollapsible.appendChild(numberOfResultsText)
 
-    let matchingFilters = document.createElement("SPAN")
-    matchingFilters.style.fontSize = "14px"
-    matchingFilters.style.position = "relative"
-    matchingFilters.style.top = "6px"
-    matchingFilters.style.left = '40px'
-    matchingFilters.style.color = 'white'
+    let matchingRdCode = document.createElement("SPAN")
+    matchingRdCode.style.fontSize = "14px"
+    matchingRdCode.style.position = "relative"
+    matchingRdCode.style.top = "6px"
+    matchingRdCode.style.left = '60px'
+    matchingRdCode.style.color = 'black'
+    matchingRdCode.textContent = `ORPHA:${extractRDCode(filters.disease, 'orpha')}`
+
+    sourceCollapsible.appendChild(matchingRdCode)
 
     switch (source) {
-      case 'BBMRI-Eric': case 'Orphanet': 
-        matchingFilters.textContent = `matching Filters: ${filters.disease} ${filters.types} ${filters.countries}`
+      case 'BBMRI-Eric': case 'Orphanet':
+        let matchingTypes = document.createElement("SPAN")
+        matchingTypes.style.backgroundColor = '#3bb392'
+        matchingTypes.style.fontSize = "14px"
+        matchingTypes.style.position = "relative"
+        matchingTypes.style.top = "6px"
+        matchingTypes.style.left = '80px'
+        matchingTypes.style.color = '#333'
+        matchingTypes.textContent = filters.types
+
+        sourceCollapsible.appendChild(matchingTypes)
+
+        let matchingCountries = document.createElement("SPAN")
+        matchingCountries.style.backgroundColor = '#fecf00'
+        matchingCountries.style.fontSize = "14px"
+        matchingCountries.style.position = "relative"
+        matchingCountries.style.top = "6px"
+        matchingCountries.style.left = '100px'
+        matchingCountries.style.color = '#333'
+        matchingCountries.textContent = filters.countries
+
+        sourceCollapsible.appendChild(matchingCountries)
         break
       case 'Cellosaurus': case 'hpscReg': case 'Wikipathways': 
-        matchingFilters.textContent = `matching Filters: ${filters.disease} ${filters.types}`
+        let matchingType = document.createElement("SPAN")
+        matchingType.style.backgroundColor = '#3bb392'
+        matchingType.style.fontSize = "14px"
+        matchingType.style.position = "relative"
+        matchingType.style.top = "6px"
+        matchingType.style.left = '80px'
+        matchingType.style.color = '#333'
+        matchingType.textContent = filters.types
+
+        sourceCollapsible.appendChild(matchingType)
         break
       case 'Leicester-ERN-Network': 
-        matchingFilters.textContent = `matching Filters: ${filters.disease} ${filters.genders}`
+        let matchingGenders = document.createElement("SPAN")
+        matchingGenders.style.backgroundColor = 'white'
+        matchingGenders.style.fontSize = "14px"
+        matchingGenders.style.position = "relative"
+        matchingGenders.style.top = "6px"
+        matchingGenders.style.left = '40px'
+        matchingGenders.style.color = '#333'
+        matchingGenders.textContent = filters.types
+
+        sourceCollapsible.appendChild(matchingGenders)
         break
       default:
         console.info("Entering default switch of discovery.js:buildSourceContent().");
         break;
     }
-    sourceCollapsible.appendChild(matchingFilters)
 
     resultList.appendChild(sourceCollapsible);
 
@@ -681,7 +722,7 @@ function discover() {
 // function that loads the rare disease classification from file
 function loadClassification(filename, classification, codeType) {
   try {
-    fetch("./rsLPortal/" + filename)
+    fetch("./discovery/" + filename)
       .then(handleFetchErrors)
       .then(async (fetchResponse) => {
         const data = await fetchResponse.text();

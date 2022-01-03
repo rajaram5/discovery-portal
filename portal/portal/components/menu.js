@@ -9,11 +9,11 @@ document.write('\
 <a href="https://www.ejprarediseases.org/" target="_blank"><img src="./static/media/ejp-rd-logo.png" alt="EJP-RD-Logo" class="ejpLogo"/></a>\
       <ul>\
         <div class="tooltip">\
-          <li><a id="discoveryNavButton" class="menuButtonActive" href="/rsLPortal" onclick="toggleTab(`discoveryNavButton`, `discoveryTab`, this)">Resource Discovery</a></li>\
+          <li><a id="discoveryNavButton" class="menuButtonActive" href="/discovery">Resource Discovery</a></li>\
           <span class="navTooltiptext">Use this to query connected sources for rare disease information (Biobanks, Patient Registries, Knowledge Bases).</span>\
         </div>\
-        <div class="tooltip" style="opacity: .5">\
-          <li><a href="/rsLPortal/mapping" data-link>RD-Code Mapping</a></li>\
+        <!-- <div class="tooltip" style="opacity: .5">\
+          <li><a href="/discovery/mapping">RD-Code Mapping</a></li>\
           <span class="navTooltiptext">Use this to map from one rare disease ontology to another. For example from ICD to Orphanet.</span>\
           <!-- <div class="menuDropdown-content">\
             <a href="#" onclick="toggleTab(`mapperNavButton`, `mapperTab`, this)" title="ICD10 to Orphacode Mapper">ICD10 to Orphanet</a>\
@@ -22,7 +22,7 @@ document.write('\
             <a href="#" style="opacity: 50%; pointer-events: none;" title="UMLS to Orphacode Mapper">UMLS to Orphanet</span></a>\
             <a href="#" onclick="toggleTab(`mapperNavButton`, `mapperTab`, this)" title="Orphacode to Others Mapper">Orphanet to Others</span></a>\
           </div> -->\
-        </div>\
+        </div> -->\
         <div class="tooltip">\
           <li onclick="toggleListedSources(this);" class="listedSourcesCollapsible">\
             <a href="#" class="listedSources">Connected Sources</a>\

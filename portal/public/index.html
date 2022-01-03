@@ -16,24 +16,22 @@
     <title>EJP-RD Virtual Platform</title>
     <link rel="stylesheet" type="text/css" href="./styles/index.css" />
   </head>
-  <body onload="init();">
+  <body>
     <a href="https://www.ejprarediseases.org/" target="_blank"><img src="./media/ejp-rd-logo.png" alt="EJP-RD Logo" class="ejpLogo background" /></a>
     <div class="dropdownMenu background">
         <img src="./media/menu.png" alt="EJP-RD Logo" style="width: 50px;"/>
         <div class="dropdownMenu-content background">
-            <a href="/rsLPortal" target="_self">Resource Discovery Portal</a>
-            <a href="#" target="" class="disabledLinks">Record Discovery Portal</a>
-            <a href="#" target="" class="disabledLinks">Fairyfication Portal</a>
-            <a href="https://www.ejprarediseases.org/resource-mindmap/" target="_blank">Mindmap</a>
-            <a href="https://www.ejprarediseases.org/ejp-rd-events/" target="_blank">Events</a>
-            <a href="https://www.ejprarediseases.org/our-actions-and-services/funding-opportunities/calls/" target="_blank">Funding</a>
+            <a href="/discovery/" target="_self">Resource Discovery</a>
+            <a href="https://www.ejprarediseases.org/fairopoly/" target="_blank">FAIRification</a>
+            <a href="https://resourcemap.ejprarediseases.org" target="_blank">Mindmap</a>
+            <a href="./imprint.html" target="_self">Imprint</a>
         </div>
     </div> 
-    <a id="nwLink" href="/rsLPortal/" target="_self">
+    <a id="nwLink" href="/discovery/" target="_self">
         <div id="nw" class="n">
             <div class="vertical-align">
                 <span id="nwHeadline">Resources</span>
-                <p id="nwSubline">Use the EJP-RD discovery ecosystem to search connected sources like <span class="white">Patient Registies, Biobanks</span> or <span class="white">Knowledge Bases</span> for rare disease related data</p>
+                <p id="nwSubline">Use the EJP-RD discovery ecosystem to search connected sources like <span class="white">Patient Registries, Biobanks</span> or <span class="white">Knowledge Bases</span> for rare disease related data</p>
             </div>
         </div>
     </a>
@@ -45,8 +43,8 @@
             </div>
         </div>
     </a> -->
-    <a id="swLink" href="" target=""  onclick="return false;">
-        <div id="sw" class="sw" style="cursor: default;">
+    <a id="swLink" href="https://www.ejprarediseases.org/fairopoly/" target="_blank">
+        <div id="sw" class="sw">
             <div class="vertical-align">
                 <span id="swHeadline">FAIRification</span>
                 <p id="swSubline">Receive support on how to <span class="white">make your data FAIR</span></p>
@@ -62,24 +60,25 @@
         </div>
     </a>
     <div class="middle vertical-align background">
-        <select id="roleSelector" class="roleSelector background" onchange="changeRole(this);">
+        <span>I am looking for ...</span>
+        <!-- <select id="roleSelector" class="roleSelector background" onchange="changeRole(this);">
             <option value="looking" selected>I am looking for ...</option>
             <option value="am">I am a ...</option>
-            <option value="want">I want to ...</option>
-        </select>
+            <option value="want">I want to ...</option> 
+        </select> -->
     </div>
-    <div class="footer"><a href="https://www.ejprarediseases.org/">&copy; EJP RD</a></div>
+    <div class="footer"><a href="https://www.ejprarediseases.org/">2021 EJP RD</a><a href="./imprint.html" style="margin-left: 20px;">Imprint</a></div>
   </body>
 </html>
 
-<script>
+<!-- <script>
     function changeRole(selector) {
         let selectedRole = selector.value;
         switch(selectedRole) {
             case "looking": {
                 document.getElementById("nwHeadline").innerHTML = "Resources"
                 document.getElementById("nwSubline").innerHTML = `Use the EJP-RD discovery ecosystem to search connected sources like <span class="white">Patient Registies, Biobanks</span> or <span class="white">Knowledge Bases</span> for rare disease related data`
-                document.getElementById("nwLink").setAttribute("href", "rsLPortal.html")
+                document.getElementById("nwLink").setAttribute("href", "discovery.html")
                 document.getElementById("nwLink").setAttribute("target", "_self")
                 document.getElementById("nwLink").setAttribute("onclick", "")
                 document.getElementById("nw").style.cursor = "pointer";
@@ -159,9 +158,9 @@
                 console.info("Entering default switch of changeRole().");
             }
         }
-    }
+    } -->
 
-    function init() {
+    <!-- function init() {
         document.getElementById("roleSelector").selectedIndex = 0
-    }
+    } -->
 </script>

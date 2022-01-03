@@ -245,18 +245,18 @@ try {
     let currentCell = currentRow.insertCell();
     switch(catalogue.catalogueName) {
     case "BBMRI-Eric":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/bbmri.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/bbmri.png")
         break
     case "Orphanet":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/orphanet.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/orphanet.png")
         break
     case "Leicester-ERN-Network":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/ern_logo.jpg")
+        resourceLogo.setAttribute("src", "../discovery/static/media/ern_logo.jpg")
         resourceLogo.setAttribute("id", "ernLogo")
         resourceLogo.style.opacity = '.5'
         if(!currentUser.loggedIn) {
           let lockSymbol = document.createElement("img")
-          lockSymbol.setAttribute("src", "../rsLPortal/static/media/locked_grey.png")
+          lockSymbol.setAttribute("src", "../discovery/static/media/locked_grey.png")
           lockSymbol.setAttribute("id", "lockSymbol")
           lockSymbol.style.verticalAlign = "middle"
           lockSymbol.style.height = "45px"
@@ -265,13 +265,13 @@ try {
         }
         break
     case "Cellosaurus":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/cellosaurus_logo.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/cellosaurus_logo.png")
         break
     case "Wikipathways":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/wikipathways_logo.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/wikipathways_logo.png")
         break
     case "hpscReg":
-        resourceLogo.setAttribute("src", "../rsLPortal/static/media/hpscreg_logo.png")
+        resourceLogo.setAttribute("src", "../discovery/static/media/hpscreg_logo.png")
         break
     default:
         console.info("Entering default switch of clientScripts.js:updateCatalogueListDOM().")
@@ -635,66 +635,66 @@ try {
 function updateResultListDOM(resultTable, content) {
 try {
     if(content['resourceResponses'] && content.resourceResponses.length > 0) {
-    for (let entry of content.resourceResponses) {
-        let currentRow = resultTable.insertRow()
-        if(entry['homepage']) {
-        currentRow.addEventListener("click", () => {
-            window.open(entry.homepage, "_blank")
-        })
-        currentRow.classList.add("resultListRow")
-        currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
-        }
-        let currentCell = currentRow.insertCell()
+      for (let entry of content.resourceResponses) {
+          let currentRow = resultTable.insertRow()
+          if(entry['homepage']) {
+          currentRow.addEventListener("click", () => {
+              window.open(entry.homepage, "_blank")
+          })
+          currentRow.classList.add("resultListRow")
+          currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
+          }
+          let currentCell = currentRow.insertCell()
 
-        // insert resource name into table  
-        let resourceName = document.createElement("p")
-        resourceName.style.fontSize = "14px"
-        if(entry.name['value']) {
-        resourceName.textContent = entry.name.value
-        }
-        else {
-        resourceName.textContent = entry.name
-        }
-        currentCell.appendChild(resourceName)
+          // insert resource name into table  
+          let resourceName = document.createElement("p")
+          resourceName.style.fontSize = "14px"
+          if(entry.name['value']) {
+          resourceName.textContent = entry.name.value
+          }
+          else {
+          resourceName.textContent = entry.name
+          }
+          currentCell.appendChild(resourceName)
 
-        // insert resource description into table
-        let resourceDescription = document.createElement("SPAN")
-        resourceDescription.style.fontSize = "14px"
-        if(entry.description['value']) {
-        resourceDescription.textContent = entry.description.value
-        }
-        else {
-        resourceDescription.textContent = entry.description
-        }
-        currentCell = currentRow.insertCell()
-        currentCell.appendChild(resourceDescription)
-        
-        // insert resource location into table
-        let resourceCountry = document.createElement("SPAN");
-        resourceCountry.style.fontSize = "14px";
-        /*if (entry["publisher"]) {
-        resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
-            + entry.publisher.location.country.slice(1);
-        }
-        else {
-        resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
-            + entry.location.country.slice(1).toLowerCase();
-        }*/
+          // insert resource description into table
+          let resourceDescription = document.createElement("SPAN")
+          resourceDescription.style.fontSize = "14px"
+          if(entry.description['value']) {
+          resourceDescription.textContent = entry.description.value
+          }
+          else {
+          resourceDescription.textContent = entry.description
+          }
+          currentCell = currentRow.insertCell()
+          currentCell.appendChild(resourceDescription)
+          
+          // insert resource location into table
+          let resourceCountry = document.createElement("SPAN");
+          resourceCountry.style.fontSize = "14px";
+          /*if (entry["publisher"]) {
+          resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
+              + entry.publisher.location.country.slice(1);
+          }
+          else {
+          resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
+              + entry.location.country.slice(1).toLowerCase();
+          }*/
 
-        if(entry['location']) {
-        resourceCountry.textContent = entry.location.country    
-        }
-        else if (entry['publisher'] && entry.publisher['location']) {
-        resourceCountry.textContent = entry.publisher.location.id
-        }
-        else {
-        resourceCountry.textContent = '-'   
-        }
-        currentCell = currentRow.insertCell()
-        currentCell.appendChild(resourceCountry)
+          if(entry['location']) {
+          resourceCountry.textContent = entry.location.country    
+          }
+          else if (entry['publisher'] && entry.publisher['location']) {
+          resourceCountry.textContent = entry.publisher.location.id
+          }
+          else {
+          resourceCountry.textContent = '-'   
+          }
+          currentCell = currentRow.insertCell()
+          currentCell.appendChild(resourceCountry)
 
-        resultTable.appendChild(currentRow)
-    }
+          resultTable.appendChild(currentRow)
+      }
     }
     else if(content['resourceResponses'] && !Array.isArray(content.resourceResponses)) {
     let currentRow = resultTable.insertRow()
@@ -840,7 +840,7 @@ try {
     entry.style.paddingBottom = "3px"
     entry.style.paddingLeft = "10px"
     let removeIcon = document.createElement("IMG")
-    removeIcon.setAttribute("src", "../rsLPortal/static/media/close-icon.png")
+    removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
     removeIcon.setAttribute("alt", "remove-icon")
     removeIcon.setAttribute("onclick", 'removeCountryFromList("'+selectedCountry+'");')
     removeIcon.style.marginTop = "-2px"
@@ -957,7 +957,7 @@ try {
     entry.style.paddingBottom = "3px"
     entry.style.paddingLeft = "10px"
     let removeIcon = document.createElement("IMG")
-    removeIcon.setAttribute("src", "../rsLPortal/static/media/close-icon.png")
+    removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
     removeIcon.setAttribute("alt", "remove-icon")
     removeIcon.setAttribute("onclick", 'removeTypeFromList("'+selectedType+'");')
     removeIcon.style.marginTop = "-2px"
@@ -1069,10 +1069,16 @@ function submitLogin() {
     }
 }
 
+// function that hides the disclaimer text div
+function closeDisclaimerText() {
+  document.getElementById("disclaimerDiv").style.display = "none"
+}
+
 export { toggleLoadingSpinner, toggleInterrogation, clearInput, updateStatusText, 
     updateCatalogueListDOM, clearPreviousSearch, toggleSearchClearButton, toggleSourceResults, 
     createResultListTableHeader, createResultListTable, updateResultListDOM, selectedCountries, selectedTypes }
 
+window.closeDisclaimerText = closeDisclaimerText
 window.toggleLoginModal = toggleLoginModal
 window.toggleAdvancedSearchTab = toggleAdvancedSearchTab
 window.toggleListedSources = toggleListedSources

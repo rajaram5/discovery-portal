@@ -13,7 +13,7 @@ document.write('\
                 class="searchBar"\
                 id="mapperSearchBar"\
         />\
-        <button type="button" class="clearButton" id="mapperClearButton" onclick="clearInput(`mapper`);"><img src="../rsLPortal/static/media/close-icon.png" /></button>\
+        <button type="button" class="clearButton" id="mapperClearButton" onclick="clearInput(`mapper`);"><img src="../discovery/static/media/close-icon.png" /></button>\
         <button\
             type="button"\
             class="button searchButton"\

@@ -7,7 +7,7 @@
 document.write('\
 <div id="discoveryTab" class="tabDivs autocomplete">\
     <form autocomplete="off">\
-    <button type="button" class="clearButton" id="searchClearButton" onclick="clearInput(`search`);"><img src="../rsLPortal/static/media/delete_red.png" /></button>\
+    <button type="button" class="clearButton" id="searchClearButton" onclick="clearInput(`search`);"><img src="../discovery/static/media/delete_red.png" /></button>\
         <input\
             type="text"\
             placeholder="Search by rare disease name or orphacode ..."\
