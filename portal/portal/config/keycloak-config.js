@@ -10,12 +10,12 @@ let Keycloak = require('keycloak-connect');
 const dotenv = require("dotenv").config();
 
 let keycloakConfig = {
-    serverUrl: process.env.SERVER_URL,
-    realm: process.env.REALM,
-    clientId: process.env.CLIENT_ID,
+    serverUrl: process.env.AUTH_SERVER_URL,
+    realm: process.env.AUTH_REALM,
+    clientId: process.env.AUTH_CLIENT_ID,
     bearerOnly: true,
     credentials: {
-        secret: process.env.CLIENT_SECRET
+        secret: process.env.AUTH_CLIENT_SECRET
   }
 };
 
