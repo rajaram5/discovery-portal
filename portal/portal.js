@@ -425,58 +425,40 @@ class Application {
 class Server {
   run(app) {
     try {
-      // parse command line arguments
-      var commandLineArguments = process.argv.slice(2)
-      var key = fs.readFileSync(__dirname + '/portal/cert/serverkey.key')
-      var cert = fs.readFileSync(__dirname + '/portal/cert/servercert.crt')
+      // load SSL files
       var options = {
-        key: key,
-        cert: cert
+        key: fs.readFileSync(__dirname + process.env.PORTAL_SSL_KEY),
+        cert: fs.readFileSync(__dirname + process.env.PORTAL_SSL_CERT)
       }
-      //let httpServer = http.createServer(app.getApp())
+
+      // create HTTPS server
       let httpsServer = https.createServer(options, app.getApp())
 
-      // check for proper usage
-      if (commandLineArguments.length != 2) {
-        console.error(
-          "Usage: node portal.js $PORT $DIRECTORY_ADDRESS"
-        );
-      } else {
-        // run the server application
-        /*httpServer.listen(commandLineArguments[0], () =>
-            console.log(
-              `Resource Discovery Portal available at http://localhost:${commandLineArguments[0]} ...`
-            )
-          );*/
-        httpsServer.listen(commandLineArguments[0], () =>
-          console.log(
-            `Resource Discovery Portal available at https://localhost:${commandLineArguments[0]} ...`
-          )
-        );
-        // get catalogue list
-        fetch(`${commandLineArguments[1]}/catalogues/`)
-          .then(this.handleFetchErrors)
-          .then((fetchResponse) => {
-            if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
-              // define catalogue directory endpoint address
-              app.directoryEndpoint = `${commandLineArguments[1]}`;
-
-              // define and retrieve catalogue list
-              app.getCatalogues();
-            } else {
-              console.error("The directory server could not be accessed.");
-              return;
-            }
-          })
-          .catch((exception) => {
-            app.directoryEndpoint = null
-            console.error(
-              "Error in portal:portal.js:Server.run():fetch(): ",
-              exception
-            );
-          });
-      }
-    } catch (exception) {
+      // run the server application
+      httpsServer.listen(process.env.PORTAL_PORT, () =>
+        console.log(`Resource Discovery Portal available at https://localhost:${process.env.PORTAL_PORT} ...`)
+      );
+      
+      // get catalogue list
+      fetch(`${process.env.DIRECTORY_URL}/catalogues/`)
+        .then(this.handleFetchErrors)
+        .then((fetchResponse) => {
+          if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+            // define catalogue directory endpoint address
+            app.directoryEndpoint = `${process.env.DIRECTORY_URL}`;
+            // define and retrieve catalogue list
+            app.getCatalogues();
+          } else {
+            console.error("The directory server could not be accessed.");
+            return;
+          }
+        })
+        .catch((exception) => {
+          app.directoryEndpoint = null
+          console.error("Error in portal:portal.js:Server.run():fetch(): ", exception);
+        });
+    }     
+    catch (exception) {
       console.error("Error in portal:portal.js:Server.run(): ", exception);
     }
   }

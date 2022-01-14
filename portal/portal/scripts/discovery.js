@@ -32,8 +32,8 @@ const searchEndpoint = portalAddress + "/search"
 let catalogueDirectoryAddress = ''
 let getCataloguesEndpoint = ''
 let catalogues = []
-let orphaClassification = []
-let icd10Classification = []
+//let orphaClassification = []
+//let icd10Classification = []
 
 // function that is executed when the page is loaded
 function init() {
@@ -48,6 +48,7 @@ function init() {
     //loadClassification('../static/icd10Classification.txt', icd10Classification, "icd10")
     loadCountryList()
     setResourceTypesList()
+    autocomplete(searchInput, rarediseases);
   } catch (exception) {
     console.error("Error in clientScripts.js:init(): ", exception)
   }
@@ -86,7 +87,7 @@ async function getDirectoryAddress() {
       .then(async (fetchResponse) => {
         if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
           catalogueDirectoryAddress = await fetchResponse.json();
-          getCataloguesEndpoint = catalogueDirectoryAddress + "/catalogues";
+          getCataloguesEndpoint = catalogueDirectoryAddress + "/catalogues/";
         } else {
           //toggleCatalogueListLoadingSpinner(false);
           console.error("Error in clientScripts.js:getDirectoryAddress(): Fetch response out of range.");
@@ -783,32 +784,53 @@ function autocomplete(input, array) {
           b.innerHTML += array[i].name.substr(0, index);
           b.innerHTML += "<strong>" + array[i].name.substr(index, val.length) + "</strong>";
           b.innerHTML += array[i].name.substr(index + val.length);
-          b.innerHTML += " [" + array[i].code + "]";
+          b.innerHTML += " [" + array[i].orphaCode + "]";
           b.innerHTML +=
             "<input type='hidden' value='" +
             array[i].name +
             " [" +
-            array[i].code +
+            array[i].orphaCode +
             "]" +
             "'>";
           b.addEventListener("click", function (e) {
             input.value = this.getElementsByTagName("input")[0].value;
             closeAllLists();
           });
-        } else if (array[i].code.substr(0, val.length) == val) {
+        } else if (array[i].orphaCode.substr(0, val.length) == val) {
           b = document.createElement("DIV");
           b.innerHTML = array[i].name;
           b.innerHTML +=
             " [" +
             "<strong>" +
-            array[i].code.substr(0, val.length) +
+            array[i].orphaCode.substr(0, val.length) +
             "</strong>";
-          b.innerHTML += array[i].code.substr(val.length) + "]";
+          b.innerHTML += array[i].orphaCode.substr(val.length) + "]";
           b.innerHTML +=
             "<input type='hidden' value='" +
             array[i].name +
             " [" +
-            array[i].code +
+            array[i].orphaCode +
+            "]" +
+            "'>";
+          b.addEventListener("click", function (e) {
+            input.value = this.getElementsByTagName("input")[0].value;
+            closeAllLists();
+          });
+        }
+        else if (array[i].icdCode.substr(0, val.length) == val) {
+          b = document.createElement("DIV");
+          b.innerHTML = array[i].name;
+          b.innerHTML +=
+            " [" +
+            "<strong>" +
+            array[i].icdCode.substr(0, val.length) +
+            "</strong>";
+          b.innerHTML += array[i].icdCode.substr(val.length) + "]";
+          b.innerHTML +=
+            "<input type='hidden' value='" +
+            array[i].name +
+            " [" +
+            array[i].icdCode +
             "]" +
             "'>";
           b.addEventListener("click", function (e) {
