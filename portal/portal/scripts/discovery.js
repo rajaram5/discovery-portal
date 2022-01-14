@@ -14,12 +14,14 @@ import { statusTextDiv, statusText, statusTextCloseButton,
   filterList, catalogueList, resultList, allCountriesCheckbox, 
   allTypesCheckbox, loginModal } from '/discovery/scripts/components.js'
 import { euCountries } from '/discovery/static/countries.js'
+import { rarediseases } from '/discovery/static/rarediseases.js'
 import { toggleLoadingSpinner, clearInput, updateStatusText, 
   updateCatalogueListDOM, clearPreviousSearch, createResultListTable, 
   createResultListTableHeader, updateResultListDOM, selectedCountries, 
   selectedTypes } from '/discovery/scripts/updateDom.js'
 import { handleFetchErrors, extractRDCode, isNumber } from '/discovery/scripts/utils.js'
 import { currentUser } from '/discovery/scripts/auth.js'
+
 
 // define API endpoint addresses
 const portalAddress = window.location.origin
@@ -42,8 +44,8 @@ function init() {
     allCountriesCheckbox.disabled = true
     clearInput("all")
     getDirectoryAddress()
-    loadClassification('../static/orphacodeClassification.txt', orphaClassification, "orpha")
-    loadClassification('../static/icd10Classification.txt', icd10Classification, "icd10")
+    //loadClassification('../static/orphacodeClassification.txt', orphaClassification, "orpha")
+    //loadClassification('../static/icd10Classification.txt', icd10Classification, "icd10")
     loadCountryList()
     setResourceTypesList()
   } catch (exception) {
@@ -84,7 +86,7 @@ async function getDirectoryAddress() {
       .then(async (fetchResponse) => {
         if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
           catalogueDirectoryAddress = await fetchResponse.json();
-          getCataloguesEndpoint = catalogueDirectoryAddress + "/directory/catalogues";
+          getCataloguesEndpoint = catalogueDirectoryAddress + "/catalogues";
         } else {
           //toggleCatalogueListLoadingSpinner(false);
           console.error("Error in clientScripts.js:getDirectoryAddress(): Fetch response out of range.");
@@ -598,6 +600,8 @@ function discover() {
           }
         })
         .catch((exception) => {
+          updateStatusText('error', 'The resource discovery is currently unavailable.')
+          toggleLoadingSpinner(searchButton, false, searchClearButton)
           console.error("Error in clientScripts.js:discover():fetch(): ", exception)       
         });
     }
