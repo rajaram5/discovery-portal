@@ -12,11 +12,10 @@ The EJP-RD - Resource Discovery Portal component. It implements a REST API that 
 - `$ git clone https://github.com/ejp-rd-vp/discovery-portal.git` to clone this repository.
 - `$ cd discovery-portal/portal` to navigate to the discovery portal root path.
 - `$ npm i` to install missing dependencies.
-- Create a file named `.env`.
-- Set the keycloak configuration inside the `.env` file as follows: `AUTH_SERVER_URL=<KEYCLOAK_SERVER_URL>`, `REALM=<KEYCLOAK_REALM>`, `CLIENT_ID=<KEYCLOAK_CLIENT_ID>`, `CLIENT_SECRET=<KEYCLOAK_CLIENT_SECRET>`. Note that this file needs to exist in order for the authentication to operate correctly.
-- `$ cd portal` to to navigate to the resource portal root directory.
-- `$ mkdir cert` to to create a folder for the SSL certificate and key.
-- Copy your SSL key (serverkey.key) and certificate (servercert.crt) to that folder.
-- `$ node portal.js <DISCOVERY_PORTAL_PORT> <ADDRESS_DIRECTORY_URL>:<ADDRESS_DIRECTORY_PORT>` to start the discovery portal service.
+- Create a file named `.env`. Note that this file needs to exist and be configured in order for the application to operate correctly.
+- Set the portal configuration inside the `.env` file as follows: `PORTAL_PORT=<YOUR_DESIRED_PORT>`, `PORTAL_SSL_CERT=<PATH_TO_SSL_CERTIFICATE>`, `PORTAL_SSL_KEY=<PATH_TO_SSL_KEY>`.
+- Set the address directory configuration inside the `.env` file as follows: `DIRECTORY_URL=<ADDRESS_DIRECTORY_URL>`. 
+- Set the keycloak configuration inside the `.env` file as follows: `AUTH_SERVER_URL=<KEYCLOAK_SERVER_URL>`, `AUTH_REALM=<KEYCLOAK_REALM>`, `AUTH_CLIENT_ID=<KEYCLOAK_CLIENT_ID>`, `AUTH_CLIENT_SECRET=<KEYCLOAK_CLIENT_SECRET>`.
+- `$ node portal.js` to start the discovery portal service.
 
-The resource discovery portal will be listening on `https://<YOUR_IP_ADDRESS>:<DISCOVERY_PORTAL_PORT>/discovery`.
+The resource discovery portal will be listening on `https://<YOUR_IP_ADDRESS>:<PORTAL_PORT>/discovery`.
