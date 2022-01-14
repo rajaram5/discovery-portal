@@ -16,7 +16,7 @@ html, body {
 }
 
 div {
-    font-size: 58px;
+    font-size: 50px;
     color: #333;
     position: absolute;
     text-align: center;
@@ -47,7 +47,7 @@ p {
 
 
 .background {
-    background-color: rgb(238, 238, 238);
+    background-color: #1f3863;
 }
 
 .white {
@@ -63,6 +63,7 @@ p {
 
  .ejpLogo { 
     margin-top: 15px;
+    padding: 5px;
     margin-left: 15px;
     width: 450px;
     position: absolute; 
@@ -98,7 +99,7 @@ p {
     margin: 0;
     padding: 0;
     text-align: left;
-    right: 80px;
+    right: 100px;
     top: 0;
     display: none;
     width: 300px;
@@ -110,13 +111,21 @@ p {
 
 .dropdownMenu-content a {
     padding: 20px;
-    color: #333;
+    color: rgb(209, 209, 209);
     font-size: 20px;
     display: block;
 }
 
 .dropdownMenu-content a:hover {
-    background-color: #cfcfcf;
+    background-color: rgb(209, 209, 209);
+}
+
+.n {
+    background-color: #3bb392;
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    bottom: 50%;
 }
 
 .nw {
@@ -128,25 +137,11 @@ p {
 }
 
 .ne {
-    background-color: #fecf00; 
+    background-color: #44a0fc; 
     top: 0; 
     left: 50%; 
     right: 0; 
     bottom: 50%; 
-}
-
-.n {
-    background-color: #3bb392;
-    top: 0; 
-    left: 0; 
-    width: 100%;
-    bottom: 50%;
-    opacity: .5;
-}
-
-.n:hover {
-    opacity: 100%;
-    transition: 0.5s;
 }
 
 .sw {
@@ -158,18 +153,18 @@ p {
 }
 
 .se {
-    background-color: #44a0fc; 
+    background-color: #fecf00; 
     top: 50%; 
     left: 50%; 
     right: 0; 
     bottom: 0; 
 }
 
-.nw, .ne, .sw, .se {
-    opacity: 50%;
+.nw, .ne, .sw, .se, .n {
+    opacity: 80%;
 }
 
-.nw:hover, .ne:hover, .sw:hover, .se:hover {
+.nw:hover, .ne:hover, .sw:hover, .se:hover, .n:hover {
     opacity: 100%;
     transition: 0.5s;
 }
@@ -183,7 +178,7 @@ p {
     padding-left: 60px;
     padding-right: 60px;
     text-align: center;
-    color: #333;
+    color: rgb(209, 209, 209);
     -webkit-box-shadow: 0px 0px 5px 0px #333; 
     box-shadow: 0px 0px 5px 0px #333;
 }
@@ -193,7 +188,6 @@ p {
     -moz-appearance: none;
     appearance: none;       /* Remove default arrow */
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 52px;
     margin-left: -60px;
     padding-left: 0px;
     cursor: pointer;
@@ -208,11 +202,12 @@ p {
 }
 
 .footer {
+    background-color: transparent;
     font-weight: bold;
-    color: #333;
+    color: rgb(209, 209, 209);
     position: absolute;
     font-size: 16px;
     bottom: 0;
-    width: 98%;
+    width: 100%;
     padding-bottom: 10px;
 }

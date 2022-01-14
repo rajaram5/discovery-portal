@@ -140,13 +140,15 @@ class Application {
           else if (catalogue.catalogueName === 'Orphanet' || catalogue.catalogueName === 'BBMRI-Eric') {
             query = this.buildQuery(catalogue.catalogueAddress, requestedSearch, selectedTypes, selectedCountries);
             const dbResponse = await fetch(query);
-            let contentTemp = await dbResponse.json()
-            if(contentTemp.resourceResponses.length > 0) {
-              data = {
-                name: catalogue.catalogueName,
-                content: contentTemp,
-              };
-              dataArray.push(data);
+            if(dbResponse.status >= 200 && dbResponse.status < 400) {
+              let contentTemp = await dbResponse.json()
+              if(contentTemp.resourceResponses.length > 0) {
+                data = {
+                  name: catalogue.catalogueName,
+                  content: contentTemp,
+                };
+                dataArray.push(data);
+              }
             }
           }
         }
@@ -186,10 +188,8 @@ class Application {
     // add GET route that handles a ping request
     this.app.post("/login", async (request, response, next) => {
       try {
-	console.log(this.keycloak)
         this.keycloak.grantManager.obtainDirectly(request.body.username, request.body.password)
         .then((grant) => {
-	  console.log(grant)
           if(grant) {
             this.keycloak.storeGrant(grant, request, response);
             response.json(grant)
@@ -309,7 +309,7 @@ class Application {
 
   getCatalogues = async () => {
     try {
-      fetch(`${this.directoryEndpoint}/directory/catalogues/`)
+      fetch(`${this.directoryEndpoint}/catalogues/`)
         .then(this.handleFetchErrors)
         .then(async (fetchResponse) => {
           if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
@@ -454,7 +454,7 @@ class Server {
           )
         );
         // get catalogue list
-        fetch(`${commandLineArguments[1]}/directory/catalogues/`)
+        fetch(`${commandLineArguments[1]}/catalogues/`)
           .then(this.handleFetchErrors)
           .then((fetchResponse) => {
             if (fetchResponse.status >= 200 && fetchResponse.status < 400) {

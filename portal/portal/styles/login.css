@@ -9,7 +9,7 @@
     background-color: white;
     text-align: center;
     position: fixed;
-    z-index: 1;
+    z-index: 10;
     top: 0;
     left: 0;
     width: 100%;
@@ -28,7 +28,6 @@
     position: relative;
     padding: 20px;
     height: 400px;
-    top: 300px;
     border: 1px solid #888;
     width: 30%; /* Could be more or less, depending on screen size */
 }
