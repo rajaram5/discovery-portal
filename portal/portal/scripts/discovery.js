@@ -467,7 +467,12 @@ function discover() {
       }
 
       // get orphacode from input
-      const disease = extractRDCode(searchInput.value, "orpha");
+      if(searchInput.value.includes('ICD10:')) {
+        const disease = extractRDCode(searchInput.value, "icd10");
+      }
+      else if(searchInput.value.includes('ORPHA:')) {
+        const disease = extractRDCode(searchInput.value, "orpha");
+      }
       if (disease == null || isNumber(searchInput.value)) {
         updateStatusText(
           "error",
@@ -801,6 +806,7 @@ function autocomplete(input, array) {
           b.innerHTML = array[i].name;
           b.innerHTML +=
             " [" +
+            'ORPHA:' +
             "<strong>" +
             array[i].orphaCode.substr(0, val.length) +
             "</strong>";
@@ -822,6 +828,7 @@ function autocomplete(input, array) {
           b.innerHTML = array[i].name;
           b.innerHTML +=
             " [" +
+            'ICD10:' +
             "<strong>" +
             array[i].icdCode.substr(0, val.length) +
             "</strong>";

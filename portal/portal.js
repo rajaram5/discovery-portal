@@ -38,7 +38,7 @@ class Application {
     this.app.use(cors())
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use('/discovery', express.static("./portal"))
-    this.app.use('/', express.static("./public"))
+    this.app.use('/', express.static("./vp"))
 
     // add GET route that handles a search request
     this.app.get("/search", async (request, response, next) => {
