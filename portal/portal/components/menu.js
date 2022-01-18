@@ -31,7 +31,7 @@ document.write('\
     </div>\
     <div class="tooltip">\
       <li>\
-        <button type="button" id="loginButton" class="loginButton" onclick="toggleLoginModal(true);">\
+        <button type="button" id="loginButton" class="loginButton" onclick="login();">\
           <img src="./static/media/userIcon.png" class="userIcon" />\
           <span id="loginButtonText">Login</span>\
         </button>\

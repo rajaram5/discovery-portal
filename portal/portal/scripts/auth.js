@@ -9,14 +9,8 @@
 import { handleFetchErrors } from './utils.js'
 import { toggleInterrogation, updateStatusText } from './updateDom.js'
 
-let currentUser = {
-  loggedIn: false,
-  accessToken: "",
-  refreshToken: ""
-}
-
 // function that uses an express route to login a user and retrieve an access token  
-function login() {
+/*function login() {
   try {
     updateStatusText('none')
     let username = document.getElementById("usernameInput").value
@@ -101,10 +95,104 @@ function logout() {
 // function that uses an express route to refresh a users access token using the refresh token
 function refreshToken() {
 
+}*/
+
+let currentUser = {
+  loggedIn: false,
+  accessToken: "",
+  refreshToken: ""
 }
 
-export { currentUser }
+let keycloak = new Keycloak('./config/keycloak.json')
+
+//let keycloak = new Keycloak({
+//  url: 'https://www423.lamp.le.ac.uk/auth/',
+//  realm: 'ERN',
+//  clientId: 'discovery-portal',
+//  bearerOnly: true,
+//  credentials: {
+//    secret: '7f2eba04-4d6c-412e-a044-31663c7a01d9'
+//  }
+//})
+
+function logout() {
+  try {
+    keycloak.logout()
+    .catch(() => {
+      console.error('Failed to log out')
+    })
+  } catch (exception) {
+    console.error("Error in auth.js:logout(): ", exception)
+  }
+}
+  
+  function login() {
+  try {
+    keycloak.login()
+    .catch(() => {
+      console.error('Failed to log in')
+    })
+  } catch (exception) {
+    console.error("Error in auth.js:login(): ", exception)
+  }
+}
+  
+  function refreshToken() {
+  try {
+    keycloak.updateToken(-1)
+    .catch(() => {
+      console.error('Failed to refresh token')
+    })
+  } catch (exception) {
+    console.error("Error in auth.js:refreshToken(): ", exception)
+  }
+}
+
+// function that locally initiates a keycloak client
+function initKeycloak() {
+  try {
+    keycloak.init({
+      onLoad: 'check-sso',
+      promiseType: 'native'
+    })
+    .then((authenticated) => {
+      if(authenticated){
+        currentUser.loggedIn = true
+        currentUser.accessToken = keycloak.token
+        currentUser.refreshToken = keycloak.refreshToken
+        updateStatusText('success', 'Successfully logged in.')
+        document.getElementById("loginButtonText").innerHTML = keycloak.idTokenParsed.given_name + " " + keycloak.idTokenParsed.family_name
+        document.getElementById("loginTooltiptext").innerHTML = 'Click to log out.'
+        document.getElementById("loginButton").setAttribute('onclick', 'logout();')
+        document.getElementById('lockSymbol').style.display = 'none'
+        document.getElementById('ernLogo').style.opacity = '1'
+        toggleInterrogation(true)
+      }
+      else if (!authenticated) {
+        currentUser.loggedIn = false
+        currentUser.accessToken = ''
+        currentUser.refreshToken = ''
+        toggleInterrogation(false)
+        document.getElementById("loginButtonText").innerHTML = 'Login'
+        document.getElementById("loginTooltiptext").innerHTML = 'Click to log in.'
+        //updateStatusText("success", "Successfully logged out.")
+        document.getElementById("loginButton").setAttribute('onclick', 'login();')
+        document.getElementById('lockSymbol').style.display = 'block'
+        document.getElementById('ernLogo').style.opacity = '.5'
+      }
+    })
+    .catch(() => {
+      console.error('Failed to initialize')
+    });
+  } catch (exception) {
+    console.error("Error in auth.js:initKeycloak(): ", exception)
+  }
+}
 
 window.logout = logout
 window.login = login
 window.refreshToken = refreshToken
+window.initKeycloak = initKeycloak
+
+export { currentUser }
+

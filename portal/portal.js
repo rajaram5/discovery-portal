@@ -24,14 +24,14 @@ class Application {
   constructor() {
     this.app = express()
 
-    if (this.keycloak) {
+    /*if (this.keycloak) {
         console.warn("Trying to init Keycloak again!")
     } 
     else {
         console.log("Initializing Keycloak...")
         this.keycloak = require('./portal/config/keycloak-config.js').initKeycloak()
     }
-    this.app.use(this.keycloak.middleware({ logout: '/logout' }))
+    this.app.use(this.keycloak.middleware({ logout: '/logout' }))*/
 
     this.app.use(helmet())
     this.app.use(morgan("dev"))
