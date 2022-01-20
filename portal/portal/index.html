@@ -31,8 +31,9 @@
     <script type="module" src="./scripts/discovery.js" defer></script>
     <script type="module" src="./scripts/updateDom.js" defer></script>
     <script type="module" src="./scripts/auth.js" defer></script>
+    <script src="https://ejp-rd-dev1.vm.cesnet.cz/auth/js/keycloak.js"></script>
   </head>
-  <body onload="init();" onscroll="toggleTopButton();">
+  <body onload="init(); initKeycloak();" onscroll="toggleTopButton();">
   <body>
     <script src="./components/menu.js"></script>
     

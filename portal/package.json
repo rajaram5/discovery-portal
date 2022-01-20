@@ -1,7 +1,7 @@
 {
-  "name": "query_portal",
+  "name": "resource_discovery_portal",
   "version": "1.0.0",
-  "description": "The EJP central query portal component.",
+  "description": "The EJP resource discovery portal.",
   "main": "portal.js",
   "dependencies": {
     "cors": "^2.8.5",
