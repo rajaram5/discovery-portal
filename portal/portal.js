@@ -35,6 +35,9 @@ class Application {
 
     this.app.use(helmet())
     this.app.use(morgan("dev"))
+    this.app.use(morgan('common', {
+      stream: fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+    }))
     this.app.use(cors())
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use('/discovery', express.static("./portal"))
@@ -283,7 +286,20 @@ class Application {
       try {
         response.json(this.directoryEndpoint);
       } catch (exception) {
-        console.error("Error in portal:portal.js:app.get(/pingCatalogue): ", exception);
+        console.error("Error in portal:portal.js:app.get(/getDirectoryAddress): ", exception);
+      }
+    })
+
+    // add GET route that returns the keycloak configuration
+    this.app.get("/getKeycloakConfig", async (request, response, next) => {
+      try {
+        response.json({
+          realm: process.env.AUTH_REALM,
+          url: process.env.AUTH_SERVER_URL,
+          clientId: process.env.AUTH_CLIENT_ID
+        });
+      } catch (exception) {
+        console.error("Error in portal:portal.js:app.get(/getKeycloakConfig): ", exception);
       }
     })
   }

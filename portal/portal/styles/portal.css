@@ -43,6 +43,12 @@ a:visited {
   left: 30px;
 }
 
+.homeSymbol {
+  position: relative;
+  margin-left: 10px;
+  top: 5px;
+}
+
 @media screen and (max-width: 1300px) {
   .backLink {
     top: 250px;

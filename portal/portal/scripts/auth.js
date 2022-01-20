@@ -9,6 +9,7 @@
 import { handleFetchErrors } from './utils.js'
 import { toggleInterrogation, updateStatusText } from './updateDom.js'
 
+
 // function that uses an express route to login a user and retrieve an access token  
 /*function login() {
   try {
@@ -103,6 +104,19 @@ let currentUser = {
   refreshToken: ""
 }
 
+let keycloakConfig 
+
+/*fetch(window.location.origin + '/getKeycloakConfig')
+  .then(handleFetchErrors)
+  .then(async (fetchResponse) => {
+    if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+      keycloakConfig = await fetchResponse.json();
+    }
+  })
+  .catch((exception) => {
+    console.error("Error in clientScripts.js:getDirectoryAddress():fetch(): ", exception);
+  });*/
+
 let keycloak = new Keycloak('./config/keycloak.json')
 
 //let keycloak = new Keycloak({
@@ -178,6 +192,7 @@ function initKeycloak() {
         //updateStatusText("success", "Successfully logged out.")
         document.getElementById("loginButton").setAttribute('onclick', 'login();')
         document.getElementById('lockSymbol').style.display = 'block'
+        document.getElementById('lockSymbol').setAttribute('title', 'You need to be logged in to query this source.')
         document.getElementById('ernLogo').style.opacity = '.5'
       }
     })

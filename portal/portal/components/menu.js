@@ -40,5 +40,5 @@ document.write('\
     </div>\
   </ul>\
 </nav>\
-<a href="/" class="backLink">&#8592; back</a>\
+<a href="/" class="backLink">&#8592;<img src="./static/media/home.png" class="homeSymbol"></a>\
 ');
