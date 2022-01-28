@@ -56,7 +56,7 @@ p {
 
 .vertical-align {
     position: relative;
-    top: 50%; 
+    top: 50%;
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
  }
@@ -91,6 +91,11 @@ p {
     box-shadow: 0px 0px 5px 0px #333;
 }
 
+ .menu-lines{
+     width: 70px;
+     margin-top: 15px
+ }
+
 .dropdownMenu:hover .dropdownMenu-content {
     display: block;
 }
@@ -123,7 +128,7 @@ p {
 .n {
     background-color: #3bb392;
     top: 0; 
-    left: 0; 
+    left: 0;
     width: 100%;
     bottom: 50%;
 }
@@ -137,9 +142,9 @@ p {
 }
 
 .ne {
-    background-color: #44a0fc; 
+    background-color: #44a0fc;
     top: 0; 
-    left: 50%; 
+    left: 50%;
     right: 0; 
     bottom: 50%; 
 }
@@ -179,7 +184,7 @@ p {
     padding-right: 60px;
     text-align: center;
     color: rgb(209, 209, 209);
-    -webkit-box-shadow: 0px 0px 5px 0px #333; 
+    -webkit-box-shadow: 0px 0px 5px 0px #333;
     box-shadow: 0px 0px 5px 0px #333;
 }
 
@@ -210,4 +215,202 @@ p {
     bottom: 0;
     width: 100%;
     padding-bottom: 10px;
+}
+
+/************************************************/
+/*****************TABLET*************************/
+/************************************************/
+
+
+@media screen and (max-width: 1000px) {
+
+    .ejpLogo {
+        margin-top: 15px;
+        padding: 5px;
+        margin-left: 15px;
+        width: 30vw;
+        position: absolute;
+        z-index: 1;
+        -webkit-box-shadow: 0px 0px 5px 0px #333;
+        box-shadow: 0px 0px 5px 0px #333;
+    }
+
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .middle {
+        height: 14vh;
+        font-size: 5vh;
+        line-height: 5vh;
+        min-width: 50vw;
+    }
+
+    .dropdownMenu{
+        width: 12vw;
+        height: 20vh;
+    }
+
+    .menu-lines{
+        margin: 0px;
+        width: 5vw;
+        height: 12vh;
+    }
+
+    #nwHeadline{
+        font-size: 15vh;
+    }
+
+    #nwSubline{
+        font-size: 6vh;
+    }
+
+    #swHeadline{
+        font-size: 15vh;
+    }
+
+    #swSubline{
+        font-size: 6vh;
+    }
+
+    #seHeadline{
+        font-size: 15vh;
+    }
+
+    #seSubline{
+        font-size: 6vh;
+    }
+
+}
+
+/************************************************/
+/*****************SMARTPHONE*************************/
+/************************************************/
+
+@media screen and (max-width: 500px) and (min-height: 400px) {
+
+    * {
+        box-sizing: border-box;
+    }
+
+
+    .ejpLogo, .dropdownMenu, .middle, .sw, .se, .nw{
+        width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+    }
+
+    .vertical-align {
+        top: 10vh;
+    }
+
+    /* among one another */
+    .ejpLogo {
+       padding: 0px;
+       margin: 0px;
+       height: 10.5vh;
+       top: 0vh;
+    }
+
+   .dropdownMenu{
+       top: 10.74vh;
+       height: 10vh;
+       position: absolute;
+       padding: 0px;
+       margin: 0px;
+    }
+
+   .menu-lines{
+       padding: 0px;
+       margin: 0px;
+       width: 8vw;
+       position: absolute;
+       left: 46vw;
+       top: 2.3vh;
+       height: 5vh;
+   }
+
+    .dropdownMenu-content {
+        width: 100vw;
+        text-align: center;
+        left: 0vw;
+    }
+
+   .middle{
+       padding: 0px;
+       margin: 0px;
+       min-width: 100vw;
+       position: absolute;
+       height: 10vh;
+       top: 26vh;
+       text-align: center;
+       font-size: 4vw;
+       line-height: 10vh;
+    }
+
+   /*grün*/
+   .n{
+       top: 31.5vh;
+       height: 26.5vh;
+   }
+
+   #nwHeadline{
+       margin: 0px;
+       padding: 0px;
+       font-size: 8vw;
+   }
+
+   #nwSubline{
+       font-size: 4vw;
+   }
+
+    /*rot*/
+   .sw{
+       height: 26.5vh;
+       top: 58.5vh;
+   }
+
+    #swHeadline{
+        margin: 0px;
+        padding: 0px;
+        font-size: 8vw;
+    }
+
+    #swSubline{
+        font-size: 4vw;
+    }
+
+   /*gelb*/
+   .se{
+       height: 26.5vh;
+       top: 86vh;
+       left: 0%;
+ }
+
+  #seHeadline{
+      margin: 0px;
+      padding: 0px;
+      font-size: 8vw;
+  }
+
+  #seSubline{
+      font-size: 4vw;
+  }
+
+
+
+
+  /* scrollable */
+    html {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        max-width: 100%;
+        position: absolute;    /*TODO*/
+    }
+
+    body {
+        overflow-y: scroll;
+        position: absolute;  /*TODO*/
+        width: 100vw;
+    }
+
 }
