@@ -222,7 +222,11 @@ p {
 /************************************************/
 
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1100px) and (orientation:landscape){
+
+    * {
+        box-sizing: border-box;
+    }
 
     .ejpLogo {
         margin-top: 15px;
@@ -235,51 +239,61 @@ p {
         box-shadow: 0px 0px 5px 0px #333;
     }
 
-
-    * {
-        box-sizing: border-box;
+ /*   .vertical-align{
+        top: 0%;
     }
-
+*/
     .middle {
+        padding: 0px;
+        margin: 0px;
+        top: 50vh;
+        left: 25vw;
         height: 14vh;
         font-size: 5vh;
-        line-height: 5vh;
+        line-height: 14vh;
         min-width: 50vw;
+        max-height: 14vh;
     }
 
     .dropdownMenu{
-        width: 12vw;
-        height: 20vh;
+        width: 10vw;
+        height: 18vh;
     }
 
     .menu-lines{
         margin: 0px;
-        width: 5vw;
+        position: absolute;
+        width: 7vw;
         height: 12vh;
+        right: 1.5vw;
+        top: 3.4vh;
     }
 
     #nwHeadline{
-        font-size: 15vh;
+        font-size: 9vh;
+        width: 3vw;
     }
 
     #nwSubline{
-        font-size: 6vh;
+        font-size: 4.2vh;
     }
 
     #swHeadline{
-        font-size: 15vh;
+        font-size: 9vh;
+        width: 3vw;
     }
 
     #swSubline{
-        font-size: 6vh;
+        font-size: 4.2vh;
     }
 
     #seHeadline{
-        font-size: 15vh;
+        font-size: 9vh;
+        width: 3vw;
     }
 
     #seSubline{
-        font-size: 6vh;
+        font-size: 4.2vh;
     }
 
 }
@@ -288,12 +302,11 @@ p {
 /*****************SMARTPHONE*************************/
 /************************************************/
 
-@media screen and (max-width: 500px) and (min-height: 400px) {
+@media screen and (max-width: 500px) and (orientation:portrait){
 
     * {
         box-sizing: border-box;
     }
-
 
     .ejpLogo, .dropdownMenu, .middle, .sw, .se, .nw{
         width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
@@ -312,7 +325,7 @@ p {
     }
 
    .dropdownMenu{
-       top: 10.74vh;
+       top: 10.51vh;
        height: 10vh;
        position: absolute;
        padding: 0px;
@@ -341,7 +354,7 @@ p {
        min-width: 100vw;
        position: absolute;
        height: 10vh;
-       top: 26vh;
+       top: 25.49vh;
        text-align: center;
        font-size: 4vw;
        line-height: 10vh;
@@ -349,7 +362,7 @@ p {
 
    /*grün*/
    .n{
-       top: 31.5vh;
+       top: 30.46vh;
        height: 26.5vh;
    }
 
@@ -366,7 +379,7 @@ p {
     /*rot*/
    .sw{
        height: 26.5vh;
-       top: 58.5vh;
+       top: 56.9vh;
    }
 
     #swHeadline{
@@ -382,7 +395,7 @@ p {
    /*gelb*/
    .se{
        height: 26.5vh;
-       top: 86vh;
+       top: 83.4vh;
        left: 0%;
  }
 
