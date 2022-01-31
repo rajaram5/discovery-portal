@@ -457,22 +457,22 @@ function toggleSourceResults(source) {
 
 // function that creates the result list table header DOM element
 function createResultListTableHeader() {
-    try {
-      let resultHeadline = document.createElement("div");
-      resultHeadline.innerText = "Results";
-      resultHeadline.style.width = "97.1%";
-      resultHeadline.style.backgroundColor = "#333";
-      resultHeadline.style.padding = "9px 0px 9px 32px";
-      resultHeadline.style.color = "white";
-      resultHeadline.style.fontSize = "26px";
-      resultHeadline.style.borderBottom = "2px solid white";
-      resultList.appendChild(resultHeadline);
-    } catch (exception) {
-      console.error(
-        "Error in clientScripts.js:createResultListTableHeader(): ",
-        exception
-      );
-    }
+  try {
+    let resultHeadline = document.createElement("div");
+    resultHeadline.innerText = "Results";
+    resultHeadline.style.width = "97.1%";
+    resultHeadline.style.backgroundColor = "#333";
+    resultHeadline.style.padding = "9px 0px 9px 32px";
+    resultHeadline.style.color = "white";
+    resultHeadline.style.fontSize = "26px";
+    resultHeadline.style.borderBottom = "2px solid white";
+    resultList.appendChild(resultHeadline);
+  } catch (exception) {
+    console.error(
+      "Error in clientScripts.js:createResultListTableHeader(): ",
+      exception
+    );
+  }
 }
 
 // function that creates a table displaying the results

@@ -86,15 +86,17 @@ function extractRDCode(string, codeType) {
     switch(codeType) {
       case "orpha" : {
         let number = string.match(/\d/g);
-        if (number == null) 
+        if (number == null) {
           return null;
+        }
         number = number.join("");
         return number;
       }
       case "icd10": {
-        let number = string.substr(string.lastIndexOf("[") + 1, (string.lastIndexOf("]") - string.lastIndexOf("[")) - 1)
-        if (number == null) 
+        let number = string.substr(string.lastIndexOf(":") + 1, (string.lastIndexOf("]") - string.lastIndexOf(":")) - 1)
+        if (number == null) {
           return null;
+        }
         return number;
       }
     }

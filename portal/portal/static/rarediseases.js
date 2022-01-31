@@ -1,4 +1,4 @@
-const rarediseases = [ 
+const rareDiseases = [ 
     {name: 'Multiple epiphyseal dysplasia, Al-Gazali type', orphaCode: '166024', icdCode: 'Q77.3'},
     {name: 'Multiple epiphyseal dysplasia-macrocephaly-distinctive facies syndrome', orphaCode: '166024', icdCode: 'Q77.3'},
     {name: 'Alexander disease', orphaCode: '58', icdCode: 'E75.2'},
@@ -16343,4 +16343,4 @@ const rarediseases = [
     {name: 'Trisomy 9 mosaicism', orphaCode: '99776', icdCode: 'Q92.1'}
 ];
   
-export { rarediseases };
+export { rareDiseases };
