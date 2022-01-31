@@ -40,3 +40,9 @@ a:visited {
 .euLogo {
     width: 110px;
 }
+
+.homeSymbol {
+    position: relative;
+    margin-left: 10px;
+    top: 5px;
+}

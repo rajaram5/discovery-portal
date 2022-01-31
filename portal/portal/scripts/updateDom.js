@@ -255,6 +255,7 @@ try {
         resourceLogo.setAttribute("id", "ernLogo")
         resourceLogo.style.opacity = '.5'
         if(!currentUser.loggedIn) {
+          currentCell.setAttribute("title", "You need to be logged in to query this source.")
           let lockSymbol = document.createElement("img")
           lockSymbol.setAttribute("src", "../discovery/static/media/locked_grey.png")
           lockSymbol.setAttribute("id", "lockSymbol")

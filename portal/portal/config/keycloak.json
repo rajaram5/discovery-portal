@@ -1,0 +1,10 @@
+{
+  "realm": "ejp",
+  "auth-server-url": "https://ejp-rd-dev1.vm.cesnet.cz/auth/",
+  "ssl-required": "external",
+  "resource": "discovery-portal",
+  "public-client": true,
+  "verify-token-audience": true,
+  "use-resource-role-mappings": true,
+  "confidential-port": 0
+}
