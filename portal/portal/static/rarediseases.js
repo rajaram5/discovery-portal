@@ -16341,6 +16341,6 @@ const rareDiseases = [
     {name: 'Mosaic trisomy 9', orphaCode: '99776', icdCode: 'Q92.1'},
     {name: 'Mosaic trisomy chromosome 9', orphaCode: '99776', icdCode: 'Q92.1'},
     {name: 'Trisomy 9 mosaicism', orphaCode: '99776', icdCode: 'Q92.1'}
-];
+]
   
-export { rareDiseases };
+export { rareDiseases }
