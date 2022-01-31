@@ -14,7 +14,7 @@ import { statusTextDiv, statusText, statusTextCloseButton,
   filterList, catalogueList, resultList, allCountriesCheckbox, 
   allTypesCheckbox, loginModal } from '/discovery/scripts/components.js'
 import { euCountries } from '/discovery/static/countries.js'
-import { rarediseases } from '/discovery/static/rarediseases.js'
+import { rareDiseases } from '/discovery/static/rareDiseases.js'
 import { toggleLoadingSpinner, clearInput, updateStatusText, 
   updateCatalogueListDOM, clearPreviousSearch, createResultListTable, 
   createResultListTableHeader, updateResultListDOM, selectedCountries, 
@@ -48,7 +48,7 @@ function init() {
     //loadClassification('../static/icd10Classification.txt', icd10Classification, "icd10")
     loadCountryList()
     setResourceTypesList()
-    autocomplete(searchInput, rarediseases);
+    autocomplete(searchInput, rareDiseases);
   } catch (exception) {
     console.error("Error in clientScripts.js:init(): ", exception)
   }
@@ -366,8 +366,8 @@ function buildSourceContent(source, responseList, filters) {
     matchingRdCode.style.top = "6px"
     matchingRdCode.style.left = '60px'
     matchingRdCode.style.color = 'black'
-    matchingRdCode.textContent = `ORPHA:${extractRDCode(filters.disease, 'orpha')}`
-
+    matchingRdCode.textContent = `ORPHA:${filters.disease}`
+    
     sourceCollapsible.appendChild(matchingRdCode)
 
     switch (source) {
@@ -465,17 +465,23 @@ function discover() {
         countries: '',
         genders: ''
       }
-
+      let diseaseCode
       // get orphacode from input
-      const disease = extractRDCode(searchInput.value, "orpha");
-      if (disease == null || isNumber(searchInput.value)) {
+      if(searchInput.value.includes('ICD10:')) {
+        diseaseCode = extractRDCode(searchInput.value, "icd10");
+        diseaseCode = rareDiseases.find(x => x.icdCode === diseaseCode).orphaCode
+      }
+      else if(searchInput.value.includes('ORPHA:')) {
+        diseaseCode = extractRDCode(searchInput.value, "orpha");
+      }
+      if (diseaseCode == null || isNumber(searchInput.value)) {
         updateStatusText(
           "error",
           "Please select a valid search term from the dropdown list."
         );
         return;
       }
-      filters.disease = searchInput.value
+      filters.disease = diseaseCode
 
       // get selected sources
       const selectedSources = JSON.stringify(getSelectedSources(selectedTypes));
@@ -499,7 +505,7 @@ function discover() {
         const countryCodes = JSON.stringify(getCountryCodes());
         const selectedTypesForQuery = JSON.stringify(getSelectedTypes());
         if (countryCodes != null && selectedTypesForQuery != null) {
-          query = `${searchEndpoint}?disease=${disease}&sources=${selectedSources}&types=${selectedTypesForQuery}&countries=${countryCodes}`;
+          query = `${searchEndpoint}?disease=${diseaseCode}&sources=${selectedSources}&types=${selectedTypesForQuery}&countries=${countryCodes}`;
           filters.countries = JSON.parse(countryCodes)
           filters.types = JSON.parse(selectedTypesForQuery)
         }
@@ -515,19 +521,19 @@ function discover() {
       else if (selectedTypes.length > 0) {
         const selectedTypesForQuery = JSON.stringify(getSelectedTypes());
         if (selectedTypesForQuery != null) {
-          query = `${searchEndpoint}?disease=${disease}&sources=${selectedSources}&types=${selectedTypesForQuery}`;
+          query = `${searchEndpoint}?disease=${diseaseCode}&sources=${selectedSources}&types=${selectedTypesForQuery}`;
           filters.types = JSON.parse(selectedTypesForQuery)
         }
       }
       else if (selectedCountries.length > 0) {
         const countryCodes = JSON.stringify(getCountryCodes());
         if(countryCodes != null) {
-          query = `${searchEndpoint}?disease=${disease}&sources=${selectedSources}&countries=${countryCodes}`;
+          query = `${searchEndpoint}?disease=${diseaseCode}&sources=${selectedSources}&countries=${countryCodes}`;
           filters.countries = JSON.parse(countryCodes)
         }
       }
       else {
-        query = `${searchEndpoint}?disease=${disease}&sources=${selectedSources}`;
+        query = `${searchEndpoint}?disease=${diseaseCode}&sources=${selectedSources}`;
       }
 
       if(currentUser.loggedIn) {
@@ -801,6 +807,7 @@ function autocomplete(input, array) {
           b.innerHTML = array[i].name;
           b.innerHTML +=
             " [" +
+            'ORPHA:' +
             "<strong>" +
             array[i].orphaCode.substr(0, val.length) +
             "</strong>";
@@ -808,7 +815,7 @@ function autocomplete(input, array) {
           b.innerHTML +=
             "<input type='hidden' value='" +
             array[i].name +
-            " [" +
+            " [ORPHA:" +
             array[i].orphaCode +
             "]" +
             "'>";
@@ -822,6 +829,7 @@ function autocomplete(input, array) {
           b.innerHTML = array[i].name;
           b.innerHTML +=
             " [" +
+            'ICD10:' +
             "<strong>" +
             array[i].icdCode.substr(0, val.length) +
             "</strong>";
@@ -829,7 +837,7 @@ function autocomplete(input, array) {
           b.innerHTML +=
             "<input type='hidden' value='" +
             array[i].name +
-            " [" +
+            " [ICD10:" +
             array[i].icdCode +
             "]" +
             "'>";
