@@ -8,7 +8,8 @@
 
 // load dependencies
 const express = require("express")
-var http = require('http');
+const http = require('http');
+const winston = require('winston');
 const https = require('https');
 const dotenv = require("dotenv").config();
 const fs = require('fs');
@@ -38,6 +39,12 @@ class Application {
     this.app.use(morgan('common', {
       stream: fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
     }))
+    this.logger = winston.createLogger({
+      level: 'error',
+      transports: [
+        new (winston.transports.File)({ filename: 'error.log' })
+      ]
+    });
     this.app.use(cors())
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use('/discovery', express.static("./portal"))
@@ -74,18 +81,31 @@ class Application {
           || catalogue.catalogueName === 'Wikipathways' 
           || catalogue.catalogueName === 'hpscReg') {
             query = `${catalogue.catalogueAddress}?code=http://www.orpha.net/ORDO/Orphanet_${requestedSearch}`
-            const dbResponse = await fetch(query, {
+            await fetch(query, {
               headers: {
                 'Accept': 'application/json'
-              }});
-            let contentTemp = await dbResponse.json()
-            if(contentTemp.length > 0 && contentTemp[0]['resourceResponses']) {
-              data = {
-                name: catalogue.catalogueName,
-                content: contentTemp[0],
-              };
-              dataArray.push(data);
-            }
+              }
+            })
+            .then(this.handleFetchErrors)
+            .then(async (fetchResponse) => {
+              if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+                let contentTemp = await fetchResponse.json()
+                if(contentTemp.length > 0 && contentTemp[0]['resourceResponses']) {
+                  data = {
+                    name: catalogue.catalogueName,
+                    content: contentTemp[0],
+                  };
+                  dataArray.push(data);
+                }
+              }
+              else {
+                return;
+              }
+            })
+            .catch((exception) => {
+              this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
+              console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
+            })
           }
           else if (catalogue.catalogueName === 'Leicester-ERN-Network' && token) {
             let body = ''
@@ -128,32 +148,48 @@ class Application {
                 }
               }
             }
-            const response = await fetch(`${catalogue.catalogueAddress}individuals`, {
+            await fetch(`${catalogue.catalogueAddress}individuals`, {
               method: 'post',
 	            body: JSON.stringify(body),
 	            headers: {'Content-Type': 'application/json', 'auth-token': token}
             })
-            let contentTemp = await response.json()
-            data = {
-              name: catalogue.catalogueName,
-              content: contentTemp["resultSets"]
-            }
-            dataArray.push(data);
+            .then(this.handleFetchErrors)
+            .then(async (fetchResponse) => {
+              if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+                let contentTemp = await fetchResponse.json()
+                data = {
+                  name: catalogue.catalogueName,
+                  content: contentTemp["resultSets"]
+                }
+                dataArray.push(data);
+              }
+            })
+            .catch((exception) => {
+              this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
+              console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
+            })            
           }
           else if (catalogue.catalogueName === 'Orphanet' || catalogue.catalogueName === 'BBMRI-Eric') {
             query = this.buildQuery(catalogue.catalogueAddress, requestedSearch, selectedTypes, selectedCountries);
-            const dbResponse = await fetch(query);
-            if(dbResponse.status >= 200 && dbResponse.status < 400) {
-              let contentTemp = await dbResponse.json()
-              if(contentTemp.resourceResponses.length > 0) {
-                data = {
-                  name: catalogue.catalogueName,
-                  content: contentTemp,
-                };
-                dataArray.push(data);
+            await fetch(query)
+            .then(this.handleFetchErrors)
+            .then(async (fetchResponse) => {
+              if(fetchResponse.status >= 200 && fetchResponse.status < 400) {
+                let contentTemp = await fetchResponse.json()
+                if(contentTemp.resourceResponses.length > 0) {
+                  data = {
+                    name: catalogue.catalogueName,
+                    content: contentTemp,
+                  };
+                  dataArray.push(data);
+                }
               }
-            }
-          }
+            })
+            .catch((exception) => {
+              this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
+              console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
+            })
+          }            
         }
         response.json(dataArray);
       } catch (exception) {
@@ -306,6 +342,7 @@ class Application {
 
   //class attributes
   app
+  logger
   keycloak
   directoryEndpoint
   mappingEndpoint
