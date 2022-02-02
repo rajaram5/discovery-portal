@@ -635,7 +635,6 @@ try {
 // function that updates the resultList DOM for a given catalogue result
 function updateResultListDOM(resultTable, content) {
 try {
-  console.log(content)
     if(content['resourceResponses'] && content.resourceResponses.length > 0) {
       for (let entry of content.resourceResponses) {
           let currentRow = resultTable.insertRow()

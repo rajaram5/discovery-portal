@@ -32,8 +32,6 @@ const searchEndpoint = portalAddress + "/search"
 let catalogueDirectoryAddress = ''
 let getCataloguesEndpoint = ''
 let catalogues = []
-//let orphaClassification = []
-//let icd10Classification = []
 
 // function that is executed when the page is loaded
 function init() {
@@ -44,8 +42,6 @@ function init() {
     allCountriesCheckbox.disabled = true
     clearInput("all")
     getDirectoryAddress()
-    //loadClassification('../static/orphacodeClassification.txt', orphaClassification, "orpha")
-    //loadClassification('../static/icd10Classification.txt', icd10Classification, "icd10")
     loadCountryList()
     setResourceTypesList()
     autocomplete(searchInput, rareDiseases);
@@ -166,20 +162,49 @@ async function getCatalogues() {
   }
 }
 
+// function that maps resource type naming
 function mapTypes(types) {
-  let mappedTypes = []
-  for(let type of types) {
-    if(type == 'Knowledge Bases') {
-      mappedTypes.push('knowledge')
+  try {
+    let mappedTypes = []
+    for(let type of types) {
+      if(type == 'Knowledge Bases') {
+        mappedTypes.push('knowledge')
+      }
+      else if(type == 'KnowledgeDataset') {
+        mappedTypes.push('Knowledge Bases')
+      }
+      else if(type == 'Patient Registries') {
+        mappedTypes.push('registry')
+      }
+      else if(type == 'PatientRegistryDataset') {
+        mappedTypes.push('Patient Registries')
+      }
+      else if(type == 'Biobanks') {
+        mappedTypes.push('biobank')
+      }
+      else if(type == 'BiobankDataset') {
+        mappedTypes.push('Biobanks')
+      }
     }
-    else if(type == 'Patient Registries') {
-      mappedTypes.push('registry')
+    return mappedTypes
+  } catch (exception) {
+    console.error("Error in clientScripts.js:mapTypes(): ", exception);
+  } 
+}
+
+// function that maps country naming
+function mapCountries(countries) {
+  try {
+    let mappedCountries = []
+    for(let country of countries) {
+      let found = euCountries.find(x => x.countryCode === country).name
+      mappedCountries.push(found)
     }
-    else if(type == 'Biobanks') {
-      mappedTypes.push('biobank')
-    }
-  }
-  return mappedTypes
+
+    return mappedCountries
+  } catch (exception) {
+    console.error("Error in clientScripts.js:mapCountries(): ", exception);
+  } 
 }
 
 // function that returns a list of the selected catalogues
@@ -224,10 +249,7 @@ function getSelectedSources(selectedTypes) {
       return null;
     }
   } catch (exception) {
-    console.error(
-      "Error in clientScripts.js:getSelectedCatalogues(): ",
-      exception
-    );
+    console.error("Error in clientScripts.js:getSelectedCatalogues(): ", exception)
   }
 }
 
@@ -371,40 +393,44 @@ function buildSourceContent(source, responseList, filters) {
     sourceCollapsible.appendChild(matchingRdCode)
 
     switch (source) {
-      case 'BBMRI-Eric': case 'Orphanet':
+      case 'BBMRI-Eric': case 'Orphanet': case 'Cellosaurus': case 'hpscReg': case 'Wikipathways':
         let matchingTypes = document.createElement("SPAN")
-        matchingTypes.style.backgroundColor = '#3bb392'
         matchingTypes.style.fontSize = "14px"
         matchingTypes.style.position = "relative"
         matchingTypes.style.top = "6px"
-        matchingTypes.style.left = '80px'
         matchingTypes.style.color = '#333'
-        matchingTypes.textContent = filters.types
+        matchingTypes.style.left = '80px'
+        let types = mapTypes(filters.types)
+        for(let type of types) {
+          let matchingType = document.createElement("SPAN")
+          matchingType.style.backgroundColor = '#3bb392'
+          matchingType.style.margin = '8px'
+          matchingType.style.padding = '5px'
+          matchingType.textContent = type
+          matchingTypes.appendChild(matchingType)
+        }
 
         sourceCollapsible.appendChild(matchingTypes)
 
-        let matchingCountries = document.createElement("SPAN")
-        matchingCountries.style.backgroundColor = '#fecf00'
-        matchingCountries.style.fontSize = "14px"
-        matchingCountries.style.position = "relative"
-        matchingCountries.style.top = "6px"
-        matchingCountries.style.left = '100px'
-        matchingCountries.style.color = '#333'
-        matchingCountries.textContent = filters.countries
+        if(source === 'BBMRI-Eric' || source === 'Orphanet') {
+          let matchingCountries = document.createElement("SPAN")
+          matchingCountries.style.fontSize = "14px"
+          matchingCountries.style.position = "relative"
+          matchingCountries.style.top = "6px"
+          matchingCountries.style.left = '100px'
+          matchingCountries.style.color = '#333'
+          let countries = mapCountries(filters.countries)
+          for(let country of countries) {
+            let matchingCountry = document.createElement("SPAN")
+            matchingCountry.style.backgroundColor = '#fecf00'
+            matchingCountry.style.margin = '8px'
+            matchingCountry.style.padding = '5px'
+            matchingCountry.textContent = country
+            matchingCountries.appendChild(matchingCountry)
+          }
 
-        sourceCollapsible.appendChild(matchingCountries)
-        break
-      case 'Cellosaurus': case 'hpscReg': case 'Wikipathways': 
-        let matchingType = document.createElement("SPAN")
-        matchingType.style.backgroundColor = '#3bb392'
-        matchingType.style.fontSize = "14px"
-        matchingType.style.position = "relative"
-        matchingType.style.top = "6px"
-        matchingType.style.left = '80px'
-        matchingType.style.color = '#333'
-        matchingType.textContent = filters.types
-
-        sourceCollapsible.appendChild(matchingType)
+          sourceCollapsible.appendChild(matchingCountries)
+        }
         break
       case 'Leicester-ERN-Network': 
         let matchingGenders = document.createElement("SPAN")
@@ -412,9 +438,11 @@ function buildSourceContent(source, responseList, filters) {
         matchingGenders.style.fontSize = "14px"
         matchingGenders.style.position = "relative"
         matchingGenders.style.top = "6px"
-        matchingGenders.style.left = '40px'
+        matchingGenders.style.left = '80px'
         matchingGenders.style.color = '#333'
-        matchingGenders.textContent = filters.types
+        matchingGenders.style.margin = '8px'
+        matchingGenders.style.padding = '5px'
+        matchingGenders.textContent = filters.genders
 
         sourceCollapsible.appendChild(matchingGenders)
         break
@@ -731,7 +759,7 @@ function discover() {
 }*/
 
 // function that loads the rare disease classification from file
-function loadClassification(filename, classification, codeType) {
+/*function loadClassification(filename, classification, codeType) {
   try {
     fetch("./discovery/" + filename)
       .then(handleFetchErrors)
@@ -768,7 +796,7 @@ function loadClassification(filename, classification, codeType) {
       exception
     );
   }
-}
+}*/
 
 // function that handles the auto-complete
 function autocomplete(input, array) {
@@ -847,7 +875,7 @@ function autocomplete(input, array) {
           });
         }
         if(b != null) {
-          if (array[i].code === val) {
+          if (array[i].orphaCode === val || array[i].icdCode === val) {
             list.prepend(b);
           } else if (index == 0) {
             list.prepend(b);
