@@ -818,11 +818,11 @@ function autocomplete(input, array) {
           b.innerHTML += array[i].name.substr(0, index);
           b.innerHTML += "<strong>" + array[i].name.substr(index, val.length) + "</strong>";
           b.innerHTML += array[i].name.substr(index + val.length);
-          b.innerHTML += " [" + array[i].orphaCode + "]";
+          b.innerHTML += " [ORPHA:" + array[i].orphaCode + "]";
           b.innerHTML +=
             "<input type='hidden' value='" +
             array[i].name +
-            " [" +
+            " [ORPHA:" +
             array[i].orphaCode +
             "]" +
             "'>";
