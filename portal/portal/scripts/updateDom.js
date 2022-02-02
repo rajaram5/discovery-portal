@@ -635,15 +635,23 @@ try {
 // function that updates the resultList DOM for a given catalogue result
 function updateResultListDOM(resultTable, content) {
 try {
+  console.log(content)
     if(content['resourceResponses'] && content.resourceResponses.length > 0) {
       for (let entry of content.resourceResponses) {
           let currentRow = resultTable.insertRow()
-          if(entry['homepage']) {
-          currentRow.addEventListener("click", () => {
+          if (entry['homepage']) {
+            currentRow.addEventListener("click", () => {
               window.open(entry.homepage, "_blank")
           })
-          currentRow.classList.add("resultListRow")
-          currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
+            currentRow.classList.add("resultListRow")
+            currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
+          }
+          else if (!entry['homepage'] && entry['id']) {
+            currentRow.addEventListener("click", () => {
+              window.open(entry.id, "_blank")
+            })
+            currentRow.classList.add("resultListRow")
+            currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
           }
           let currentCell = currentRow.insertCell()
 
@@ -651,10 +659,10 @@ try {
           let resourceName = document.createElement("p")
           resourceName.style.fontSize = "14px"
           if(entry.name['value']) {
-          resourceName.textContent = entry.name.value
+            resourceName.textContent = entry.name.value
           }
           else {
-          resourceName.textContent = entry.name
+            resourceName.textContent = entry.name
           }
           currentCell.appendChild(resourceName)
 
@@ -698,180 +706,177 @@ try {
       }
     }
     else if(content['resourceResponses'] && !Array.isArray(content.resourceResponses)) {
-    let currentRow = resultTable.insertRow()
-    if(content.resourceResponses['homepage']) {
-        currentRow.addEventListener("click", () => {
-        window.open(content.resourceResponses.homepage, "_blank")
-        })
-        currentRow.classList.add("resultListRow")
-        currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
-    }
-    let currentCell = currentRow.insertCell()
+      let currentRow = resultTable.insertRow()
+      if(content.resourceResponses['homepage']) {
+          currentRow.addEventListener("click", () => {
+          window.open(content.resourceResponses.homepage, "_blank")
+          })
+          currentRow.classList.add("resultListRow")
+          currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
+      }
+      let currentCell = currentRow.insertCell()
 
-    // insert resource name into table  
-    let resourceName = document.createElement("p")
-    resourceName.style.fontSize = "14px"
-    if(content.resourceResponses.name['value']) {
-        resourceName.textContent = entry.name.value
-    }
-    else {
+      // insert resource name into table  
+      let resourceName = document.createElement("p")
+      resourceName.style.fontSize = "14px"
+      if(content.resourceResponses.name['value']) {
+          resourceName.textContent = entry.name.value
+      }
+      else {
         resourceName.textContent = content.resourceResponses.name
-    }
-    currentCell.appendChild(resourceName)
+      }
+      currentCell.appendChild(resourceName)
 
-    // insert resource description into table
-    let resourceDescription = document.createElement("SPAN")
-    resourceDescription.style.fontSize = "14px"
-    if(content.resourceResponses.description['value']) {
-        resourceDescription.textContent = content.resourceResponses.description.value
-    }
-    else {
-        resourceDescription.textContent = content.resourceResponses.description
-    }
-    currentCell = currentRow.insertCell()
-    currentCell.appendChild(resourceDescription)
+      // insert resource description into table
+      let resourceDescription = document.createElement("SPAN")
+      resourceDescription.style.fontSize = "14px"
+      if(content.resourceResponses.description['value']) {
+          resourceDescription.textContent = content.resourceResponses.description.value
+      }
+      else {
+          resourceDescription.textContent = content.resourceResponses.description
+      }
+      currentCell = currentRow.insertCell()
+      currentCell.appendChild(resourceDescription)
     
-    // insert resource location into table
-    let resourceCountry = document.createElement("SPAN");
-    resourceCountry.style.fontSize = "14px";
-    /*if (entry["publisher"]) {
-        resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
-        + entry.publisher.location.country.slice(1);
-    }
-    else {
-        resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
-        + entry.location.country.slice(1).toLowerCase();
-    }*/
+      // insert resource location into table
+      let resourceCountry = document.createElement("SPAN");
+      resourceCountry.style.fontSize = "14px";
+      /*if (entry["publisher"]) {
+          resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
+          + entry.publisher.location.country.slice(1);
+      }
+      else {
+          resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
+          + entry.location.country.slice(1).toLowerCase();
+      }*/
 
-    if(content.resourceResponses['location']) {
-        resourceCountry.textContent = content.resourceResponses.location.country    
-    }
-    else if (content.resourceResponses['publisher'] && content.resourceResponses.publisher['location']) {
-        resourceCountry.textContent = content.resourceResponses.publisher.location.id
-    }
-    else {
-        resourceCountry.textContent = '-'   
-    }
-    currentCell = currentRow.insertCell()
-    currentCell.style.textAlign = 'center'
-    currentCell.appendChild(resourceCountry)
+      if(content.resourceResponses['location']) {
+          resourceCountry.textContent = content.resourceResponses.location.country    
+      }
+      else if (content.resourceResponses['publisher'] && content.resourceResponses.publisher['location']) {
+          resourceCountry.textContent = content.resourceResponses.publisher.location.id
+      }
+      else {
+          resourceCountry.textContent = '-'   
+      }
+      currentCell = currentRow.insertCell()
+      currentCell.style.textAlign = 'center'
+      currentCell.appendChild(resourceCountry)
 
-    resultTable.appendChild(currentRow)
+      resultTable.appendChild(currentRow)
     }
     else {
       for (let entry of content) {
-          let currentRow = resultTable.insertRow()
-          /*currentRow.addEventListener("click", () => {
-          window.open(entry.homepage, "_blank");
-          });
-          currentRow.classList.add("resultListRow");
-          currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")*/
+        let currentRow = resultTable.insertRow()
+        /*currentRow.addEventListener("click", () => {
+        window.open(entry.homepage, "_blank");
+        });
+        currentRow.classList.add("resultListRow");
+        currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")*/
 
-          let currentCell = currentRow.insertCell();
+        let currentCell = currentRow.insertCell();
 
-          // insert resource name into table  
-          let resourceName = document.createElement("p")
-          resourceName.style.fontSize = "14px"
-          resourceName.textContent = entry.id.toUpperCase()
+        // insert resource name into table  
+        let resourceName = document.createElement("p")
+        resourceName.style.fontSize = "14px"
+        resourceName.textContent = entry.id.toUpperCase()
 
-          currentCell.appendChild(resourceName)
+        currentCell.appendChild(resourceName)
 
-          // insert resource description into table
-          let resourceDescription = document.createElement("SPAN")
-          resourceDescription.style.fontSize = "14px"
-          resourceDescription.textContent = entry.id.toUpperCase()
+        // insert resource description into table
+        let resourceDescription = document.createElement("SPAN")
+        resourceDescription.style.fontSize = "14px"
+        resourceDescription.textContent = entry.id.toUpperCase()
 
-          currentCell = currentRow.insertCell()
-          currentCell.appendChild(resourceDescription)
+        currentCell = currentRow.insertCell()
+        currentCell.appendChild(resourceDescription)
 
-          // insert resource result count into table
-          if(currentUser.loggedIn && entry['resultCount']) {
-          let resourceCount = document.createElement("SPAN")
-          resourceCount.style.fontSize = "14px"
-          resourceCount.style.float = "right"
-          resourceCount.textContent = "Result Count: " + entry.resultCount
-          resourceCount.style.marginRight = "30px"
-          currentCell.appendChild(resourceCount)
-          }
-      
-          // insert resource location into table
-          let resourceCountry = document.createElement("SPAN")
-          resourceCountry.style.fontSize = "14px"
-          /*if (entry["publisher"]) {
-          resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
-              + entry.publisher.location.country.slice(1);
-          }
-          else {
-          resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
-              + entry.location.country.slice(1).toLowerCase();
-          }*/
+        // insert resource result count into table
+        if(currentUser.loggedIn && entry['resultCount']) {
+        let resourceCount = document.createElement("SPAN")
+        resourceCount.style.fontSize = "14px"
+        resourceCount.style.float = "right"
+        resourceCount.textContent = "Result Count: " + entry.resultCount
+        resourceCount.style.marginRight = "30px"
+        currentCell.appendChild(resourceCount)
+        }
+    
+        // insert resource location into table
+        let resourceCountry = document.createElement("SPAN")
+        resourceCountry.style.fontSize = "14px"
+        /*if (entry["publisher"]) {
+        resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
+            + entry.publisher.location.country.slice(1);
+        }
+        else {
+        resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
+            + entry.location.country.slice(1).toLowerCase();
+        }*/
 
-          if(entry['location']) {
+        if(entry['location']) {
           resourceCountry.textContent = entry.location.country    
-          }
-          else {
+        }
+        else {
           resourceCountry.textContent = '-'   
-          }
-          currentCell = currentRow.insertCell();
-          currentCell.appendChild(resourceCountry);
+        }
+        currentCell = currentRow.insertCell();
+        currentCell.appendChild(resourceCountry);
 
-          resultTable.appendChild(currentRow);
+        resultTable.appendChild(currentRow);
       }
     }
-} catch (exception) {
-    console.error(
-    "Error in clientScripts.js:updateResultListDOM(): ",
-    exception
-    );
-}
+  } catch (exception) {
+      console.error("Error in clientScripts.js:updateResultListDOM(): ", exception)
+  }
 }
 
 // function that acts whenever a country is selected
 function selectCountry(dropdownList) {
 try {
-    updateStatusText("none")
-    let selectedCountry = dropdownList.value
-    if(!selectedCountries.includes(selectedCountry)) {
-    selectedCountries.push(selectedCountry)
-    // creat and append country list item
-    let entry = document.createElement('li')
-    entry.appendChild(document.createTextNode(selectedCountry))
-    entry.setAttribute("id", `${selectedCountry}ListItem`)
-    entry.style.backgroundColor = "#fecf00"
-    entry.style.paddingBottom = "3px"
-    entry.style.paddingLeft = "10px"
-    let removeIcon = document.createElement("IMG")
-    removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
-    removeIcon.setAttribute("alt", "remove-icon")
-    removeIcon.setAttribute("onclick", 'removeCountryFromList("'+selectedCountry+'");')
-    removeIcon.style.marginTop = "-2px"
-    removeIcon.style.marginLeft = "8px"
-    removeIcon.style.float = "right"
-    removeIcon.style.cursor = "pointer"
-    entry.appendChild(removeIcon)
-    filterList.appendChild(entry)
-    if(document.getElementById("filterList").childElementCount == 1) {
-        document.getElementById("filterListText").textContent = "No filters applied"
+  updateStatusText("none")
+  let selectedCountry = dropdownList.value
+  if(!selectedCountries.includes(selectedCountry)) {
+  selectedCountries.push(selectedCountry)
+  // creat and append country list item
+  let entry = document.createElement('li')
+  entry.appendChild(document.createTextNode(selectedCountry))
+  entry.setAttribute("id", `${selectedCountry}ListItem`)
+  entry.style.backgroundColor = "#fecf00"
+  entry.style.paddingBottom = "3px"
+  entry.style.paddingLeft = "10px"
+  let removeIcon = document.createElement("IMG")
+  removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
+  removeIcon.setAttribute("alt", "remove-icon")
+  removeIcon.setAttribute("onclick", 'removeCountryFromList("'+selectedCountry+'");')
+  removeIcon.style.marginTop = "-2px"
+  removeIcon.style.marginLeft = "8px"
+  removeIcon.style.float = "right"
+  removeIcon.style.cursor = "pointer"
+  entry.appendChild(removeIcon)
+  filterList.appendChild(entry)
+  if(document.getElementById("filterList").childElementCount == 1) {
+      document.getElementById("filterListText").textContent = "No filters applied"
+  }
+  else {
+    document.getElementById("filterListText").textContent = ""
+    if(document.getElementById("filterList").childElementCount <= 7) {
+      document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
+      document.getElementById("advancedSearchButton").style.height = "94px"
+      document.getElementById("advancedSearchArrow").style.top = "30px"
+      document.getElementById("searchButton").style.height = "92px"
     }
-    else {
-        document.getElementById("filterListText").textContent = ""
-        if(document.getElementById("filterList").childElementCount <= 7) {
-        document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
-        document.getElementById("advancedSearchButton").style.height = "94px"
-        document.getElementById("advancedSearchArrow").style.top = "30px"
-        document.getElementById("searchButton").style.height = "92px"
-        }
-        else if (document.getElementById("filterList").childElementCount > 7) {
-        document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
-        }
+    else if (document.getElementById("filterList").childElementCount > 7) {
+      document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
     }
-    allCountriesCheckbox.checked = false
-    allCountriesCheckbox.disabled = false
-    }
-    else {
-    updateStatusText("error", "This country is already included in the country list.")
-    }
-    dropdownList.options[0].selected = true
+  }
+  allCountriesCheckbox.checked = false
+  allCountriesCheckbox.disabled = false
+  }
+  else {
+   updateStatusText("error", "This country is already included in the country list.")
+  }
+  dropdownList.options[0].selected = true
 } catch (exception) {
     console.error("Error in clientScripts.js:selectCountry(): ", exception)
 }
