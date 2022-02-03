@@ -112,12 +112,20 @@ function isNumber(number) {
   }
 }
 
+function isIcd(string) {
+  try {
+    return string.match(/^[A-TV-Z]\d{2}(\.[A-Z\d]{0,4})?$/)
+  } catch (exception) {
+    console.error("Error in utils.js:isIcd(): ", exception);
+  }
+}
+
 // function that checks whether an input string contains a lower case letter
 function hasLowerCase(str) {
   return (/[a-z]/.test(str));
 }
 
-export { handleFetchErrors, extractRDCode, isNumber, hasLowerCase, scrollToTop }
+export { handleFetchErrors, extractRDCode, isNumber, hasLowerCase, scrollToTop, isIcd }
 
 window.scrollToTop = scrollToTop
 window.sortTable = sortTable

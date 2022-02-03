@@ -19,7 +19,7 @@ import { toggleLoadingSpinner, clearInput, updateStatusText,
   updateCatalogueListDOM, clearPreviousSearch, createResultListTable, 
   createResultListTableHeader, updateResultListDOM, selectedCountries, 
   selectedTypes } from '/discovery/scripts/updateDom.js'
-import { handleFetchErrors, extractRDCode, isNumber } from '/discovery/scripts/utils.js'
+import { handleFetchErrors, extractRDCode, isNumber, isIcd } from '/discovery/scripts/utils.js'
 import { currentUser } from '/discovery/scripts/auth.js'
 
 
@@ -507,9 +507,22 @@ function discover() {
     }
     
     else {
-      // check if insertion is a number, if yes search for matching entry in rare disease classification
-      if(isNumber(searchInput.value)) {
-        searchInput.value = rareDiseases.find(x => x.orphaCode === searchInput.value).name + ` [ORPHA:${searchInput.value}]`;
+      // check if insertion is a number or icd code, if yes search for matching entry in rare disease classification
+      if(isNumber(searchInput.value) || isIcd(searchInput.value)) {
+        let found = rareDiseases.filter(x => x.orphaCode === searchInput.value || x.icdCode === searchInput.value)[0]
+        if(found != undefined && isNumber(searchInput.value)) {
+          searchInput.value = found.name +  ` [ORPHA:${found.orphaCode}]`
+        }
+        else if(found != undefined && isIcd(searchInput.value)) {
+          searchInput.value = found.name +  ` [ICD10:${found.icdCode}]`
+        }
+        else {
+          updateStatusText(
+            "error",
+            `No match could be found in the rare disease classification for ${searchInput.value}.`
+          );
+          return
+        }
       }
 
       // clear state

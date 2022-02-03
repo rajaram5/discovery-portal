@@ -94,10 +94,10 @@ document.write('\
                         </td>\
                         <td>\
                             <label for="ageRangeMinSlider" style="position: relative; top: -5px;">Minimum Age</label>\
-                            <input type="range" id="ageRangeMinSlider" style="margin-left: 10px;" value="1" min="1" max="100" oninput="this.nextElementSibling.value = this.value">\
-                            <output style="margin-left: 10px; position: relative; top: -5px;">1</output>\
+                            <input type="range" id="ageRangeMinSlider" style="margin-left: 10px;" value="1" min="0" max="90" step="10" oninput="this.nextElementSibling.value = this.value">\
+                            <output style="margin-left: 10px; position: relative; top: -5px;">0</output>\
                             <p><label for="ageRangeMaxSlider" style="position: relative; top: -5px;">Maximum Age</label>\
-                            <input type="range" id="ageRangeMaxSlider" style="margin-left: 10px;" value="100" min="1" max="100" oninput="this.nextElementSibling.value = this.value">\
+                            <input type="range" id="ageRangeMaxSlider" style="margin-left: 10px;" value="100" min="10" max="100" step="10" oninput="this.nextElementSibling.value = this.value">\
                             <output style="margin-left: 10px; position: relative; top: -5px;">100</output></p>\
                         </td>\
                     </tr>\
