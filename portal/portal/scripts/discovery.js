@@ -312,10 +312,10 @@ function getCountryCodes() {
 function getGenders() {
   try {
     let genders = [];
-    if(document.getElementById('MaleCheckbox').checked) {
+    if(document.getElementById('MaleCheckbox').checked && !document.getElementById('FemaleCheckbox').checked) {
       genders.push('male')
     }
-    if(document.getElementById('FemaleCheckbox').checked) {
+    if(document.getElementById('FemaleCheckbox').checked && !document.getElementById('MaleCheckbox').checked) {
       genders.push('female')
     }
 
@@ -331,20 +331,17 @@ function getGenders() {
 }
 
 // function that builds the result list DOM for a resource type
-function buildSourceContent(source, responseList, filters) {
+function buildSourceContent(sourceName, responseList, filters) {
   try {
     // create collapsible
     let sourceCollapsible = document.createElement("BUTTON")
-    sourceCollapsible.setAttribute("id", source + "Collapsible")
+    sourceCollapsible.setAttribute("id", sourceName + "Collapsible")
     sourceCollapsible.classList.add("resultCollapsible")
     sourceCollapsible.classList.add("button")
     sourceCollapsible.classList.add("resultButton")
     sourceCollapsible.style.padding = "8px 15px 6px 30px"
-    sourceCollapsible.setAttribute(
-      "onClick",
-      "toggleSourceResults(this);"
-    )
-    sourceCollapsible.setAttribute("name", source)
+    sourceCollapsible.setAttribute("onClick", "toggleSourceResults(this);")
+    sourceCollapsible.setAttribute("name", sourceName)
     
     // create source name span
     let sourceNameText = document.createElement("SPAN")
@@ -353,7 +350,7 @@ function buildSourceContent(source, responseList, filters) {
     sourceNameText.style.top = "8px"
     sourceNameText.style.display = "inline-block"
     sourceNameText.style.width = "200px"
-    sourceNameText.textContent = source
+    sourceNameText.textContent = sourceName
     sourceCollapsible.appendChild(sourceNameText)
 
     // create number of results span
@@ -362,24 +359,29 @@ function buildSourceContent(source, responseList, filters) {
     numberOfResultsText.style.position = "relative"
     numberOfResultsText.style.top = "6px"
     numberOfResultsText.style.left = "30px"
-    if(responseList['resourceResponses']) {
-      if (responseList.resourceResponses.length == 1 || !Array.isArray(responseList.resourceResponses)) {
-        numberOfResultsText.textContent = '1 Result'
-      } 
-      else {
-        numberOfResultsText.textContent =
-          "" + responseList.resourceResponses.length + " Results"
-      }
+    if(sourceName === 'ERKNet' || sourceName === 'UIMD' || sourceName === 'EREC') {
+      numberOfResultsText.textContent = '1 Dataset Result'
     }
     else {
-      if (responseList.length == 1) {
-        numberOfResultsText.textContent =
-          "" + responseList.length + " Result"
-      } else {
-        numberOfResultsText.textContent =
-          "" + responseList.length + " Results"
+      if(responseList['resourceResponses']) {
+        if (responseList.resourceResponses.length == 1 || !Array.isArray(responseList.resourceResponses)) {
+          numberOfResultsText.textContent = '1 Result'
+        } 
+        else {
+          numberOfResultsText.textContent =
+            "" + responseList.resourceResponses.length + " Results"
+        }
       }
-    }   
+      else {
+        if (responseList.length == 1) {
+          numberOfResultsText.textContent =
+            "" + responseList.length + " Result"
+        } else {
+          numberOfResultsText.textContent =
+            "" + responseList.length + " Results"
+        }
+      }   
+    }
     sourceCollapsible.appendChild(numberOfResultsText)
 
     let matchingRdCode = document.createElement("SPAN")
@@ -392,7 +394,7 @@ function buildSourceContent(source, responseList, filters) {
     
     sourceCollapsible.appendChild(matchingRdCode)
 
-    switch (source) {
+    switch (sourceName) {
       case 'BBMRI-Eric': case 'Orphanet': case 'Cellosaurus': case 'hpscReg': case 'Wikipathways':
         let matchingTypes = document.createElement("SPAN")
         matchingTypes.style.fontSize = "14px"
@@ -412,7 +414,7 @@ function buildSourceContent(source, responseList, filters) {
 
         sourceCollapsible.appendChild(matchingTypes)
 
-        if(source === 'BBMRI-Eric' || source === 'Orphanet') {
+        if(sourceName === 'BBMRI-Eric' || sourceName === 'Orphanet') {
           let matchingCountries = document.createElement("SPAN")
           matchingCountries.style.fontSize = "14px"
           matchingCountries.style.position = "relative"
@@ -432,17 +434,21 @@ function buildSourceContent(source, responseList, filters) {
           sourceCollapsible.appendChild(matchingCountries)
         }
         break
-      case 'Leicester-ERN-Network': 
+      case 'UIMD': case 'ERKNet': case 'EREC':
         let matchingGenders = document.createElement("SPAN")
-        matchingGenders.style.backgroundColor = 'white'
         matchingGenders.style.fontSize = "14px"
         matchingGenders.style.position = "relative"
         matchingGenders.style.top = "6px"
         matchingGenders.style.left = '80px'
         matchingGenders.style.color = '#333'
-        matchingGenders.style.margin = '8px'
-        matchingGenders.style.padding = '5px'
-        matchingGenders.textContent = filters.genders
+        for(let gender of filters.genders) {
+          let element = document.createElement("SPAN")
+          element.style.backgroundColor = 'white'
+          element.style.margin = '8px'
+          element.style.padding = '5px'
+          element.textContent = gender.charAt(0).toUpperCase() + gender.slice(1)
+          matchingGenders.appendChild(element)
+        }
 
         sourceCollapsible.appendChild(matchingGenders)
         break
@@ -454,18 +460,26 @@ function buildSourceContent(source, responseList, filters) {
     resultList.appendChild(sourceCollapsible);
 
     let sourceContentDiv = document.createElement("div");
-    sourceContentDiv.setAttribute("id", source + "Content");
-    sourceContentDiv.setAttribute("class", source + "Content");
+    sourceContentDiv.setAttribute("id", sourceName + "Content");
+    sourceContentDiv.setAttribute("class", sourceName + "Content");
     sourceContentDiv.style.borderBottom = "1px solid white";
-    let sourceResultContentTable = document.createElement(
-      "table"
-    );
-    createResultListTable(sourceResultContentTable, source);
+
+    let sourceResultContentTable = document.createElement("table");
+    sourceResultContentTable.classList.add('table')
+    if(sourceName === 'BBMRI-Eric' || 
+      sourceName === 'Orphanet' || 
+      sourceName === 'Cellosaurus' || 
+      sourceName === 'hpscReg' || 
+      sourceName === 'Wikipathways') {
+      createResultListTable(sourceResultContentTable);
+    }
+
     updateResultListDOM(
       sourceResultContentTable,
       responseList,
-      source
+      sourceName
     );
+
     sourceContentDiv.appendChild(sourceResultContentTable);
     resultList.appendChild(sourceContentDiv);
   } catch (exception) {
@@ -481,9 +495,23 @@ function discover() {
         "error",
         "Please enter a search term (rare disease name or orphacode)."
       );
-      return;
-    } 
+      return
+    }
+
+    if(!document.getElementById('FemaleCheckbox').checked && !document.getElementById('MaleCheckbox').checked) {
+      updateStatusText(
+        "error",
+        "Please select at least one gender option to be searched."
+      );
+      return
+    }
+    
     else {
+      // check if insertion is a number, if yes search for matching entry in rare disease classification
+      if(isNumber(searchInput.value)) {
+        searchInput.value = rareDiseases.find(x => x.orphaCode === searchInput.value).name + ` [ORPHA:${searchInput.value}]`;
+      }
+
       // clear state
       clearPreviousSearch();
       updateStatusText("none");
@@ -493,14 +521,11 @@ function discover() {
         countries: '',
         genders: ''
       }
-      let diseaseCode
+
       // get orphacode from input
+      let diseaseCode = extractRDCode(searchInput.value);
       if(searchInput.value.includes('ICD10:')) {
-        diseaseCode = extractRDCode(searchInput.value, "icd10");
         diseaseCode = rareDiseases.find(x => x.icdCode === diseaseCode).orphaCode
-      }
-      else if(searchInput.value.includes('ORPHA:')) {
-        diseaseCode = extractRDCode(searchInput.value, "orpha");
       }
       if (diseaseCode == null || isNumber(searchInput.value)) {
         updateStatusText(
@@ -521,11 +546,6 @@ function discover() {
         );
         return;
       }
-
-      // check if insertion is a number, if yes search for matching entry in orphacode classification
-      /*if(isNumber(searchInput.value)) {
-        searchInput.value = orphaClassification.find(x => x.code === searchInput.value).name + ` [${searchInput.value}]`;
-      }*/
 
       let query = "";
       // get country codes for selected countries
@@ -660,7 +680,7 @@ function discover() {
       let searchTerm, mappedCodes = [], exactMatches = [], nTBT = [], bTNT = [];
       switch(selectedMapper) {
         case "ICD10 to Orphacode Mapper":
-          searchTerm = extractRDCode(mapperInput.value, "icd10");
+          searchTerm = extractRDCode(mapperInput.value);
           if (searchTerm == null) {
             updateStatusText("error", "Please select a valid search term from the dropdown list.");
             return;
@@ -710,7 +730,7 @@ function discover() {
             break;
 
           case "Orphacode to Others Mapper": 
-            searchTerm = extractRDCode(mapperInput.value, "orpha");
+            searchTerm = extractRDCode(mapperInput.value);
             if (searchTerm == null) {
               updateStatusText("error", "Please select a valid search term from the dropdown list.");
               return;
@@ -772,7 +792,7 @@ function discover() {
             code: "",
           };
           classificationEntry.name = entry.substr(0, entry.indexOf("[") - 1);
-          classificationEntry.code = extractRDCode(entry, codeType);
+          classificationEntry.code = extractRDCode(entry);
           classification.push(classificationEntry);
         });
       })
@@ -935,9 +955,9 @@ function autocomplete(input, array) {
     }
   }
 
-  /*document.addEventListener("click", function (e) {
+  document.addEventListener("click", function (e) {
     closeAllLists(e.target);
-  });*/
+  });
 }
 
 // make functions globally available

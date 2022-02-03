@@ -90,6 +90,24 @@
   transition: max-height 0.25s ease-in-out;
 }
 
+.ERKNetContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.UIMDContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.ERECContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
 .Leicester-ERN-NetworkContent {
   max-height: 0;
   overflow: hidden;

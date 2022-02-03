@@ -8,6 +8,7 @@
 
 import { searchInput } from './components.js'
 import { currentUser } from './auth.js'
+import { scrollToTop } from './utils.js'
 
 let selectedCountries = []
 let selectedTypes = []
@@ -183,6 +184,7 @@ try {
         break;
     }
     case "error": {
+        scrollToTop()
         if (statusTextDiv.classList.contains("isa_success")) {
         statusTextDiv.classList.remove("isa_success");
         }
@@ -597,9 +599,7 @@ function createResultListTableHeader() {
   
 // function that creates a table displaying the results
 function createResultListTable(resultTable) {
-try {
-    resultTable.classList.add("table");
-
+  try {
     let headRow = resultTable.insertRow();
     let headerCell = document.createElement("TH");
     let resourceName = document.createElement("SPAN");
@@ -624,84 +624,109 @@ try {
     headerCell.style.cursor = "pointer";
     headerCell.setAttribute("onclick", `sortTable(this.closest("table"), 2)`);
     headRow.appendChild(headerCell);
-} catch (exception) {
+  } catch (exception) {
     console.error(
     "Error in clientScripts.js:createResultListTable(): ",
     exception
     );
-}
+  } 
 }
 
 // function that updates the resultList DOM for a given catalogue result
-function updateResultListDOM(resultTable, content) {
-try {
-    if(content['resourceResponses'] && content.resourceResponses.length > 0) {
+function updateResultListDOM(resultTable, content, sourceName) {
+  try {
+    if(sourceName === 'ERKNet' || sourceName === 'UIMD' || sourceName === 'EREC') {
+      let currentRow = resultTable.insertRow()
+      currentRow.addEventListener("click", () => {
+        window.open(content.Info.contactURL, "_blank")
+      })
+      currentRow.classList.add("resultListRow")
+      currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
+
+      let currentCell = currentRow.insertCell()
+      let resourceName = document.createElement("p")
+      resourceName.style.fontSize = "14px"
+      resourceName.textContent = content.id
+      currentCell.appendChild(resourceName)
+
+      currentCell = currentRow.insertCell()
+      // insert resource result count into table
+      if(currentUser.loggedIn) {
+        let resourceCount = document.createElement("SPAN")
+        resourceCount.style.fontSize = "14px"
+        resourceCount.style.float = "right"
+        resourceCount.textContent = "Result Count: " + content.resultCount
+        resourceCount.style.marginRight = "30px"
+        currentCell.appendChild(resourceCount)
+      }
+    }
+    else if(content['resourceResponses'] && content.resourceResponses.length > 0) {
       for (let entry of content.resourceResponses) {
-          let currentRow = resultTable.insertRow()
-          if (entry['homepage']) {
-            currentRow.addEventListener("click", () => {
-              window.open(entry.homepage, "_blank")
+        let currentRow = resultTable.insertRow()
+        if (entry['homepage']) {
+          currentRow.addEventListener("click", () => {
+            window.open(entry.homepage, "_blank")
+        })
+          currentRow.classList.add("resultListRow")
+          currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
+        }
+        else if (!entry['homepage'] && entry['id']) {
+          currentRow.addEventListener("click", () => {
+            window.open(entry.id, "_blank")
           })
-            currentRow.classList.add("resultListRow")
-            currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
-          }
-          else if (!entry['homepage'] && entry['id']) {
-            currentRow.addEventListener("click", () => {
-              window.open(entry.id, "_blank")
-            })
-            currentRow.classList.add("resultListRow")
-            currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
-          }
-          let currentCell = currentRow.insertCell()
+          currentRow.classList.add("resultListRow")
+          currentRow.setAttribute("title", "Click to be redirected to the origin of this resource.")
+        }
+        let currentCell = currentRow.insertCell()
 
-          // insert resource name into table  
-          let resourceName = document.createElement("p")
-          resourceName.style.fontSize = "14px"
-          if(entry.name['value']) {
-            resourceName.textContent = entry.name.value
-          }
-          else {
-            resourceName.textContent = entry.name
-          }
-          currentCell.appendChild(resourceName)
+        // insert resource name into table  
+        let resourceName = document.createElement("p")
+        resourceName.style.fontSize = "14px"
+        if(entry.name['value']) {
+          resourceName.textContent = entry.name.value
+        }
+        else {
+          resourceName.textContent = entry.name
+        }
+        currentCell.appendChild(resourceName)
 
-          // insert resource description into table
-          let resourceDescription = document.createElement("SPAN")
-          resourceDescription.style.fontSize = "14px"
-          if(entry.description['value']) {
+        // insert resource description into table
+        let resourceDescription = document.createElement("SPAN")
+        resourceDescription.style.fontSize = "14px"
+        if(entry.description['value']) {
           resourceDescription.textContent = entry.description.value
-          }
-          else {
+        }
+        else {
           resourceDescription.textContent = entry.description
-          }
-          currentCell = currentRow.insertCell()
-          currentCell.appendChild(resourceDescription)
-          
-          // insert resource location into table
-          let resourceCountry = document.createElement("SPAN");
-          resourceCountry.style.fontSize = "14px";
-          /*if (entry["publisher"]) {
-          resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
-              + entry.publisher.location.country.slice(1);
-          }
-          else {
-          resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
-              + entry.location.country.slice(1).toLowerCase();
-          }*/
+        }
+        currentCell = currentRow.insertCell()
+        currentCell.appendChild(resourceDescription)
+        
+        // insert resource location into table
+        let resourceCountry = document.createElement("SPAN");
+        resourceCountry.style.fontSize = "14px";
+        /*if (entry["publisher"]) {
+        resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
+            + entry.publisher.location.country.slice(1);
+        }
+        else {
+        resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
+            + entry.location.country.slice(1).toLowerCase();
+        }*/
 
-          if(entry['location']) {
-          resourceCountry.textContent = entry.location.country    
-          }
-          else if (entry['publisher'] && entry.publisher['location']) {
-          resourceCountry.textContent = entry.publisher.location.id
-          }
-          else {
-          resourceCountry.textContent = '-'   
-          }
-          currentCell = currentRow.insertCell()
-          currentCell.appendChild(resourceCountry)
+        if(entry['location']) {
+        resourceCountry.textContent = entry.location.country    
+        }
+        else if (entry['publisher'] && entry.publisher['location']) {
+        resourceCountry.textContent = entry.publisher.location.id
+        }
+        else {
+        resourceCountry.textContent = '-'   
+        }
+        currentCell = currentRow.insertCell()
+        currentCell.appendChild(resourceCountry)
 
-          resultTable.appendChild(currentRow)
+        resultTable.appendChild(currentRow)
       }
     }
     else if(content['resourceResponses'] && !Array.isArray(content.resourceResponses)) {
@@ -837,7 +862,7 @@ try {
   let selectedCountry = dropdownList.value
   if(!selectedCountries.includes(selectedCountry)) {
   selectedCountries.push(selectedCountry)
-  // creat and append country list item
+  // create and append country list item
   let entry = document.createElement('li')
   entry.appendChild(document.createTextNode(selectedCountry))
   entry.setAttribute("id", `${selectedCountry}ListItem`)

@@ -79,6 +79,7 @@ document.write('\
                                 style="scale: 1.5; margin-right: 10px;"\
                                 onclick=""\
                                 name="male"\
+                                checked\
                             />\
                             <label for="MaleCheckbox" style="margin-right: 40px">Male</label>\
                             <input\
@@ -87,16 +88,17 @@ document.write('\
                                 style="scale: 1.5; margin-right: 10px;"\
                                 onclick=""\
                                 name="female"\
+                                checked\
                             />\
                             <label for="FemaleCheckbox">Female</label>\
                         </td>\
                         <td>\
                             <label for="ageRangeMinSlider" style="position: relative; top: -5px;">Minimum Age</label>\
-                            <input type="range" id="ageRangeMinSlider" style="margin-left: 10px;" value="30" min="1" max="100" oninput="this.nextElementSibling.value = this.value">\
-                            <output style="margin-left: 10px; position: relative; top: -5px;">30</output>\
+                            <input type="range" id="ageRangeMinSlider" style="margin-left: 10px;" value="1" min="1" max="100" oninput="this.nextElementSibling.value = this.value">\
+                            <output style="margin-left: 10px; position: relative; top: -5px;">1</output>\
                             <p><label for="ageRangeMaxSlider" style="position: relative; top: -5px;">Maximum Age</label>\
-                            <input type="range" id="ageRangeMaxSlider" style="margin-left: 10px;" value="70" min="1" max="100" oninput="this.nextElementSibling.value = this.value">\
-                            <output style="margin-left: 10px; position: relative; top: -5px;">70</output></p>\
+                            <input type="range" id="ageRangeMaxSlider" style="margin-left: 10px;" value="100" min="1" max="100" oninput="this.nextElementSibling.value = this.value">\
+                            <output style="margin-left: 10px; position: relative; top: -5px;">100</output></p>\
                         </td>\
                     </tr>\
                 </table>\

@@ -157,11 +157,17 @@ class Application {
             .then(async (fetchResponse) => {
               if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
                 let contentTemp = await fetchResponse.json()
-                data = {
-                  name: catalogue.catalogueName,
-                  content: contentTemp["resultSets"]
+                if(contentTemp['responseSummary'].numTotalResults > 0 && contentTemp["resultSets"].length > 0) {
+                  for(let result of contentTemp["resultSets"]) {
+                    if(result.resultCount > 0) {
+                      data = {
+                        name: result.Info.contactPoint,
+                        content: result
+                      }
+                      dataArray.push(data);
+                    }  
+                  }
                 }
-                dataArray.push(data);
               }
             })
             .catch((exception) => {

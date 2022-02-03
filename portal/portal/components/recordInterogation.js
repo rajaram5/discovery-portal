@@ -22,22 +22,22 @@ document.write('\
             <td style="text-align: center;">\
                 <input\
                     type="checkbox"\
-                    id="PatientRegistryDatasetCheckbox"\
+                    id="MaleCheckbox"\
                     style="scale: 1.5; margin-right: 10px"\
                     onclick="updateIncludedSources(this); removeTypeFromList(`PatientRegistryDataset`, this.checked);"\
-                    name="registry"\
+                    name="male"\
                     checked\
                 />\
-                <label for="PatientRegistryDatasetCheckbox" style="margin-right: 40px">Male</label>\
+                <label for="MaleCheckbox" style="margin-right: 40px">Male</label>\
                 <input\
                     type="checkbox"\
-                    id="BiobankDatasetCheckbox"\
+                    id="MaleCheckbox"\
                     style="scale: 1.5; margin-right: 10px"\
                     onclick="updateIncludedSources(this); removeTypeFromList(`BiobankDataset`, this.checked);"\
-                    name="biobank"\
+                    name="female"\
                     checked\
                 />\
-                <label for="BiobankDatasetCheckbox">Female</label>\
+                <label for="FemaleCheckbox">Female</label>\
             </td>\
             <td style="text-align: center;">\
                 <label for="ageRangeMinSlider">Minimum Age</label>\

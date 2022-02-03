@@ -81,25 +81,13 @@ function sortTable(tableToSort, columnNr) {
 }
 
 // function that extract a rd code from a given string
-function extractRDCode(string, codeType) {
+function extractRDCode(string) {
   try {
-    switch(codeType) {
-      case "orpha" : {
-        let number = string.match(/\d/g);
-        if (number == null) {
-          return null;
-        }
-        number = number.join("");
-        return number;
-      }
-      case "icd10": {
-        let number = string.substr(string.lastIndexOf(":") + 1, (string.lastIndexOf("]") - string.lastIndexOf(":")) - 1)
-        if (number == null) {
-          return null;
-        }
-        return number;
-      }
+    let number = string.substr(string.lastIndexOf(":") + 1, (string.lastIndexOf("]") - string.lastIndexOf(":")) - 1)
+    if (number == null) {
+      return null;
     }
+    return number;
   } catch (exception) {
     console.error("Error in utils.js:extractRDCode(): ", exception);
   }
@@ -129,7 +117,7 @@ function hasLowerCase(str) {
   return (/[a-z]/.test(str));
 }
 
-export { handleFetchErrors, extractRDCode, isNumber, hasLowerCase }
+export { handleFetchErrors, extractRDCode, isNumber, hasLowerCase, scrollToTop }
 
 window.scrollToTop = scrollToTop
 window.sortTable = sortTable

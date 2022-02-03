@@ -173,6 +173,7 @@ function initKeycloak() {
       if(authenticated){
         currentUser.loggedIn = true
         currentUser.accessToken = keycloak.token
+        console.log(currentUser.accessToken)
         currentUser.refreshToken = keycloak.refreshToken
         updateStatusText('success', 'Successfully logged in.')
         document.getElementById("loginButtonText").innerHTML = keycloak.idTokenParsed.given_name + " " + keycloak.idTokenParsed.family_name
