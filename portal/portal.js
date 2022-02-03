@@ -18,7 +18,8 @@ const path = require("path")
 const morgan = require("morgan")
 const cors = require("cors")
 const fetch = require("node-fetch")
-const helmet = require("helmet")
+const helmet = require("helmet");
+const { report } = require("process");
 
 // class that holds an express web-server application and its' configuration
 class Application {
@@ -96,9 +97,12 @@ class Application {
                 };
                 response.json(data)
               }
+              else {
+                response.sendStatus(404)
+              }
             }
             else {
-              return;
+              response.sendStatus(fetchResponse.status)
             }
           })
           .catch((exception) => {
@@ -106,7 +110,10 @@ class Application {
             console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
           })
         }
-        else if (source.catalogueName === 'Leicester-ERN-Network' && token != undefined) {
+        else if (source.catalogueName === 'Leicester-ERN-Network') {
+          if(token == undefined) {
+            response.sendStatus(401)
+          }
           let body = ''
           if(gender != 'null') {
             body = {
@@ -167,6 +174,12 @@ class Application {
                   }  
                 }
               }
+              else {
+                response.sendStatus(404)
+              }
+            }
+            else {
+              response.sendStatus(fetchResponse.status)
             }
           })
           .catch((exception) => {
@@ -188,6 +201,12 @@ class Application {
                 };
                 response.json(data)
               }
+              else {
+                response.sendStatus(404)
+              }
+            }
+            else {
+              response.sendStatus(fetchResponse.status)
             }
           })
           .catch((exception) => {
@@ -196,7 +215,7 @@ class Application {
           })
         }
         else {
-          response.sendStatus(401)   
+          response.sendStatus(404)
         }
       } catch (exception) {
         console.error(
