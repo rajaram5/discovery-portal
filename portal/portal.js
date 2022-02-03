@@ -54,7 +54,8 @@ class Application {
     this.app.get("/search", async (request, response, next) => {
       try {
         const requestedSearch = request.query.disease
-        const selectedSources = JSON.parse(request.query.sources)
+        console.log(request.query.source)
+        const source = JSON.parse(request.query.source)
         let token = ''
         if(request.query.token) {
           token = request.query.token
@@ -73,131 +74,128 @@ class Application {
         }
 
         let query = ''
-        let dataArray = []
         let data = {}
-        for (let catalogue of selectedSources) {
-          if(catalogue.catalogueName === 'Orphanet-FDP' 
-          || catalogue.catalogueName === 'Cellosaurus' 
-          || catalogue.catalogueName === 'Wikipathways' 
-          || catalogue.catalogueName === 'hpscReg') {
-            query = `${catalogue.catalogueAddress}?code=http://www.orpha.net/ORDO/Orphanet_${requestedSearch}`
-            await fetch(query, {
-              headers: {
-                'Accept': 'application/json'
-              }
-            })
-            .then(this.handleFetchErrors)
-            .then(async (fetchResponse) => {
-              if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
-                let contentTemp = await fetchResponse.json()
-                if(contentTemp.length > 0 && contentTemp[0]['resourceResponses']) {
-                  data = {
-                    name: catalogue.catalogueName,
-                    content: contentTemp[0],
-                  };
-                  dataArray.push(data);
-                }
-              }
-              else {
-                return;
-              }
-            })
-            .catch((exception) => {
-              this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
-              console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
-            })
-          }
-          else if (catalogue.catalogueName === 'Leicester-ERN-Network' && token) {
-            let body = ''
-            if(gender != 'null') {
-              body = {
-                "meta": {
-                    "apiVersion": "2.0"
-                },
-                "query": {
-                    "filters": [
-                        {
-                            "id": `ORPHA:${requestedSearch}`,
-                            "includeDescendantTerms": true,
-                            "similarity": "exact",
-                            "scope": "individuals"
-                        },
-                        {
-                            "id": "gender",
-                            "operator": "=",
-                            "value": gender
-                        }                    
-                    ]
-                }
+
+        if(source.catalogueName === 'Orphanet-FDP' 
+        || source.catalogueName === 'Cellosaurus' 
+        || source.catalogueName === 'Wikipathways' 
+        || source.catalogueName === 'hpscReg') {
+          query = `${source.catalogueAddress}?code=http://www.orpha.net/ORDO/Orphanet_${requestedSearch}`
+          await fetch(query, {
+            headers: {
+              'Accept': 'application/json'
+            }
+          })
+          .then(this.handleFetchErrors)
+          .then(async (fetchResponse) => {
+            if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+              let contentTemp = await fetchResponse.json()
+              if(contentTemp.length > 0 && contentTemp[0]['resourceResponses']) {
+                data = {
+                  name: source.catalogueName,
+                  content: contentTemp[0],
+                };
+                response.json(data)
               }
             }
             else {
-              body = {
-                "meta": {
-                    "apiVersion": "2.0"
-                },
-                "query": {
-                    "filters": [
-                        {
-                            "id": `ORPHA:${requestedSearch}`,
-                            "includeDescendantTerms": true,
-                            "similarity": "exact",
-                            "scope": "individuals"
-                        }                   
-                    ]
+              return;
+            }
+          })
+          .catch((exception) => {
+            this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
+            console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
+          })
+        }
+        else if (source.catalogueName === 'Leicester-ERN-Network' && token) {
+          let body = ''
+          if(gender != 'null') {
+            body = {
+              "meta": {
+                  "apiVersion": "2.0"
+              },
+              "query": {
+                  "filters": [
+                      {
+                          "id": `ORPHA:${requestedSearch}`,
+                          "includeDescendantTerms": true,
+                          "similarity": "exact",
+                          "scope": "individuals"
+                      },
+                      {
+                          "id": "gender",
+                          "operator": "=",
+                          "value": gender
+                      }                    
+                  ]
+              }
+            }
+          }
+          else {
+            body = {
+              "meta": {
+                  "apiVersion": "2.0"
+              },
+              "query": {
+                  "filters": [
+                      {
+                          "id": `ORPHA:${requestedSearch}`,
+                          "includeDescendantTerms": true,
+                          "similarity": "exact",
+                          "scope": "individuals"
+                      }                   
+                  ]
+              }
+            }
+          }
+          await fetch(`${source.catalogueAddress}individuals`, {
+            method: 'post',
+            body: JSON.stringify(body),
+            headers: {'Content-Type': 'application/json', 'auth-token': token}
+          })
+          .then(this.handleFetchErrors)
+          .then(async (fetchResponse) => {
+            if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+              let contentTemp = await fetchResponse.json()
+              if(contentTemp['responseSummary'].numTotalResults > 0 && contentTemp["resultSets"].length > 0) {
+                for(let result of contentTemp["resultSets"]) {
+                  if(result.resultCount > 0) {
+                    data = {
+                      name: result.Info.contactPoint,
+                      content: result
+                    }
+                    response.json(data)
+                  }  
                 }
               }
             }
-            await fetch(`${catalogue.catalogueAddress}individuals`, {
-              method: 'post',
-	            body: JSON.stringify(body),
-	            headers: {'Content-Type': 'application/json', 'auth-token': token}
-            })
-            .then(this.handleFetchErrors)
-            .then(async (fetchResponse) => {
-              if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
-                let contentTemp = await fetchResponse.json()
-                if(contentTemp['responseSummary'].numTotalResults > 0 && contentTemp["resultSets"].length > 0) {
-                  for(let result of contentTemp["resultSets"]) {
-                    if(result.resultCount > 0) {
-                      data = {
-                        name: result.Info.contactPoint,
-                        content: result
-                      }
-                      dataArray.push(data);
-                    }  
-                  }
-                }
-              }
-            })
-            .catch((exception) => {
-              this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
-              console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
-            })            
-          }
-          else if (catalogue.catalogueName === 'Orphanet' || catalogue.catalogueName === 'BBMRI-Eric') {
-            query = this.buildQuery(catalogue.catalogueAddress, requestedSearch, selectedTypes, selectedCountries);
-            await fetch(query)
-            .then(this.handleFetchErrors)
-            .then(async (fetchResponse) => {
-              if(fetchResponse.status >= 200 && fetchResponse.status < 400) {
-                let contentTemp = await fetchResponse.json()
-                if(contentTemp.resourceResponses.length > 0) {
-                  data = {
-                    name: catalogue.catalogueName,
-                    content: contentTemp,
-                  };
-                  dataArray.push(data);
-                }
-              }
-            })
-            .catch((exception) => {
-              this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
-              console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
-            })
-          }            
+          })
+          .catch((exception) => {
+            this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
+            console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
+          })            
         }
-        response.json(dataArray);
+        else if (source.catalogueName === 'Orphanet' || source.catalogueName === 'BBMRI-Eric') {
+          query = this.buildQuery(source.catalogueAddress, requestedSearch, selectedTypes, selectedCountries);
+          await fetch(query)
+          .then(this.handleFetchErrors)
+          .then(async (fetchResponse) => {
+            if(fetchResponse.status >= 200 && fetchResponse.status < 400) {
+              let contentTemp = await fetchResponse.json()
+              if(contentTemp.resourceResponses.length > 0) {
+                data = {
+                  name: source.catalogueName,
+                  content: contentTemp,
+                };
+                response.json(data)
+              }
+            }
+          })
+          .catch((exception) => {
+            this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
+            console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
+          })
+        }            
       } catch (exception) {
         console.error(
           "Error in portal:portal.js:app.get(/search): ",

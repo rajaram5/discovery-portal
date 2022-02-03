@@ -175,7 +175,7 @@ function initKeycloak() {
         currentUser.accessToken = keycloak.token
         //console.log(currentUser.accessToken)
         currentUser.refreshToken = keycloak.refreshToken
-        updateStatusText('success', 'Successfully logged in.')
+        //updateStatusText('success', 'Successfully logged in.')
         document.getElementById("loginButtonText").innerHTML = keycloak.idTokenParsed.given_name + " " + keycloak.idTokenParsed.family_name
         document.getElementById("loginTooltiptext").innerHTML = 'Click to log out.'
         document.getElementById("loginButton").setAttribute('onclick', 'logout();')

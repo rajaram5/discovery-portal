@@ -459,7 +459,7 @@ function toggleSourceResults(source) {
 }*/
 
 // function that creates the result list table header DOM element
-function createResultListTableHeader() {
+function createResultListTableHeader(resultList) {
   try {
     let resultHeadline = document.createElement("div");
     resultHeadline.innerText = "Results";
@@ -471,10 +471,7 @@ function createResultListTableHeader() {
     resultHeadline.style.borderBottom = "2px solid white";
     resultList.appendChild(resultHeadline);
   } catch (exception) {
-    console.error(
-      "Error in clientScripts.js:createResultListTableHeader(): ",
-      exception
-    );
+    console.error("Error in clientScripts.js:createResultListTableHeader(): ", exception)
   }
 }
 
@@ -658,6 +655,8 @@ function updateResultListDOM(resultTable, content, sourceName) {
         resourceCount.textContent = "Result Count: " + content.resultCount
         resourceCount.style.marginRight = "30px"
         currentCell.appendChild(resourceCount)
+
+        resultTable.appendChild(currentRow)
       }
     }
     else if(content['resourceResponses'] && content.resourceResponses.length > 0) {

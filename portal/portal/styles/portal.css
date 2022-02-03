@@ -82,8 +82,9 @@ a:visited {
 }
 
 .progress {
+  top: 30px;
+  position: relative;
   height: 4px;
-  margin-top: 8px;
   width: 0%;
   background-color: #44a0fc;
 }

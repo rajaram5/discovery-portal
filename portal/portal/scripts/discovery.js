@@ -331,7 +331,7 @@ function getGenders() {
 }
 
 // function that builds the result list DOM for a resource type
-function buildSourceContent(sourceName, responseList, filters) {
+function buildSourceContent(sourceName, content, filters) {
   try {
     // create collapsible
     let sourceCollapsible = document.createElement("BUTTON")
@@ -363,22 +363,22 @@ function buildSourceContent(sourceName, responseList, filters) {
       numberOfResultsText.textContent = '1 Dataset Result'
     }
     else {
-      if(responseList['resourceResponses']) {
-        if (responseList.resourceResponses.length == 1 || !Array.isArray(responseList.resourceResponses)) {
+      if(content['resourceResponses']) {
+        if (content.resourceResponses.length == 1 || !Array.isArray(content.resourceResponses)) {
           numberOfResultsText.textContent = '1 Result'
         } 
         else {
           numberOfResultsText.textContent =
-            "" + responseList.resourceResponses.length + " Results"
+            "" + content.resourceResponses.length + " Results"
         }
       }
       else {
-        if (responseList.length == 1) {
+        if (content.length == 1) {
           numberOfResultsText.textContent =
-            "" + responseList.length + " Result"
+            "" + content.length + " Result"
         } else {
           numberOfResultsText.textContent =
-            "" + responseList.length + " Results"
+            "" + content.length + " Results"
         }
       }   
     }
@@ -476,7 +476,7 @@ function buildSourceContent(sourceName, responseList, filters) {
 
     updateResultListDOM(
       sourceResultContentTable,
-      responseList,
+      content,
       sourceName
     );
 
@@ -488,8 +488,9 @@ function buildSourceContent(sourceName, responseList, filters) {
 }
 
 // function that handles the search input
-function discover() {
+async function discover() {
   try {
+    // validate input
     if (searchInput.value.length < 1) {
       updateStatusText(
         "error",
@@ -497,7 +498,6 @@ function discover() {
       );
       return
     }
-
     if(!document.getElementById('FemaleCheckbox').checked && !document.getElementById('MaleCheckbox').checked) {
       updateStatusText(
         "error",
@@ -505,174 +505,133 @@ function discover() {
       );
       return
     }
-    
-    else {
-      // check if insertion is a number or icd code, if yes search for matching entry in rare disease classification
-      if(isNumber(searchInput.value) || isIcd(searchInput.value)) {
-        let found = rareDiseases.filter(x => x.orphaCode === searchInput.value || x.icdCode === searchInput.value)[0]
-        if(found != undefined && isNumber(searchInput.value)) {
-          searchInput.value = found.name +  ` [ORPHA:${found.orphaCode}]`
-        }
-        else if(found != undefined && isIcd(searchInput.value)) {
-          searchInput.value = found.name +  ` [ICD10:${found.icdCode}]`
-        }
-        else {
-          updateStatusText(
-            "error",
-            `No match could be found in the rare disease classification for ${searchInput.value}.`
-          );
-          return
-        }
+    // check if insertion is a number or icd code, if yes search for matching entry in rare disease classification
+    if(isNumber(searchInput.value) || isIcd(searchInput.value)) {
+      let found = rareDiseases.filter(x => x.orphaCode === searchInput.value || x.icdCode === searchInput.value)[0]
+      if(found != undefined && isNumber(searchInput.value)) {
+        searchInput.value = found.name +  ` [ORPHA:${found.orphaCode}]`
       }
-
-      // clear state
-      clearPreviousSearch();
-      updateStatusText("none");
-      let filters = {
-        disease: '',
-        types: '',
-        countries: '',
-        genders: ''
+      else if(found != undefined && isIcd(searchInput.value)) {
+        searchInput.value = found.name +  ` [ICD10:${found.icdCode}]`
       }
-
-      // get orphacode from input
-      let diseaseCode = extractRDCode(searchInput.value);
-      if(searchInput.value.includes('ICD10:')) {
-        diseaseCode = rareDiseases.find(x => x.icdCode === diseaseCode).orphaCode
-      }
-      if (diseaseCode == null || isNumber(searchInput.value)) {
+      else {
         updateStatusText(
           "error",
-          "Please select a valid search term from the dropdown list."
+          `No match could be found in the rare disease ontology for ${searchInput.value}.`
         );
-        return;
+        return
       }
-      filters.disease = diseaseCode
+    }
 
-      // get selected sources
-      const selectedSources = JSON.stringify(getSelectedSources(selectedTypes));
-      if (selectedSources === "null") {
+    // clear state
+    clearPreviousSearch();
+    updateStatusText("none");
+    let filters = {
+      disease: '',
+      types: '',
+      countries: '',
+      genders: ''
+    }
+
+    // get orphacode from input
+    let diseaseCode = extractRDCode(searchInput.value);
+    if(searchInput.value.includes('ICD10:')) {
+      diseaseCode = rareDiseases.find(x => x.icdCode === diseaseCode).orphaCode
+    }
+    if (diseaseCode == null || isNumber(searchInput.value)) {
+      updateStatusText(
+        "error",
+        "Please select a valid search term from the dropdown list."
+      );
+      return;
+    }
+    filters.disease = diseaseCode
+
+    // get selected sources
+    const selectedSources = getSelectedSources(selectedTypes);
+    if (selectedSources === "null") {
+      resultList.textContent = "";
+      updateStatusText(
+        "error",
+        "Please select at least one source to be searched."
+      );
+      return;
+    }
+
+    let query = "";
+    // get country codes for selected countries
+    if(selectedCountries.length > 0 && selectedTypes.length > 0) {
+      const countryCodes = JSON.stringify(getCountryCodes());
+      const selectedTypesForQuery = JSON.stringify(getSelectedTypes());
+      if (countryCodes != null && selectedTypesForQuery != null) {
+        query = `${searchEndpoint}?disease=${diseaseCode}&types=${selectedTypesForQuery}&countries=${countryCodes}`;
+        filters.countries = JSON.parse(countryCodes)
+        filters.types = JSON.parse(selectedTypesForQuery)
+      }
+      else {
         resultList.textContent = "";
         updateStatusText(
           "error",
-          "Please select at least one source to be searched."
+          "Country codes could not be retrieved from selected countries."
         );
         return;
       }
-
-      let query = "";
-      // get country codes for selected countries
-      if(selectedCountries.length > 0 && selectedTypes.length > 0) {
-        const countryCodes = JSON.stringify(getCountryCodes());
-        const selectedTypesForQuery = JSON.stringify(getSelectedTypes());
-        if (countryCodes != null && selectedTypesForQuery != null) {
-          query = `${searchEndpoint}?disease=${diseaseCode}&sources=${selectedSources}&types=${selectedTypesForQuery}&countries=${countryCodes}`;
-          filters.countries = JSON.parse(countryCodes)
-          filters.types = JSON.parse(selectedTypesForQuery)
-        }
-        else {
-          resultList.textContent = "";
-          updateStatusText(
-            "error",
-            "Country codes could not be retrieved from selected countries."
-          );
-          return;
-        }
-      }
-      else if (selectedTypes.length > 0) {
-        const selectedTypesForQuery = JSON.stringify(getSelectedTypes());
-        if (selectedTypesForQuery != null) {
-          query = `${searchEndpoint}?disease=${diseaseCode}&sources=${selectedSources}&types=${selectedTypesForQuery}`;
-          filters.types = JSON.parse(selectedTypesForQuery)
-        }
-      }
-      else if (selectedCountries.length > 0) {
-        const countryCodes = JSON.stringify(getCountryCodes());
-        if(countryCodes != null) {
-          query = `${searchEndpoint}?disease=${diseaseCode}&sources=${selectedSources}&countries=${countryCodes}`;
-          filters.countries = JSON.parse(countryCodes)
-        }
-      }
-      else {
-        query = `${searchEndpoint}?disease=${diseaseCode}&sources=${selectedSources}`;
-      }
-
-      if(currentUser.loggedIn) {
-        query += `&token=${currentUser.accessToken}&refreshToken=${currentUser.refreshToken}`
-      }
-
-      if(currentUser.loggedIn) {
-        const selectedGenders = getGenders()
-        query += `&genders=${selectedGenders}`
-        if(selectedGenders) {
-          filters.genders = selectedGenders
-        }   
-      }
-
-      // send out query
-      toggleLoadingSpinner(searchButton, true, searchClearButton);
-      // TODO: built in fetch to every catalogue, not one big fetch
-      // adjust progess bar
-      //progress++;
-      //document.getElementById("searchProgressBar").style.width = `${100*(progress/responseData.length)}%`;
-      fetch(query)
-        .then(handleFetchErrors)
-        .then(async (fetchResponse) => {
-          //let numberOfResults = { biobankResults: 0, registryResults: 0, individualResults: 0 }
-          if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
-            const responseData = await fetchResponse.json()
-            if (responseData.length > 0) {
-              createResultListTableHeader()
-              //let noResultsFound = [];
-              //noResultsFound = sortResultsByType(responseData, numberOfResults);
-              let responseList, progress = 0;
-              for(let source of responseData) {
-                if(source['content']) {
-                  buildSourceContent(source.name, source['content'], filters)
-                }
-                else {
-                  console.info(`No results received from ${source.name}.`)
-                }
-              }
-              /*for (let type of resourceTypes) {
-                responseList = resultsByResource[type.typeName]
-                if(responseList.length > 0) {
-                  buildResourceTypeContent(type, responseList)
-                } else {
-                  //noResultsFound.push(type.displayName)
-                }
-              }*/
-
-              // after dom was created scroll to it
-              //resultList.scrollIntoView();
-
-              /*if (resultsByResource.BiobankDataset.length < 1 && resultsByResource.PatientRegistryDataset.length < 1) {
-                toggleLoadingSpinner(searchButton, false, searchClearButton);
-                resultList.textContent = "";
-                updateStatusText(
-                  "error",
-                  "The entered search did not match any results."
-                );
-                return;
-              }*/
-            } else {
-              toggleLoadingSpinner(searchButton, false, searchClearButton)
-              resultList.textContent = ""
-              clearInput("search")
-              updateStatusText("error", "The entered search did not match any results.")
-              return
-            }
-            toggleLoadingSpinner(searchButton, false, searchClearButton)
-          } else {
-            console.error("Error in clientScripts.js:discover(): Fetch response out of range.")
-          }
-        })
-        .catch((exception) => {
-          updateStatusText('error', 'The resource discovery is currently unavailable.')
-          toggleLoadingSpinner(searchButton, false, searchClearButton)
-          console.error("Error in clientScripts.js:discover():fetch(): ", exception)       
-        });
     }
+    else if (selectedTypes.length > 0) {
+      const selectedTypesForQuery = JSON.stringify(getSelectedTypes());
+      if (selectedTypesForQuery != null) {
+        query = `${searchEndpoint}?disease=${diseaseCode}&types=${selectedTypesForQuery}`;
+        filters.types = JSON.parse(selectedTypesForQuery)
+      }
+    }
+    else if (selectedCountries.length > 0) {
+      const countryCodes = JSON.stringify(getCountryCodes());
+      if(countryCodes != null) {
+        query = `${searchEndpoint}?disease=${diseaseCode}&countries=${countryCodes}`;
+        filters.countries = JSON.parse(countryCodes)
+      }
+    }
+    else {
+      query = `${searchEndpoint}?disease=${diseaseCode}`;
+    }
+
+    if(currentUser.loggedIn) {
+      query += `&token=${currentUser.accessToken}&refreshToken=${currentUser.refreshToken}`
+    }
+
+    if(currentUser.loggedIn) {
+      const selectedGenders = getGenders()
+      query += `&genders=${selectedGenders}`
+      if(selectedGenders) {
+        filters.genders = selectedGenders
+      }   
+    }
+
+    // send out queries
+    toggleLoadingSpinner(searchButton, true, searchClearButton);
+    let progress = 0;
+    createResultListTableHeader(resultList)
+    for(let source of selectedSources) { 
+      await fetch(query + `&source=${JSON.stringify(source)}`)
+      .then(handleFetchErrors)
+      .then(async (fetchResponse) => {
+        if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+          const responseData = await fetchResponse.json()
+          if (responseData['content']) {
+            buildSourceContent(responseData.name, responseData['content'], filters)
+          }
+        } else {
+          console.error("Error in clientScripts.js:discover(): Fetch response out of range.")
+        }
+      })
+      .catch((exception) => {
+        console.error("Error in clientScripts.js:discover():fetch(): ", exception)       
+      });
+      progress++;
+      document.getElementById("searchProgressBar").style.width = `${100*(progress/selectedSources.length)}%`;
+    }
+    toggleLoadingSpinner(searchButton, false, searchClearButton);
+    document.getElementById("searchProgressBar").style.width = 0
   } catch (exception) {
     console.error("Error in clientScripts.js:discover(): ", exception)
   }

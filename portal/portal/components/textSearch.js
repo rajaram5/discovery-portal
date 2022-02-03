@@ -22,7 +22,7 @@ document.write('\
             onclick="discover();">\
             <img id="magnifier-icon" src="./static/media/magnifier_white_large.png" onmouseover="this.src=`./static/media/magnifier_blue_large.png`" onmouseout="this.src=`./static/media/magnifier_white_large.png`" />\
             <span class="spinner"></span>\
-            <!-- <div id= "searchProgressBar" class="progress"></div> -->\
+            <div id= "searchProgressBar" class="progress"></div>\
         </button>\
         <button\
             type="button"\
