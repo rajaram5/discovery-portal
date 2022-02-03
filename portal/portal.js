@@ -54,9 +54,8 @@ class Application {
     this.app.get("/search", async (request, response, next) => {
       try {
         const requestedSearch = request.query.disease
-        console.log(request.query.source)
         const source = JSON.parse(request.query.source)
-        let token = ''
+        let token
         if(request.query.token) {
           token = request.query.token
         }
@@ -107,7 +106,7 @@ class Application {
             console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
           })
         }
-        else if (source.catalogueName === 'Leicester-ERN-Network' && token) {
+        else if (source.catalogueName === 'Leicester-ERN-Network' && token != undefined) {
           let body = ''
           if(gender != 'null') {
             body = {
@@ -195,7 +194,10 @@ class Application {
             this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
             console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
           })
-        }            
+        }
+        else {
+          response.sendStatus(401)   
+        }
       } catch (exception) {
         console.error(
           "Error in portal:portal.js:app.get(/search): ",
