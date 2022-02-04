@@ -217,6 +217,7 @@ p {
     padding-bottom: 10px;
 }
 
+
 /************************************************/
 /*****************TABLET*************************/
 /************************************************/
@@ -229,49 +230,57 @@ p {
     }
 
     .ejpLogo {
-        margin-top: 15px;
-        padding: 5px;
-        margin-left: 15px;
+        margin-top: 0px;
+        padding: 0px;
+        margin-left: 0px;
+        left: 1.5vw;
+        top: 2.5vh;
         width: 30vw;
-        position: absolute;
-        z-index: 1;
-        -webkit-box-shadow: 0px 0px 5px 0px #333;
-        box-shadow: 0px 0px 5px 0px #333;
     }
 
- /*   .vertical-align{
-        top: 0%;
-    }
-*/
     .middle {
         padding: 0px;
         margin: 0px;
-        top: 50vh;
+        top: 55vh;
         left: 25vw;
-        height: 14vh;
-        font-size: 5vh;
-        line-height: 14vh;
+        height: 18vh;
+        font-size: 6vh;
+        line-height: 18vh;
         min-width: 50vw;
-        max-height: 14vh;
+        max-height: 18vh;
     }
 
     .dropdownMenu{
-        width: 10vw;
-        height: 18vh;
+        margin: 0px;
+        padding: 0px;
+        top: 3vh;
+        right: 1.7vw;
+        width: 9.2vw;
+        height: 16.6vh;
     }
 
     .menu-lines{
         margin: 0px;
         position: absolute;
-        width: 7vw;
-        height: 12vh;
-        right: 1.5vw;
-        top: 3.4vh;
+        width: 6.3vw;
+        height: 11vh;
+        right: 1.4vw;
+        top: 2.99vh;
+    }
+
+    .dropdownMenu-content {
+        margin: 0;
+        padding: 0;
+        font-size: 9vh;
+        text-align: left;
+        right: 9vw;
+        width: 40vw;
+        position: absolute;
     }
 
     #nwHeadline{
-        font-size: 9vh;
-        width: 3vw;
+        font-size: 9.5vh;
+        width: 3.5vw;
     }
 
     #nwSubline{
@@ -279,8 +288,8 @@ p {
     }
 
     #swHeadline{
-        font-size: 9vh;
-        width: 3vw;
+        font-size: 9.5vh;
+        width: 3.5vw;
     }
 
     #swSubline{
@@ -288,8 +297,8 @@ p {
     }
 
     #seHeadline{
-        font-size: 9vh;
-        width: 3vw;
+        font-size: 9.5vh;
+        width: 3.5vw;
     }
 
     #seSubline{
@@ -427,3 +436,132 @@ p {
     }
 
 }
+
+/************************************************/
+/********TABLET: height really small*************/
+/************************************************/
+
+
+@media screen and (max-height: 405px) and (orientation:landscape){
+
+    * {
+        box-sizing: border-box;
+    }
+
+   .vertical-align{
+           top: 20vh;
+   }
+
+   .ejpLogo {
+        margin-top: 0px;
+        padding: 0px;
+        margin-left: 0px;
+        left: 1.5vw;
+        top: 2.5vh;
+        width: 30vw;
+        position: absolute;
+   }
+
+   .middle {
+        padding: 0px;
+        margin: 0px;
+        top: 50vh;
+        left: 25vw;
+        height: 20vh;
+        font-size: 6vh;
+        line-height: 18vh;
+        min-width: 50vw;
+        max-height: 18vh;
+   }
+
+   .dropdownMenu{
+        margin: 0px;
+        padding: 0px;
+        top: 3vh;
+        right: 1.7vw;
+        width: 9.2vw;
+        height: 16.6vh;
+   }
+
+   .menu-lines{
+        margin: 0px;
+        position: absolute;
+        width: 6.3vw;
+        height: 11vh;
+        right: 1.4vw;
+        top: 2.99vh;
+   }
+
+   .dropdownMenu-content {
+        margin: 0;
+        padding: 0;
+        text-align: left;
+        right: 9vw;
+        width: 30vw;
+        position: absolute;
+   }
+
+ /*/*  #nw{
+            top: 10vh;
+        }
+    */
+    #nwHeadline{
+/*/*        top: 15vh;           */
+        font-size: 9.5vh;
+        width: 3.5vw;
+    }
+
+    #nwSubline{
+        font-size: 4.2vh;
+    }
+
+    #swHeadline{
+        font-size: 9.5vh;
+        width: 3.5vw;
+    }
+
+    #swSubline{
+        font-size: 4.2vh;
+    }
+
+    #seHeadline{
+        font-size: 9.5vh;
+        width: 3.5vw;
+    }
+
+    #seSubline{
+        font-size: 4.2vh;
+    }
+
+    @media screen and (max-height: 200px){
+        .ejpLogo{
+            width: 20vw;
+        }
+
+        .vertical-align{
+            top: 8vh;
+        }
+
+        .middle{
+            left: 45vw;
+            top: 60vh;
+            width: 10vw;
+            min-width: 5vw;
+        }
+
+        .dropdownMenu-content{
+            padding: 0px;
+            margin: 0px;
+            height: 95vh;
+            width: 18vw;
+        }
+
+        .dropdownMenu-content a {
+            line-height: 0vh;
+            font-size: 8vh;
+        }
+
+    }
+
+}
+
