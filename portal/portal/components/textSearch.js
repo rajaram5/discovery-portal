@@ -69,8 +69,8 @@ document.write('\
         <div class="tooltip">\
             <div id="recordInterrogation" class="recordInterrogation">\
                 <table class="table">\
-                    <th style="width: 30%;">Gender(s)</th>\
-                    <th style="width: 40%;">Age Range</th>\
+                    <th style="width: 50%;">Gender(s)</th>\
+                    <th style="width: 50%;">Age Range</th>\
                     <tr>\
                         <td>\
                             <input\

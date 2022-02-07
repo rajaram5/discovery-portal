@@ -10,13 +10,11 @@
 function handleFetchErrors(fetchResponse) {
     try {
       if (!fetchResponse.ok) {
-        console.error(
-          "Fetch Error: " + fetchResponse.status + " " + fetchResponse.statusText + " for " + fetchResponse.url
-        );
+        console.error("Fetch Error: " + fetchResponse.status + " " + fetchResponse.statusText)
       }
-      return fetchResponse;
+      return fetchResponse
     } catch (exception) {
-      console.error("Error in utils.js:handleFetchErrors(): ", exception);
+      console.error("Error in utils.js:handleFetchErrors(): ", exception)
     }
   }
 
@@ -84,7 +82,7 @@ function sortTable(tableToSort, columnNr) {
 function extractRDCode(string) {
   try {
     let number = string.substr(string.lastIndexOf(":") + 1, (string.lastIndexOf("]") - string.lastIndexOf(":")) - 1)
-    if (number == null) {
+    if (number == null || number == '') {
       return null;
     }
     return number;

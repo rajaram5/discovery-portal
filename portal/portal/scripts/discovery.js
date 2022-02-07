@@ -490,19 +490,14 @@ function buildSourceContent(sourceName, content, filters) {
 // function that handles the search input
 async function discover() {
   try {
+    searchInput.blur()
     // validate input
     if (searchInput.value.length < 1) {
-      updateStatusText(
-        "error",
-        "Please enter a search term (rare disease name or orphacode)."
-      );
+      updateStatusText("error", "Please enter a search term (rare disease name or orpha/icd10 code).")
       return
     }
     if(!document.getElementById('FemaleCheckbox').checked && !document.getElementById('MaleCheckbox').checked) {
-      updateStatusText(
-        "error",
-        "Please select at least one gender option to be searched."
-      );
+      updateStatusText("error", "Please select at least one gender option to be searched.")
       return
     }
     // check if insertion is a number or icd code, if yes search for matching entry in rare disease classification
@@ -515,10 +510,7 @@ async function discover() {
         searchInput.value = found.name +  ` [ICD10:${found.icdCode}]`
       }
       else {
-        updateStatusText(
-          "error",
-          `No match could be found in the rare disease ontology for ${searchInput.value}.`
-        );
+        updateStatusText("error", `No match could be found in the rare disease ontology for ${searchInput.value}.`)
         return
       }
     }
@@ -532,6 +524,7 @@ async function discover() {
       countries: '',
       genders: ''
     }
+    let query = '';
 
     // get orphacode from input
     let diseaseCode = extractRDCode(searchInput.value);
@@ -539,11 +532,8 @@ async function discover() {
       diseaseCode = rareDiseases.find(x => x.icdCode === diseaseCode).orphaCode
     }
     if (diseaseCode == null || isNumber(searchInput.value)) {
-      updateStatusText(
-        "error",
-        "Please select a valid search term from the dropdown list."
-      );
-      return;
+      updateStatusText("error", "Please select a valid search term from the dropdown list.")
+      return
     }
     filters.disease = diseaseCode
 
@@ -558,7 +548,6 @@ async function discover() {
       return;
     }
 
-    let query = "";
     // get country codes for selected countries
     if(selectedCountries.length > 0 && selectedTypes.length > 0) {
       const countryCodes = JSON.stringify(getCountryCodes());
@@ -608,14 +597,14 @@ async function discover() {
     }
 
     // send out queries
-    toggleLoadingSpinner(searchButton, true, searchClearButton);
-    let progress = 0;
+    toggleLoadingSpinner(searchButton, true, searchClearButton)
+    let progress = 0
     createResultListTableHeader(resultList)
     for(let source of selectedSources) { 
       await fetch(query + `&source=${JSON.stringify(source)}`)
       .then(handleFetchErrors)
       .then(async (fetchResponse) => {
-        if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+        if (fetchResponse.status >= 200 && fetchResponse.status <= 404) {
           const responseData = await fetchResponse.json()
           if (responseData['content']) {
             buildSourceContent(responseData.name, responseData['content'], filters)
@@ -626,11 +615,11 @@ async function discover() {
       })
       .catch((exception) => {
         console.error("Error in clientScripts.js:discover():fetch(): ", exception)       
-      });
-      progress++;
-      document.getElementById("searchProgressBar").style.width = `${100*(progress/selectedSources.length)}%`;
+      })
+      progress++
+      document.getElementById("searchProgressBar").style.width = `${100*(progress/selectedSources.length)}%`
     }
-    toggleLoadingSpinner(searchButton, false, searchClearButton);
+    toggleLoadingSpinner(searchButton, false, searchClearButton)
     document.getElementById("searchProgressBar").style.width = 0
   } catch (exception) {
     console.error("Error in clientScripts.js:discover(): ", exception)
@@ -798,7 +787,14 @@ function autocomplete(input, array) {
     list.setAttribute("id", this.id + "-autocomplete-list");
     list.setAttribute("class", "autocomplete-items");
 
-    if (input.value.length > 1) {
+    if(input.value.length > 50) {
+      this.style.fontSize = '18px'
+    }
+    else {
+      this.style.fontSize = '20px'
+    }
+
+    if (input.value.length > 1) { 
       let val = this.value;
       closeAllLists();
       currentFocus = -1;
