@@ -599,6 +599,7 @@ async function discover() {
     // send out queries
     toggleLoadingSpinner(searchButton, true, searchClearButton)
     let progress = 0
+    let resultCount = 0
     createResultListTableHeader(resultList)
     for(let source of selectedSources) { 
       await fetch(query + `&source=${JSON.stringify(source)}`)
@@ -607,6 +608,7 @@ async function discover() {
         if (fetchResponse.status >= 200 && fetchResponse.status <= 404) {
           const responseData = await fetchResponse.json()
           if (responseData['content']) {
+            resultCount++
             buildSourceContent(responseData.name, responseData['content'], filters)
           }
         } else {
@@ -621,6 +623,10 @@ async function discover() {
     }
     toggleLoadingSpinner(searchButton, false, searchClearButton)
     document.getElementById("searchProgressBar").style.width = 0
+    if(resultCount < 1) {
+      updateStatusText("error", "The entered search term did not match any results.")
+      resultList.textContent = ''
+    }
   } catch (exception) {
     console.error("Error in clientScripts.js:discover(): ", exception)
   }
@@ -788,10 +794,10 @@ function autocomplete(input, array) {
     list.setAttribute("class", "autocomplete-items");
 
     if(input.value.length > 50) {
-      this.style.fontSize = '18px'
+      input.style.fontSize = '18px'
     }
     else {
-      this.style.fontSize = '20px'
+      input.style.fontSize = '20px'
     }
 
     if (input.value.length > 1) { 
@@ -816,6 +822,12 @@ function autocomplete(input, array) {
             "'>";
           b.addEventListener("click", function (e) {
             input.value = this.getElementsByTagName("input")[0].value;
+            if(input.value.length > 50) {
+              input.style.fontSize = '18px'
+            }
+            else {
+              input.style.fontSize = '20px'
+            }
             closeAllLists();
           });
         } else if (array[i].orphaCode.substr(0, val.length) == val) {
@@ -837,6 +849,12 @@ function autocomplete(input, array) {
             "'>";
           b.addEventListener("click", function (e) {
             input.value = this.getElementsByTagName("input")[0].value;
+            if(input.value.length > 50) {
+              input.style.fontSize = '18px'
+            }
+            else {
+              input.style.fontSize = '20px'
+            }
             closeAllLists();
           });
         }
@@ -859,6 +877,12 @@ function autocomplete(input, array) {
             "'>";
           b.addEventListener("click", function (e) {
             input.value = this.getElementsByTagName("input")[0].value;
+            if(input.value.length > 50) {
+              input.style.fontSize = '18px'
+            }
+            else {
+              input.style.fontSize = '20px'
+            }            
             closeAllLists();
           });
         }
