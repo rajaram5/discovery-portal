@@ -55,13 +55,13 @@ function toggleInterrogation(showTab) {
         case true:
           tab.style.opacity = 1
           tab.style.pointerEvents = "visible"
-          document.getElementById("interrogationTabTooltiptext").innerHTML = ''
+          //document.getElementById("interrogationTabTooltiptext").innerHTML = ''
           document.getElementById("interrogationTabLockSymbol").style.visibility = 'hidden'
           break;
         case false:
           tab.style.opacity = .5
           tab.style.pointerEvents = "none"
-          document.getElementById("interrogationTabTooltiptext").innerHTML = 'You need to be logged in to use these filter options.'
+          //document.getElementById("interrogationTabTooltiptext").innerHTML = 'You need to be logged in to use these filter options.'
           document.getElementById("interrogationTabLockSymbol").style.visibility = 'visible'
           break;
         default:

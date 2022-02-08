@@ -72,8 +72,7 @@ document.write('\
             </table>\
         </div>\
         <div class="tooltip">\
-            <div id="recordInterrogation" class="recordInterrogation">\
-            <>Hello</span>\
+            <div id="recordInterrogation" class="recordInterrogation" title="You need to be logged in to use the Dataset Filter Options.">\
                 <table class="table">\
                     <tr>\
                         <th colspan="2" style="border-bottom: 1px solid white; font-weight: bold;"">Dataset Filter Options</th>\
@@ -105,17 +104,17 @@ document.write('\
                         </td>\
                         <td>\
                             <label for="ageRangeMinSlider" style="position: relative; top: -5px;">Minimum Age</label>\
-                            <input type="range" id="ageRangeMinSlider" style="margin-left: 10px;" value="1" min="0" max="90" step="10" oninput="this.nextElementSibling.value = this.value">\
+                            <input type="range" id="ageRangeMinSlider" style="margin-left: 10px;" value="1" min="0" max="90" step="10" oninput="this.nextElementSibling.value = this.value" disabled>\
                             <output style="margin-left: 10px; position: relative; top: -5px;">0</output>\
                             <p><label for="ageRangeMaxSlider" style="position: relative; top: -5px;">Maximum Age</label>\
-                            <input type="range" id="ageRangeMaxSlider" style="margin-left: 10px;" value="100" min="10" max="100" step="10" oninput="this.nextElementSibling.value = this.value">\
+                            <input type="range" id="ageRangeMaxSlider" style="margin-left: 10px;" value="100" min="10" max="100" step="10" oninput="this.nextElementSibling.value = this.value" disabled>\
                             <output style="margin-left: 10px; position: relative; top: -5px;">100</output></p>\
                         </td>\
                     </tr>\
                 </table>\
             </div>\
-            <img src="./static/media/locked_grey.png" style="position: absolute; left: 950px; top: 110px;" id="interrogationTabLockSymbol" />\
-            <span class="interrogationTabTooltiptext" id="interrogationTabTooltiptext">You need to be logged in to use these filter options.</span>\
+            <img src="./static/media/locked_grey.png" style="position: absolute; left: 980px; top: 200px;" id="interrogationTabLockSymbol" title="You need to be logged in to use these filter options." />\
+            <!-- <span class="interrogationTabTooltiptext" id="interrogationTabTooltiptext">You need to be logged in to use these filter options.</span> -->\
         </div>\
     </div>\
 </div>\

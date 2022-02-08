@@ -17,7 +17,7 @@
     overflow: hidden;
     transition: max-height 400ms ease-in-out, width 300ms ease-in-out, margin-left 300ms ease-in-out;
     top: 8px;
-    height: 300px;
+    height: 320px;
     position: relative;
     color: white;
 }
