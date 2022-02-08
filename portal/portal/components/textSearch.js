@@ -34,8 +34,13 @@ document.write('\
     <div id="advancedSearchTab" class="advancedSearchTab">\
         <div id="searchOptions" class="searchOptions">\
             <table class="table">\
-                <th>Resource Type(s)</th>\
-                <th>Countries</th>\
+                <tr>\
+                    <th colspan="2" style="border-bottom: 1px solid white; font-weight: bold;">Metadata Filter Options</th>\
+                </tr>\
+                <tr>\
+                    <th style="font-size: 15px; color: #3bb392;">Resource Type(s)</th>\
+                    <th style="font-size: 15px; color: #fecf00;">Countries</th>\
+                </tr>\
                 <tr>\
                     <td>\
                         <select id="typeList" onchange="selectType(this);" style="width: 60%;">\
@@ -68,25 +73,31 @@ document.write('\
         </div>\
         <div class="tooltip">\
             <div id="recordInterrogation" class="recordInterrogation">\
+            <>Hello</span>\
                 <table class="table">\
-                    <th style="width: 50%;">Gender(s)</th>\
-                    <th style="width: 50%;">Age Range</th>\
+                    <tr>\
+                        <th colspan="2" style="border-bottom: 1px solid white; font-weight: bold;"">Dataset Filter Options</th>\
+                    </tr>\
+                    <tr>\
+                        <th style="width: 52%; font-size: 15px; color: #ff8383">Gender(s)</th>\
+                        <th style="width: 48%; font-size: 15px; color: #ff8383">Age Range</th>\
+                    </tr>\
                     <tr>\
                         <td>\
                             <input\
                                 type="checkbox"\
-                                id="MaleCheckbox"\
+                                id="maleCheckbox"\
                                 style="scale: 1.5; margin-right: 10px;"\
-                                onclick=""\
+                                onclick="selectGender(this);"\
                                 name="male"\
                                 checked\
                             />\
                             <label for="MaleCheckbox" style="margin-right: 40px">Male</label>\
                             <input\
                                 type="checkbox"\
-                                id="FemaleCheckbox"\
+                                id="femaleCheckbox"\
                                 style="scale: 1.5; margin-right: 10px;"\
-                                onclick=""\
+                                onclick="selectGender(this);"\
                                 name="female"\
                                 checked\
                             />\

@@ -312,10 +312,10 @@ function getCountryCodes() {
 function getGenders() {
   try {
     let genders = [];
-    if(document.getElementById('MaleCheckbox').checked && !document.getElementById('FemaleCheckbox').checked) {
+    if(document.getElementById('maleCheckbox').checked && !document.getElementById('femaleCheckbox').checked) {
       genders.push('male')
     }
-    if(document.getElementById('FemaleCheckbox').checked && !document.getElementById('MaleCheckbox').checked) {
+    if(document.getElementById('femaleCheckbox').checked && !document.getElementById('maleCheckbox').checked) {
       genders.push('female')
     }
 
@@ -347,7 +347,6 @@ function buildSourceContent(sourceName, content, filters) {
     let sourceNameText = document.createElement("SPAN")
     sourceNameText.style.fontSize = "18px"
     sourceNameText.style.position = "relative"
-    sourceNameText.style.top = "8px"
     sourceNameText.style.display = "inline-block"
     sourceNameText.style.width = "200px"
     sourceNameText.textContent = sourceName
@@ -355,30 +354,30 @@ function buildSourceContent(sourceName, content, filters) {
 
     // create number of results span
     let numberOfResultsText = document.createElement("SPAN")
-    numberOfResultsText.style.fontSize = "14px"
+    numberOfResultsText.style.fontSize = "15px"
     numberOfResultsText.style.position = "relative"
-    numberOfResultsText.style.top = "6px"
-    numberOfResultsText.style.left = "30px"
+    numberOfResultsText.style.display = 'inline-block'
+    numberOfResultsText.style.width = '160px'
     if(sourceName === 'ERKNet' || sourceName === 'UIMD' || sourceName === 'EREC') {
       numberOfResultsText.textContent = '1 Dataset Result'
     }
     else {
       if(content['resourceResponses']) {
         if (content.resourceResponses.length == 1 || !Array.isArray(content.resourceResponses)) {
-          numberOfResultsText.textContent = '1 Result'
+          numberOfResultsText.textContent = '1 Metadata Result'
         } 
         else {
           numberOfResultsText.textContent =
-            "" + content.resourceResponses.length + " Results"
+            "" + content.resourceResponses.length + " Metadata Results"
         }
       }
       else {
         if (content.length == 1) {
           numberOfResultsText.textContent =
-            "" + content.length + " Result"
+            "1 Metadata Result"
         } else {
           numberOfResultsText.textContent =
-            "" + content.length + " Results"
+            "" + content.length + " Metadata Results"
         }
       }   
     }
@@ -386,85 +385,81 @@ function buildSourceContent(sourceName, content, filters) {
 
     let matchingRdCode = document.createElement("SPAN")
     matchingRdCode.style.fontSize = "14px"
-    matchingRdCode.style.position = "relative"
-    matchingRdCode.style.top = "6px"
-    matchingRdCode.style.left = '60px'
+    matchingRdCode.style.backgroundColor = "white"
     matchingRdCode.style.color = 'black'
+    matchingRdCode.style.position = "relative"
+    matchingRdCode.style.margin = "8px"
+    matchingRdCode.style.padding = '5px'
+    matchingRdCode.style.display = 'inline-block'
     matchingRdCode.textContent = `ORPHA:${filters.disease}`
     
     sourceCollapsible.appendChild(matchingRdCode)
 
-    switch (sourceName) {
-      case 'BBMRI-Eric': case 'Orphanet': case 'Cellosaurus': case 'hpscReg': case 'Wikipathways':
-        let matchingTypes = document.createElement("SPAN")
-        matchingTypes.style.fontSize = "14px"
-        matchingTypes.style.position = "relative"
-        matchingTypes.style.top = "6px"
-        matchingTypes.style.color = '#333'
-        matchingTypes.style.left = '80px'
-        let types = mapTypes(filters.types)
-        for(let type of types) {
-          let matchingType = document.createElement("SPAN")
-          matchingType.style.backgroundColor = '#3bb392'
-          matchingType.style.margin = '8px'
-          matchingType.style.padding = '5px'
-          matchingType.textContent = type
-          matchingTypes.appendChild(matchingType)
-        }
+    let matchingTypes = document.createElement("SPAN")
+    matchingTypes.style.fontSize = "14px"
+    matchingTypes.style.position = "relative"
+    matchingTypes.style.margin = '8px'
+    matchingTypes.style.color = '#333'
+    let types = mapTypes(filters.types)
+    for(let type of types) {
+      let matchingType = document.createElement("SPAN")
+      matchingType.style.backgroundColor = '#3bb392'
+      matchingType.style.padding = '5px'
+      matchingType.style.margin = '2px'
+      matchingType.style.display = 'inline-block'
+      matchingType.textContent = type
+      matchingTypes.appendChild(matchingType)
+    }
 
-        sourceCollapsible.appendChild(matchingTypes)
+    sourceCollapsible.appendChild(matchingTypes)
 
-        if(sourceName === 'BBMRI-Eric' || sourceName === 'Orphanet') {
-          let matchingCountries = document.createElement("SPAN")
-          matchingCountries.style.fontSize = "14px"
-          matchingCountries.style.position = "relative"
-          matchingCountries.style.top = "6px"
-          matchingCountries.style.left = '100px'
-          matchingCountries.style.color = '#333'
-          let countries = mapCountries(filters.countries)
-          for(let country of countries) {
-            let matchingCountry = document.createElement("SPAN")
-            matchingCountry.style.backgroundColor = '#fecf00'
-            matchingCountry.style.margin = '8px'
-            matchingCountry.style.padding = '5px'
-            matchingCountry.textContent = country
-            matchingCountries.appendChild(matchingCountry)
-          }
+    if(sourceName === 'BBMRI-Eric' || sourceName === 'Orphanet') {
+      let matchingCountries = document.createElement("SPAN")
+      matchingCountries.style.fontSize = "14px"
+      matchingCountries.style.position = "relative"
+      matchingCountries.style.margin = '8px'
+      matchingCountries.style.color = '#333'
+      let countries = mapCountries(filters.countries)
+      for(let country of countries) {
+        let matchingCountry = document.createElement("SPAN")
+        matchingCountry.style.backgroundColor = '#fecf00'
+        matchingCountry.style.margin = '2px'
+        matchingCountry.style.padding = '5px'
+        matchingCountry.style.display = 'inline-block'
+        matchingCountry.textContent = country
+        matchingCountries.appendChild(matchingCountry)
+      }
 
-          sourceCollapsible.appendChild(matchingCountries)
-        }
-        break
-      case 'UIMD': case 'ERKNet': case 'EREC':
-        let matchingGenders = document.createElement("SPAN")
-        matchingGenders.style.fontSize = "14px"
-        matchingGenders.style.position = "relative"
-        matchingGenders.style.top = "6px"
-        matchingGenders.style.left = '80px'
-        matchingGenders.style.color = '#333'
-        for(let gender of filters.genders) {
-          let element = document.createElement("SPAN")
-          element.style.backgroundColor = 'white'
-          element.style.margin = '8px'
-          element.style.padding = '5px'
-          element.textContent = gender.charAt(0).toUpperCase() + gender.slice(1)
-          matchingGenders.appendChild(element)
-        }
+      sourceCollapsible.appendChild(matchingCountries)
+    }
+
+    if(sourceName === 'UIMD' || sourceName === 'ERKNet' || sourceName === 'EREC') {
+      let matchingGenders = document.createElement("SPAN")
+      matchingGenders.style.fontSize = "14px"
+      matchingGenders.style.position = "relative"
+      matchingGenders.style.margin = '8px'
+      matchingGenders.style.color = '#333'
+      for(let gender of filters.genders) {
+        let matchingGender = document.createElement("SPAN")
+        matchingGender.style.backgroundColor = '#ff8383'
+        matchingGender.style.margin = '2px'
+        matchingGender.style.display = 'inline-block'
+        matchingGender.style.padding = '5px'
+        matchingGender.textContent = gender.charAt(0).toUpperCase() + gender.slice(1)
+        matchingGenders.appendChild(matchingGender)
+      }
 
         sourceCollapsible.appendChild(matchingGenders)
-        break
-      default:
-        console.info("Entering default switch of discovery.js:buildSourceContent().");
-        break;
     }
 
     resultList.appendChild(sourceCollapsible);
 
-    let sourceContentDiv = document.createElement("div");
-    sourceContentDiv.setAttribute("id", sourceName + "Content");
-    sourceContentDiv.setAttribute("class", sourceName + "Content");
-    sourceContentDiv.style.borderBottom = "1px solid white";
+    let sourceContentDiv = document.createElement("div")
+    sourceContentDiv.setAttribute("id", sourceName + "Content")
+    sourceContentDiv.setAttribute("class", sourceName + "Content")
+    sourceContentDiv.style.borderBottom = "1px solid white"
 
-    let sourceResultContentTable = document.createElement("table");
+    let sourceResultContentTable = document.createElement("table")
     sourceResultContentTable.classList.add('table')
     if(sourceName === 'BBMRI-Eric' || 
       sourceName === 'Orphanet' || 
@@ -496,7 +491,7 @@ async function discover() {
       updateStatusText("error", "Please enter a search term (rare disease name or orpha/icd10 code).")
       return
     }
-    if(!document.getElementById('FemaleCheckbox').checked && !document.getElementById('MaleCheckbox').checked) {
+    if(!document.getElementById('femaleCheckbox').checked && !document.getElementById('maleCheckbox').checked) {
       updateStatusText("error", "Please select at least one gender option to be searched.")
       return
     }
@@ -600,7 +595,7 @@ async function discover() {
     toggleLoadingSpinner(searchButton, true, searchClearButton)
     let progress = 0
     let resultCount = 0
-    createResultListTableHeader(resultList)
+    let headerCreated = false
     for(let source of selectedSources) { 
       await fetch(query + `&source=${JSON.stringify(source)}`)
       .then(handleFetchErrors)
@@ -608,6 +603,10 @@ async function discover() {
         if (fetchResponse.status >= 200 && fetchResponse.status <= 404) {
           const responseData = await fetchResponse.json()
           if (responseData['content']) {
+            if(!headerCreated) {
+              createResultListTableHeader(resultList)
+              headerCreated = true
+            }
             resultCount++
             buildSourceContent(responseData.name, responseData['content'], filters)
           }

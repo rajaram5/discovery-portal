@@ -6,7 +6,7 @@
 
 "use strict";
 
-import { searchInput } from './components.js'
+import { filterList, searchInput, filterListText } from './components.js'
 import { currentUser } from './auth.js'
 import { scrollToTop } from './utils.js'
 
@@ -47,7 +47,7 @@ function toggleLoadingSpinner(button, isLoading, clearButton) {
     }
 }
 
-  // function that toggles the record interrogation filter tab
+// function that toggles the record interrogation filter tab
 function toggleInterrogation(showTab) {
     try {
       let tab = document.getElementById("recordInterrogation")
@@ -89,13 +89,14 @@ function clearInput(useCase) {
           break;
         }
         case "search": {
-          resultList.textContent = "";
-          searchInput.value = "";
-          searchClearButton.style.display = "none";
+          clearFilterList()
+          resultList.textContent = ""
+          searchInput.value = ""
+          searchClearButton.style.display = "none"
           if(document.getElementById("discoverySearchBar-autocomplete-list")) {
-            document.getElementById("discoverySearchBar-autocomplete-list").remove();
+            document.getElementById("discoverySearchBar-autocomplete-list").remove()
           }
-          break;
+          break
         }
         /*case "mapper": {
           resultList.textContent = "";
@@ -860,41 +861,41 @@ try {
   updateStatusText("none")
   let selectedCountry = dropdownList.value
   if(!selectedCountries.includes(selectedCountry)) {
-  selectedCountries.push(selectedCountry)
-  // create and append country list item
-  let entry = document.createElement('li')
-  entry.appendChild(document.createTextNode(selectedCountry))
-  entry.setAttribute("id", `${selectedCountry}ListItem`)
-  entry.style.backgroundColor = "#fecf00"
-  entry.style.paddingBottom = "3px"
-  entry.style.paddingLeft = "10px"
-  let removeIcon = document.createElement("IMG")
-  removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
-  removeIcon.setAttribute("alt", "remove-icon")
-  removeIcon.setAttribute("onclick", 'removeCountryFromList("'+selectedCountry+'");')
-  removeIcon.style.marginTop = "-2px"
-  removeIcon.style.marginLeft = "8px"
-  removeIcon.style.float = "right"
-  removeIcon.style.cursor = "pointer"
-  entry.appendChild(removeIcon)
-  filterList.appendChild(entry)
-  if(document.getElementById("filterList").childElementCount == 1) {
-      document.getElementById("filterListText").textContent = "No filters applied"
-  }
-  else {
-    document.getElementById("filterListText").textContent = ""
-    if(document.getElementById("filterList").childElementCount <= 7) {
-      document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
-      document.getElementById("advancedSearchButton").style.height = "94px"
-      document.getElementById("advancedSearchArrow").style.top = "30px"
-      document.getElementById("searchButton").style.height = "92px"
+    selectedCountries.push(selectedCountry)
+    // create and append country list item
+    let entry = document.createElement('li')
+    entry.appendChild(document.createTextNode(selectedCountry))
+    entry.setAttribute("id", `${selectedCountry}ListItem`)
+    entry.style.backgroundColor = "#fecf00"
+    entry.style.paddingBottom = "3px"
+    entry.style.paddingLeft = "10px"
+    let removeIcon = document.createElement("IMG")
+    removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
+    removeIcon.setAttribute("alt", "remove-icon")
+    removeIcon.setAttribute("onclick", 'removeCountryFromList("'+selectedCountry+'");')
+    removeIcon.style.marginTop = "-2px"
+    removeIcon.style.marginLeft = "8px"
+    removeIcon.style.float = "right"
+    removeIcon.style.cursor = "pointer"
+    entry.appendChild(removeIcon)
+    filterList.appendChild(entry)
+    if(document.getElementById("filterList").childElementCount == 1) {
+        document.getElementById("filterListText").textContent = "No filters applied"
     }
-    else if (document.getElementById("filterList").childElementCount > 7) {
-      document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
+    else {
+      document.getElementById("filterListText").textContent = ""
+      if(document.getElementById("filterList").childElementCount <= 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
+        document.getElementById("advancedSearchButton").style.height = "94px"
+        document.getElementById("advancedSearchArrow").style.top = "30px"
+        document.getElementById("searchButton").style.height = "92px"
+      }
+      else if (document.getElementById("filterList").childElementCount > 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
+      }
     }
-  }
-  allCountriesCheckbox.checked = false
-  allCountriesCheckbox.disabled = false
+    allCountriesCheckbox.checked = false
+    allCountriesCheckbox.disabled = false
   }
   else {
    updateStatusText("error", "This country is already included in the country list.")
@@ -944,26 +945,26 @@ try {
 function clearCountryList(checked) {
 try {
     if(checked) {
-    for(let country of selectedCountries) {
+      for(let country of selectedCountries) {
         document.getElementById(`${country}ListItem`).remove()
-    }
-    if(document.getElementById("filterList").childElementCount == 1) {
+      }
+      if(document.getElementById("filterList").childElementCount == 1) {
         document.getElementById("filterListText").textContent = "No filters applied"
-    }
-    else {
+      }
+      else {
         document.getElementById("filterListText").textContent = ""
         if(document.getElementById("filterList").childElementCount <= 7) {
-        document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
-        document.getElementById("advancedSearchButton").style.height = "94px"
-        document.getElementById("advancedSearchArrow").style.top = "30px"
-        document.getElementById("searchButton").style.height = "92px"
+          document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
+          document.getElementById("advancedSearchButton").style.height = "94px"
+          document.getElementById("advancedSearchArrow").style.top = "30px"
+          document.getElementById("searchButton").style.height = "92px"
         }
         else if (document.getElementById("filterList").childElementCount > 7) {
-        document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
+          document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
         }
-    }
-    selectedCountries = []
-    allCountriesCheckbox.disabled = true
+      }
+      selectedCountries = []
+      allCountriesCheckbox.disabled = true
     }
 } catch (exception) {
     console.error("Error in clientScripts.js:clearCountryList(): ", exception
@@ -973,53 +974,53 @@ try {
 
 // function that acts whenever a type is selected
 function selectType(dropdownList) {
-try {
+  try {
     updateStatusText("none")
     let selectedType = dropdownList.value
     if(!selectedTypes.includes(selectedType)) {
-    selectedTypes.push(selectedType)
-    // creat and append country list item
-    let entry = document.createElement('li')
-    entry.appendChild(document.createTextNode(selectedType))
-    entry.setAttribute("id", `${selectedType}ListItem`)
-    entry.style.backgroundColor = "#3bb392"
-    entry.style.paddingBottom = "3px"
-    entry.style.paddingLeft = "10px"
-    let removeIcon = document.createElement("IMG")
-    removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
-    removeIcon.setAttribute("alt", "remove-icon")
-    removeIcon.setAttribute("onclick", 'removeTypeFromList("'+selectedType+'");')
-    removeIcon.style.marginTop = "-2px"
-    removeIcon.style.marginLeft = "8px"
-    removeIcon.style.float = "right"
-    removeIcon.style.cursor = "pointer"
-    entry.appendChild(removeIcon)
-    filterList.appendChild(entry)
-    if(document.getElementById("filterList").childElementCount == 1) {
+      selectedTypes.push(selectedType)
+      // creat and append country list item
+      let entry = document.createElement('li')
+      entry.appendChild(document.createTextNode(selectedType))
+      entry.setAttribute("id", `${selectedType}ListItem`)
+      entry.style.backgroundColor = "#3bb392"
+      entry.style.paddingBottom = "3px"
+      entry.style.paddingLeft = "10px"
+      let removeIcon = document.createElement("IMG")
+      removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
+      removeIcon.setAttribute("alt", "remove-icon")
+      removeIcon.setAttribute("onclick", 'removeTypeFromList("'+selectedType+'");')
+      removeIcon.style.marginTop = "-2px"
+      removeIcon.style.marginLeft = "8px"
+      removeIcon.style.float = "right"
+      removeIcon.style.cursor = "pointer"
+      entry.appendChild(removeIcon)
+      filterList.appendChild(entry)
+      if(document.getElementById("filterList").childElementCount == 1) {
         document.getElementById("filterListText").textContent = "No filters applied"
-    }
-    else {
+      }
+      else {
         document.getElementById("filterListText").textContent = ""
         if(document.getElementById("filterList").childElementCount <= 7) {
-        document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
-        document.getElementById("advancedSearchButton").style.height = "94px"
-        document.getElementById("advancedSearchArrow").style.top = "30px"
-        document.getElementById("searchButton").style.height = "92px"
+          document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
+          document.getElementById("advancedSearchButton").style.height = "94px"
+          document.getElementById("advancedSearchArrow").style.top = "30px"
+          document.getElementById("searchButton").style.height = "92px"
         }
         else if (document.getElementById("filterList").childElementCount > 7) {
-        document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
+          document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
         }
-    }
-    allTypesCheckbox.checked = false
-    allTypesCheckbox.disabled = false
+      }
+      allTypesCheckbox.checked = false
+      allTypesCheckbox.disabled = false
     }
     else {
-    updateStatusText("error", "This type is already included in the types list.")
+      updateStatusText("error", "This type is already included in the types list.")
     }
     dropdownList.options[0].selected = true
-} catch (exception) {
+  } catch (exception) {
     console.error("Error in clientScripts.js:selectType(): ", exception)
-}
+  }
 }
 
 // function that removes a type from the selected types list
@@ -1087,8 +1088,161 @@ try {
 }
 }
 
+// function that acts whenever a type is selected
+function selectGender(clickedCheckbox) {
+  try {
+    updateStatusText("none")
+    let selectedGender = ''
+    if(clickedCheckbox.name == 'male' && !clickedCheckbox.checked && document.getElementById('femaleCheckbox').checked) {
+      selectedGender = 'Female'
+    }
+    else if(clickedCheckbox.name == 'female' && !clickedCheckbox.checked && document.getElementById('maleCheckbox').checked) {
+      selectedGender = 'Male'
+    }
+    else if((document.getElementById('femaleCheckbox').checked && document.getElementById('maleCheckbox').checked)) {
+      clearGenderList()
+      return
+    }
+    else if(!document.getElementById('femaleCheckbox').checked && !document.getElementById('maleCheckbox').checked) {
+      clearGenderList()
+      document.getElementById('femaleCheckbox').checked = true
+      document.getElementById('maleCheckbox').checked = true
+      return
+    }
+    // create and append gender list item
+    let entry = document.createElement('li')
+    entry.appendChild(document.createTextNode(selectedGender))
+    entry.setAttribute("id", `${selectedGender}ListItem`)
+    entry.style.backgroundColor = '#ff8383'
+    entry.style.paddingBottom = "3px"
+    entry.style.paddingLeft = "10px"
+    let removeIcon = document.createElement("IMG")
+    removeIcon.setAttribute("src", "../discovery/static/media/close-icon.png")
+    removeIcon.setAttribute("alt", "remove-icon")
+    removeIcon.setAttribute("onclick", 'removeGenderFromList("'+selectedGender+'");')
+    removeIcon.style.marginTop = "-2px"
+    removeIcon.style.marginLeft = "8px"
+    removeIcon.style.float = "right"
+    removeIcon.style.cursor = "pointer"
+    entry.appendChild(removeIcon)
+    
+    filterList.appendChild(entry)
+
+    if(document.getElementById("filterList").childElementCount == 1) {
+      document.getElementById("filterListText").textContent = "No filters applied"
+    }
+    else {
+      document.getElementById("filterListText").textContent = ""
+      if(document.getElementById("filterList").childElementCount <= 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
+        document.getElementById("advancedSearchButton").style.height = "94px"
+        document.getElementById("advancedSearchArrow").style.top = "30px"
+        document.getElementById("searchButton").style.height = "92px"
+      }
+      else if (document.getElementById("filterList").childElementCount > 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
+      }
+    }
+  } catch (exception) {
+    console.error("Error in clientScripts.js:selectGender(): ", exception)
+  }
+}
+
+// function that removes a type from the selected types list
+function removeGenderFromList(gender) {
+  try {
+    document.getElementById(`${gender}ListItem`).remove()
+
+    if(gender == 'Female') {
+      document.getElementById('maleCheckbox').checked = true
+    }
+    if(gender == 'Male') {
+      document.getElementById('femaleCheckbox').checked = true
+    }
+
+    if(document.getElementById("filterList").childElementCount == 1) {
+        document.getElementById("filterListText").textContent = "No filters applied"
+    }
+    else {
+      document.getElementById("filterListText").textContent = ""
+      if(document.getElementById("filterList").childElementCount <= 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
+        document.getElementById("advancedSearchButton").style.height = "94px"
+        document.getElementById("advancedSearchArrow").style.top = "30px"
+        document.getElementById("searchButton").style.height = "92px"
+      }
+      else if (document.getElementById("filterList").childElementCount > 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
+      }
+    }
+  } catch (exception) {
+      console.error("Error in clientScripts.js:removeGenderFromList(): ", exception)
+  }
+}
+
+// function that empties the type list
+function clearGenderList() {
+  try {
+    if(document.getElementById('FemaleListItem')) {
+      document.getElementById('FemaleListItem').remove()
+      document.getElementById('maleCheckbox').checked = true
+      document.getElementById('femaleCheckbox').checked = true
+    }
+    if(document.getElementById('MaleListItem')) {
+      document.getElementById('MaleListItem').remove()
+      document.getElementById('maleCheckbox').checked = true
+      document.getElementById('femaleCheckbox').checked = true
+    }
+
+    if(document.getElementById("filterList").childElementCount == 1) {
+      document.getElementById("filterListText").textContent = "No filters applied"
+    }
+    else {
+      document.getElementById("filterListText").textContent = ""
+      if(document.getElementById("filterList").childElementCount <= 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
+        document.getElementById("advancedSearchButton").style.height = "94px"
+        document.getElementById("advancedSearchArrow").style.top = "30px"
+        document.getElementById("searchButton").style.height = "92px"
+      }
+      else if (document.getElementById("filterList").childElementCount > 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
+      }
+    }
+  } catch (exception) {
+      console.error("Error in clientScripts.js:clearGenderList(): ", exception)
+  }
+}
+
+// function that clears the search filter list
+function clearFilterList() {
+  try {
+    clearGenderList()
+    clearTypeList(true)
+    clearCountryList(true)
+
+    if(filterList.childElementCount == 1) {
+      filterListText.textContent = "No filters applied"
+    }
+    else {
+      filterListText.textContent = ""
+      if(filterList.childElementCount <= 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "40px"
+        document.getElementById("advancedSearchButton").style.height = "94px"
+        document.getElementById("advancedSearchArrow").style.top = "30px"
+        document.getElementById("searchButton").style.height = "92px"
+      }
+      else if (document.getElementById("filterList").childElementCount > 7) {
+        document.getElementById("discoverySearchBar").style.paddingBottom = "75px"
+      }
+    }
+  } catch (exception) {
+      console.error("Error in clientScripts.js:clearFilterList(): ", exception)
+  }
+}
+
 // function that is called when submitting a login request
-function submitLogin() {
+/*function submitLogin() {
     try {
         if (event.keyCode == 13) {
             document.getElementById("loginSubmitButton").click()
@@ -1096,7 +1250,7 @@ function submitLogin() {
     } catch (exception) {
         console.error("Error in updateDom.js:submitLogin(): ", exception)
     }
-}
+}*/
 
 // function that hides the disclaimer text div
 function closeDisclaimerText() {
@@ -1113,12 +1267,14 @@ window.toggleAdvancedSearchTab = toggleAdvancedSearchTab
 window.toggleListedSources = toggleListedSources
 window.selectCountry = selectCountry
 window.selectType = selectType
+window.selectGender = selectGender
 window.removeCountryFromList = removeCountryFromList
+window.removeGenderFromList = removeGenderFromList
 window.removeTypeFromList = removeTypeFromList
 window.clearCountryList = clearCountryList
 window.clearTypeList = clearTypeList
 window.toggleSourceResults = toggleSourceResults
 window.toggleTopButton = toggleTopButton
 window.updateStatusText = updateStatusText
-window.submitLogin = submitLogin
+//window.submitLogin = submitLogin
 window.clearInput = clearInput

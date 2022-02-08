@@ -23,6 +23,7 @@ const advancedSearchButton = document.getElementById("advancedSearchButton");
 const mapButton = document.getElementById("mapButton");
 const knowledgeSearchButton = document.getElementById("knowledgeSearchButton");
 const filterList = document.getElementById("filterList");
+const filterListText = document.getElementById("filterListText");
 const searchFilterCollapsible = document.getElementById(
   "searchFilterCollapsible"
 );
@@ -49,5 +50,5 @@ export {
     searchButton, advancedSearchButton, mapButton, knowledgeSearchButton, topButton,
     searchFilterCollapsible, recordInterogationCollapsible, listedSourcesCollapsible,
     registriesCheckbox, biobanksCheckbox, allTypesCheckbox, allCountriesCheckbox,
-    filterList, catalogueList, resultList, loginModal
+    filterList, filterListText, catalogueList, resultList, loginModal
 }
