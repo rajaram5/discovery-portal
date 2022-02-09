@@ -75,7 +75,7 @@ document.write('\
             <div id="recordInterrogation" class="recordInterrogation" title="You need to be logged in to use the Dataset Filter Options.">\
                 <table class="table">\
                     <tr>\
-                        <th colspan="2" style="border-bottom: 1px solid white; font-weight: bold;"">Dataset Filter Options</th>\
+                        <th colspan="2" style="border-bottom: 1px solid white; font-weight: bold;"">Record Interrogation Filter Options</th>\
                     </tr>\
                     <tr>\
                         <th style="width: 52%; font-size: 15px; color: #ff8383">Gender(s)</th>\
