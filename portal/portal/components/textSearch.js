@@ -10,7 +10,7 @@ document.write('\
     <button type="button" class="clearButton" id="searchClearButton" onclick="clearInput(`search`);"><img src="../discovery/static/media/delete_red.png" /></button>\
         <input\
             type="text"\
-            placeholder="Search by rare disease name or orphacode ..."\
+            placeholder="Search by rare disease name or orpha/icd10 code  ..."\
             class="searchBar"\
             id="discoverySearchBar"\
         />\
