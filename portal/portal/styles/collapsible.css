@@ -1,4 +1,4 @@
-/* 
+/*
   This code is licensed under MIT license (see LICENSE file for details).
   (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
   Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
@@ -53,74 +53,8 @@
     overflow: hidden;
     transition: max-height 300ms ease-in-out, width 300ms ease-in-out, margin-left 300ms ease-in-out;
 }
-  
-.BiobankDatasetContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-  
-.PatientRegistryDatasetContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
 
-.IndividualDatasetContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-
-.OrphanetContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-
-.BBMRI-EricContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-
-.CellosaurusContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-
-.ERKNetContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-
-.UIMDContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-
-.ERECContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-
-.Leicester-ERN-NetworkContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-
-.WikipathwaysContent {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.25s ease-in-out;
-}
-
-.hpscRegContent {
+.resourceContent {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.25s ease-in-out;

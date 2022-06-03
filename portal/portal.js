@@ -1,4 +1,4 @@
-/* 
+/*
   This code is licensed under MIT license (see LICENSE file for details).
   (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
   Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
@@ -28,7 +28,7 @@ class Application {
 
     /*if (this.keycloak) {
         console.warn("Trying to init Keycloak again!")
-    } 
+    }
     else {
         console.log("Initializing Keycloak...")
         this.keycloak = require('./portal/config/keycloak-config.js').initKeycloak()
@@ -76,10 +76,12 @@ class Application {
         let query = ''
         let data = {}
 
-        if(source.catalogueName === 'Orphanet-FDP' 
-        || source.catalogueName === 'Cellosaurus' 
-        || source.catalogueName === 'Wikipathways' 
-        || source.catalogueName === 'hpscReg') {
+        //if(source.catalogueName === 'Orphanet-FDP'
+        //|| source.catalogueName === 'Cellosaurus'
+        //|| source.catalogueName === 'Wikipathways'
+        //|| source.catalogueName === 'hpscReg') {
+        if(source.specsURL ===
+          'https://raw.githubusercontent.com/ejp-rd-vp/query_builder_api/master/versions/v2/specification.yaml') {
           query = `${source.catalogueAddress}?code=http://www.orpha.net/ORDO/Orphanet_${requestedSearch}`
           await fetch(query, {
             headers: {
@@ -132,7 +134,7 @@ class Application {
                           "id": "gender",
                           "operator": "=",
                           "value": gender
-                      }                    
+                      }
                   ]
               }
             }
@@ -149,7 +151,7 @@ class Application {
                           "includeDescendantTerms": true,
                           "similarity": "exact",
                           "scope": "individuals"
-                      }                   
+                      }
                   ]
               }
             }
@@ -171,7 +173,7 @@ class Application {
                       content: result
                     }
                     response.json(data)
-                  }  
+                  }
                 }
               }
               else {
@@ -185,7 +187,7 @@ class Application {
           .catch((exception) => {
             this.logger.log('error', 'Error in portal:portal.js:app.get(/search):fetch(): ' + exception);
             console.error("Error in portal:portal.js:app.get(/search):fetch(): ", exception);
-          })            
+          })
         }
         else if (source.catalogueName === 'Orphanet' || source.catalogueName === 'BBMRI-Eric') {
           query = this.buildQuery(source.catalogueAddress, requestedSearch, selectedTypes, selectedCountries);
@@ -324,7 +326,7 @@ class Application {
               else {
                 response.sendStatus(404);
               }
-            } 
+            }
             else {
               response.sendStatus(404);
             }
@@ -378,7 +380,7 @@ class Application {
     try {
       if (!this.keycloak) {
         console.error('Keycloak has not been initialized. Please called init first.');
-      } 
+      }
       return this.keycloak;
     } catch (exception) {
       console.error("Error in portal.js:Application:getKeycloak() ", exception);
@@ -516,7 +518,7 @@ class Server {
       httpsServer.listen(process.env.PORTAL_PORT, () =>
         console.log(`Resource Discovery Portal available at https://localhost:${process.env.PORTAL_PORT} ...`)
       );
-      
+
       // get catalogue list
       fetch(`${process.env.DIRECTORY_URL}/catalogues/`)
         .then(this.handleFetchErrors)
@@ -535,7 +537,7 @@ class Server {
           app.directoryEndpoint = null
           console.error("Error in portal:portal.js:Server.run():fetch(): ", exception);
         });
-    }     
+    }
     catch (exception) {
       console.error("Error in portal:portal.js:Server.run(): ", exception);
     }

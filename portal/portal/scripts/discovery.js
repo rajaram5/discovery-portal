@@ -1,4 +1,4 @@
-/* 
+/*
   This code is licensed under MIT license (see LICENSE file for details).
   (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
   Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
@@ -7,17 +7,17 @@
 "use strict"
 
 import { statusTextDiv, statusText, statusTextCloseButton,
-  searchInput, mapperInput, knowledgeBaseInput, 
+  searchInput, mapperInput, knowledgeBaseInput,
   searchClearButton, mapperClearButton, knowledgeBaseClearButton,
   searchButton, mapButton, knowledgeSearchButton, topButton,
   searchFilterCollapsible, listedSourcesCollapsible,
-  filterList, catalogueList, resultList, allCountriesCheckbox, 
+  filterList, catalogueList, resultList, allCountriesCheckbox,
   allTypesCheckbox, loginModal } from '/discovery/scripts/components.js'
 import { euCountries } from '/discovery/static/countries.js'
 import { rareDiseases } from '/discovery/static/rareDiseases.js'
-import { toggleLoadingSpinner, clearInput, updateStatusText, 
-  updateCatalogueListDOM, clearPreviousSearch, createResultListTable, 
-  createResultListTableHeader, updateResultListDOM, selectedCountries, 
+import { toggleLoadingSpinner, clearInput, updateStatusText,
+  updateCatalogueListDOM, clearPreviousSearch, createResultListTable,
+  createResultListTableHeader, updateResultListDOM, selectedCountries,
   selectedTypes } from '/discovery/scripts/updateDom.js'
 import { handleFetchErrors, extractRDCode, isNumber, isIcd } from '/discovery/scripts/utils.js'
 import { currentUser } from '/discovery/scripts/auth.js'
@@ -146,6 +146,7 @@ async function getCatalogues() {
         if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
           const data = await fetchResponse.json();
           catalogues = data;
+          console.log(catalogues);
         } else {
           console.error("Error in clientScripts.js:getCatalogues(): Fetch response out of range.");
         }
@@ -189,7 +190,7 @@ function mapTypes(types) {
     return mappedTypes
   } catch (exception) {
     console.error("Error in clientScripts.js:mapTypes(): ", exception);
-  } 
+  }
 }
 
 // function that maps country naming
@@ -204,7 +205,7 @@ function mapCountries(countries) {
     return mappedCountries
   } catch (exception) {
     console.error("Error in clientScripts.js:mapCountries(): ", exception);
-  } 
+  }
 }
 
 // function that returns a list of the selected catalogues
@@ -217,6 +218,8 @@ function getSelectedSources(selectedTypes) {
           let insertCatalogue = {
             catalogueName: catalogue.catalogueName,
             catalogueAddress: catalogue.catalogueAddress,
+            specsURL: catalogue.specsURL,
+            logo: catalogue.logo,
           };
           selectedCatalogues.push(insertCatalogue);
         }
@@ -229,6 +232,8 @@ function getSelectedSources(selectedTypes) {
               let insertCatalogue = {
                 catalogueName: catalogue.catalogueName,
                 catalogueAddress: catalogue.catalogueAddress,
+                specsURL: catalogue.specsURL,
+                logo: catalogue.logo,
               };
               if(selectedCatalogues.findIndex(x => x.catalogueName == insertCatalogue.catalogueName) === -1) {
                 selectedCatalogues.push(insertCatalogue);
@@ -331,7 +336,7 @@ function getGenders() {
 }
 
 // function that builds the result list DOM for a resource type
-function buildSourceContent(sourceName, content, filters) {
+function buildSourceContent(sourceName, sourceSpecsURL, content, filters) {
   try {
     // create collapsible
     let sourceCollapsible = document.createElement("BUTTON")
@@ -342,7 +347,7 @@ function buildSourceContent(sourceName, content, filters) {
     sourceCollapsible.style.padding = "8px 15px 6px 30px"
     sourceCollapsible.setAttribute("onClick", "toggleSourceResults(this);")
     sourceCollapsible.setAttribute("name", sourceName)
-    
+
     // create source name span
     let sourceNameText = document.createElement("SPAN")
     sourceNameText.style.fontSize = "18px"
@@ -365,7 +370,7 @@ function buildSourceContent(sourceName, content, filters) {
       if(content['resourceResponses']) {
         if (content.resourceResponses.length == 1 || !Array.isArray(content.resourceResponses)) {
           numberOfResultsText.textContent = '1 Metadata Result'
-        } 
+        }
         else {
           numberOfResultsText.textContent =
             "" + content.resourceResponses.length + " Metadata Results"
@@ -379,7 +384,7 @@ function buildSourceContent(sourceName, content, filters) {
           numberOfResultsText.textContent =
             "" + content.length + " Metadata Results"
         }
-      }   
+      }
     }
     sourceCollapsible.appendChild(numberOfResultsText)
 
@@ -392,7 +397,7 @@ function buildSourceContent(sourceName, content, filters) {
     matchingRdCode.style.padding = '5px'
     matchingRdCode.style.display = 'inline-block'
     matchingRdCode.textContent = `ORPHA:${filters.disease}`
-    
+
     sourceCollapsible.appendChild(matchingRdCode)
 
     let matchingTypes = document.createElement("SPAN")
@@ -456,16 +461,19 @@ function buildSourceContent(sourceName, content, filters) {
 
     let sourceContentDiv = document.createElement("div")
     sourceContentDiv.setAttribute("id", sourceName + "Content")
-    sourceContentDiv.setAttribute("class", sourceName + "Content")
+    //sourceContentDiv.setAttribute("class", sourceName + "Content")
+    sourceContentDiv.setAttribute("class", "resourceContent")
     sourceContentDiv.style.borderBottom = "1px solid white"
 
     let sourceResultContentTable = document.createElement("table")
     sourceResultContentTable.classList.add('table')
-    if(sourceName === 'BBMRI-Eric' || 
-      sourceName === 'Orphanet' || 
-      sourceName === 'Cellosaurus' || 
-      sourceName === 'hpscReg' || 
-      sourceName === 'Wikipathways') {
+    //if(sourceName === 'BBMRI-Eric' ||
+    //  sourceName === 'Orphanet' ||
+    //  sourceName === 'Cellosaurus' ||
+    //  sourceName === 'hpscReg' ||
+    //  sourceName === 'Wikipathways') {
+    if(sourceSpecsURL ===
+      'https://raw.githubusercontent.com/ejp-rd-vp/query_builder_api/master/versions/v2/specification.yaml') {
       createResultListTable(sourceResultContentTable);
     }
 
@@ -588,7 +596,7 @@ async function discover() {
       query += `&genders=${selectedGenders}`
       if(selectedGenders) {
         filters.genders = selectedGenders
-      }   
+      }
     }
 
     // send out queries
@@ -596,7 +604,7 @@ async function discover() {
     let progress = 0
     let resultCount = 0
     let headerCreated = false
-    for(let source of selectedSources) { 
+    for(let source of selectedSources) {
       await fetch(query + `&source=${JSON.stringify(source)}`)
       .then(handleFetchErrors)
       .then(async (fetchResponse) => {
@@ -608,14 +616,14 @@ async function discover() {
               headerCreated = true
             }
             resultCount++
-            buildSourceContent(responseData.name, responseData['content'], filters)
+            buildSourceContent(responseData.name, source.specsURL, responseData['content'], filters)
           }
         } else {
           console.error("Error in clientScripts.js:discover(): Fetch response out of range.")
         }
       })
       .catch((exception) => {
-        console.error("Error in clientScripts.js:discover():fetch(): ", exception)       
+        console.error("Error in clientScripts.js:discover():fetch(): ", exception)
       })
       progress++
       document.getElementById("searchProgressBar").style.width = `${100*(progress/selectedSources.length)}%`
@@ -641,7 +649,7 @@ async function discover() {
           "Please enter a valid rare disease code to be mapped."
         );
         return;
-    } 
+    }
     else {
       let searchTerm, mappedCodes = [], exactMatches = [], nTBT = [], bTNT = [];
       switch(selectedMapper) {
@@ -695,7 +703,7 @@ async function discover() {
             }
             break;
 
-          case "Orphacode to Others Mapper": 
+          case "Orphacode to Others Mapper":
             searchTerm = extractRDCode(mapperInput.value);
             if (searchTerm == null) {
               updateStatusText("error", "Please select a valid search term from the dropdown list.");
@@ -799,7 +807,7 @@ function autocomplete(input, array) {
       input.style.fontSize = '20px'
     }
 
-    if (input.value.length > 1) { 
+    if (input.value.length > 1) {
       let val = this.value;
       closeAllLists();
       currentFocus = -1;
@@ -881,7 +889,7 @@ function autocomplete(input, array) {
             }
             else {
               input.style.fontSize = '20px'
-            }            
+            }
             closeAllLists();
           });
         }

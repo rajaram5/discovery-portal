@@ -1,4 +1,4 @@
-/* 
+/*
   This code is licensed under MIT license (see LICENSE file for details).
   (c) 2021 EJP-RD (https://www.ejprarediseases.org/)
   Author/Maintainer: David Reinert (david.reinert@ejprd-project.eu)
@@ -19,7 +19,7 @@ window.onclick = function(event) {
       loginModal.style.display = "none";
     }
 }
-  
+
 // listeners
 searchInput.addEventListener('input', toggleSearchClearButton)
 //mapperInput.addEventListener('input', toggleMapperClearButton)
@@ -33,7 +33,7 @@ function toggleLoadingSpinner(button, isLoading, clearButton) {
         button.disabled = true
         button.form.firstElementChild.disabled = true
         clearButton.style.display = "none"
-        //document.getElementById("searchProgressBar").style.width = "10%"   
+        //document.getElementById("searchProgressBar").style.width = "10%"
       } else {
         button.classList.remove("spin")
         document.getElementById("magnifier-icon").style.display = "inline-block"
@@ -117,7 +117,7 @@ function clearInput(useCase) {
       console.error("Error in clientScripts.js:clearInput(): ", exception);
     }
 }
-  
+
   // function that updates the DOM
 function updateStatusText(type, message = "", link = "", linkText = "") {
 try {
@@ -219,7 +219,7 @@ try {
     console.error("Error in clientScripts.js:updateStatusText(): ", exception);
 }
 }
-  
+
   // function that updates the catalogueList DOM for a given catalogue
 function updateCatalogueListDOM(catalogue, fetchResponse, catalogueListTable) {
 try {
@@ -279,6 +279,16 @@ try {
         break
     default:
         console.info("Entering default switch of clientScripts.js:updateCatalogueListDOM().")
+        //resourceLogo.setAttribute("src", "../discovery/static/media/database.png")
+        //resourceLogo.setAttribute("alt", catalogue.catalogueName)
+        if(catalogue.logo.length > 1) {
+          resourceLogo.setAttribute("src", catalogue.logo)
+        }
+        else {
+          resourceLogo = document.createElement("div");
+          resourceLogo.innerHTML = "<h4>" + catalogue.catalogueName + "</h4>"
+        }
+
     }
     resourceLogo.style.verticalAlign = "middle"
     resourceLogo.style.width = "120px";
@@ -342,7 +352,7 @@ function toggleTopButton() {
       console.error("Error in clientScripts.js:toggleTopButton(): ", exception)
     }
   }
-  
+
 // function that toggles the search filter dom elements
 function toggleAdvancedSearchTab() {
 try {
@@ -553,7 +563,7 @@ function createResultListTableHeader(resultList) {
           else {
             console.error("No classification entry was found for code " + extractRDCode(entry, "orpha"));
             continue;
-          } 
+          }
         }
         break;
     case "other":
@@ -561,28 +571,28 @@ function createResultListTableHeader(resultList) {
           let currentRow = resultTable.insertRow();
           currentRow.classList.add("resultListRow");
           currentRow.style.cursor = "default";
-    
+
           // insert resource name into table
           let name = document.createElement("SPAN");
           name.textContent = entry;
           name.style.fontSize = "14px";
           let currentCell = currentRow.insertCell();
           currentCell.appendChild(name);
-    
+
           // insert orphacodee into table
           let code = document.createElement("SPAN");
           code.textContent = "";
           code.style.fontSize = "14px";
           currentCell = currentRow.insertCell();
           currentCell.appendChild(code);
-    
+
           // insert orphacodee into table
           let type = document.createElement("SPAN");
           type.textContent = "";
           type.style.fontSize = "14px";
           currentCell = currentRow.insertCell();
           currentCell.appendChild(type);
-    
+
           resultTable.appendChild(currentRow);
         }
         break;
@@ -594,7 +604,7 @@ function createResultListTableHeader(resultList) {
     );
   }
 }*/
-  
+
 // function that creates a table displaying the results
 function createResultListTable(resultTable) {
   try {
@@ -627,7 +637,7 @@ function createResultListTable(resultTable) {
     "Error in clientScripts.js:createResultListTable(): ",
     exception
     );
-  } 
+  }
 }
 
 // function that updates the resultList DOM for a given catalogue result
@@ -679,7 +689,7 @@ function updateResultListDOM(resultTable, content, sourceName) {
         }
         let currentCell = currentRow.insertCell()
 
-        // insert resource name into table  
+        // insert resource name into table
         let resourceName = document.createElement("p")
         resourceName.style.fontSize = "14px"
         if(entry.name['value']) {
@@ -701,27 +711,27 @@ function updateResultListDOM(resultTable, content, sourceName) {
         }
         currentCell = currentRow.insertCell()
         currentCell.appendChild(resourceDescription)
-        
+
         // insert resource location into table
         let resourceCountry = document.createElement("SPAN");
         resourceCountry.style.fontSize = "14px";
         /*if (entry["publisher"]) {
-        resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
+        resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase()
             + entry.publisher.location.country.slice(1);
         }
         else {
-        resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
+        resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase()
             + entry.location.country.slice(1).toLowerCase();
         }*/
 
         if(entry['location']) {
-        resourceCountry.textContent = entry.location.country    
+        resourceCountry.textContent = entry.location.country
         }
         else if (entry['publisher'] && entry.publisher['location']) {
         resourceCountry.textContent = entry.publisher.location.id
         }
         else {
-        resourceCountry.textContent = '-'   
+        resourceCountry.textContent = '-'
         }
         currentCell = currentRow.insertCell()
         currentCell.appendChild(resourceCountry)
@@ -740,7 +750,7 @@ function updateResultListDOM(resultTable, content, sourceName) {
       }
       let currentCell = currentRow.insertCell()
 
-      // insert resource name into table  
+      // insert resource name into table
       let resourceName = document.createElement("p")
       resourceName.style.fontSize = "14px"
       if(content.resourceResponses.name['value']) {
@@ -762,27 +772,27 @@ function updateResultListDOM(resultTable, content, sourceName) {
       }
       currentCell = currentRow.insertCell()
       currentCell.appendChild(resourceDescription)
-    
+
       // insert resource location into table
       let resourceCountry = document.createElement("SPAN");
       resourceCountry.style.fontSize = "14px";
       /*if (entry["publisher"]) {
-          resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
+          resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase()
           + entry.publisher.location.country.slice(1);
       }
       else {
-          resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
+          resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase()
           + entry.location.country.slice(1).toLowerCase();
       }*/
 
       if(content.resourceResponses['location']) {
-          resourceCountry.textContent = content.resourceResponses.location.country    
+          resourceCountry.textContent = content.resourceResponses.location.country
       }
       else if (content.resourceResponses['publisher'] && content.resourceResponses.publisher['location']) {
           resourceCountry.textContent = content.resourceResponses.publisher.location.id
       }
       else {
-          resourceCountry.textContent = '-'   
+          resourceCountry.textContent = '-'
       }
       currentCell = currentRow.insertCell()
       currentCell.style.textAlign = 'center'
@@ -801,7 +811,7 @@ function updateResultListDOM(resultTable, content, sourceName) {
 
         let currentCell = currentRow.insertCell();
 
-        // insert resource name into table  
+        // insert resource name into table
         let resourceName = document.createElement("p")
         resourceName.style.fontSize = "14px"
         resourceName.textContent = entry.id.toUpperCase()
@@ -825,24 +835,24 @@ function updateResultListDOM(resultTable, content, sourceName) {
         resourceCount.style.marginRight = "30px"
         currentCell.appendChild(resourceCount)
         }
-    
+
         // insert resource location into table
         let resourceCountry = document.createElement("SPAN")
         resourceCountry.style.fontSize = "14px"
         /*if (entry["publisher"]) {
-        resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase() 
+        resourceCountry.textContent = entry.publisher.location.country.toLowerCase().charAt(0).toUpperCase()
             + entry.publisher.location.country.slice(1);
         }
         else {
-        resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase() 
+        resourceCountry.textContent = entry.location.country.toLowerCase().charAt(0).toUpperCase()
             + entry.location.country.slice(1).toLowerCase();
         }*/
 
         if(entry['location']) {
-          resourceCountry.textContent = entry.location.country    
+          resourceCountry.textContent = entry.location.country
         }
         else {
-          resourceCountry.textContent = '-'   
+          resourceCountry.textContent = '-'
         }
         currentCell = currentRow.insertCell();
         currentCell.appendChild(resourceCountry);
@@ -1125,7 +1135,7 @@ function selectGender(clickedCheckbox) {
     removeIcon.style.float = "right"
     removeIcon.style.cursor = "pointer"
     entry.appendChild(removeIcon)
-    
+
     filterList.appendChild(entry)
 
     if(document.getElementById("filterList").childElementCount == 1) {
@@ -1257,8 +1267,8 @@ function closeDisclaimerText() {
   document.getElementById("disclaimerDiv").style.display = "none"
 }
 
-export { toggleLoadingSpinner, toggleInterrogation, clearInput, updateStatusText, 
-    updateCatalogueListDOM, clearPreviousSearch, toggleSearchClearButton, toggleSourceResults, 
+export { toggleLoadingSpinner, toggleInterrogation, clearInput, updateStatusText,
+    updateCatalogueListDOM, clearPreviousSearch, toggleSearchClearButton, toggleSourceResults,
     createResultListTableHeader, createResultListTable, updateResultListDOM, selectedCountries, selectedTypes }
 
 window.closeDisclaimerText = closeDisclaimerText
